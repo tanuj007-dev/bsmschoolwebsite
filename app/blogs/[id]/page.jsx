@@ -1,39 +1,54 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Calendar, User, Clock, ArrowLeft, Share2, Printer, Facebook, Twitter, Linkedin } from 'lucide-react';
-import { blogPosts } from '../../data/blogs';
-import HeaderHero from '../../Components/herosection';
+import { Calendar, User, Clock, ArrowLeft, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { useBlogs } from '../../hooks/useBlogs';
 
 export default function BlogPost({ params }) {
-    // Use React.use() to unwrap params if you are in React 19/Next.js 15, otherwise just destructuring works for now in earlier versions.
-    // Assuming standard Next.js 14/15 behavior where params is a promise in the newest versions, but let's try direct access first or standard async component pattern.
-    // Since this is a client component ('use client'), params are passed as props.
-
     const { id } = React.use(params);
-    const post = blogPosts.find((p) => p.id === parseInt(id));
+    const { getBlogById, getBlogs, blogs } = useBlogs();
+    const [post, setPost] = useState(null);
+    const [relatedPosts, setRelatedPosts] = useState([]);
+
+    useEffect(() => {
+        const p = getBlogById(id) || getBlogById(String(id));
+        setPost(p || null);
+        if (p) {
+            const all = getBlogs();
+            setRelatedPosts(all.filter(b => b.id !== p.id).slice(0, 3));
+        }
+    }, [id, blogs]);
+
+    if (post === null) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-pulse text-slate-500">Loading...</div>
+            </div>
+        );
+    }
 
     if (!post) {
         return notFound();
     }
 
-    // Find related posts (just exclude current one and take first 3)
-    const relatedPosts = blogPosts.filter(p => p.id !== post.id).slice(0, 3);
-
     return (
         <article className="min-h-screen bg-[#FFFDF9] pb-20">
             {/* Dynamic Header/Hero Area for the Post */}
             <div className="relative h-[50vh] md:h-[60vh] min-h-[400px] w-full overflow-hidden">
-                <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    priority
-                />
+                {post.image?.startsWith?.("data:") ? (
+                    <img src={post.image} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
+                ) : (
+                    <Image
+                        src={post.image || "/images/blog/blog-1.png"}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
                 <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 lg:p-20 text-white max-w-5xl mx-auto">
@@ -138,7 +153,11 @@ export default function BlogPost({ params }) {
                             {relatedPosts.map(related => (
                                 <Link key={related.id} href={`/blogs/${related.id}`} className="group flex gap-4 items-start">
                                     <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
-                                        <Image src={related.image} alt={related.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        {related.image?.startsWith?.("data:") ? (
+                                            <img src={related.image} alt={related.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        ) : (
+                                            <Image src={related.image || "/images/blog/blog-1.png"} alt={related.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        )}
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-sm text-[#2B2B2B] leading-snug group-hover:text-[#7A0C0C] transition-colors line-clamp-2">

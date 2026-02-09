@@ -86,8 +86,16 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* RIGHT — CONTACT + SOCIAL ICONS */}
+          {/* RIGHT — STUDENT LOGIN + CONTACT + SOCIAL ICONS */}
           <div className="hidden xl:flex items-center gap-4 bg-white">
+            <a
+              href="https://schoolbook.edukee.in/default.php?school=bsmpublicschoolkarala"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 border-2 border-[#7A0C0C] text-[#7A0C0C] text-sm font-semibold rounded-md hover:bg-[#7A0C0C] hover:text-white transition shadow-sm"
+            >
+              Student Login
+            </a>
             <Link
               href="/contact"
               className="px-6 py-3 bg-[#7A0C0C] text-white text-sm font-semibold rounded-md hover:bg-[#961212] transition shadow-sm">
@@ -179,6 +187,14 @@ const Navbar = () => {
               </div>
 
               <div className="mt-auto p-5 border-t bg-white">
+                <a
+                  href="https://schoolbook.edukee.in/default.php?school=bsmpublicschoolkarala"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-center border-2 border-[#7A0C0C] text-[#7A0C0C] py-3 rounded-md font-semibold mb-3"
+                >
+                  Student Login
+                </a>
                 <Link
                   href="/contact"
                   onClick={() => setIsOpen(false)}

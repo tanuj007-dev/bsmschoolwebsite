@@ -4,36 +4,28 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronLeft, X, ZoomIn, Camera } from "lucide-react";
+import { useGallery } from "../hooks/useGallery";
+import { DEFAULT_GALLERY_CATEGORIES } from "../data/seedGallery";
 
-// Gallery Data
-const galleryCategories = ["All", "Events", "Sports", "Campus", "Academic"];
-
-const galleryPhotos = [
-  { id: 1, src: "/gallery/event1.png", category: "Events", title: "Annual Day 2025", desc: "A spectacular vibrant evening." },
-  { id: 2, src: "/gallery/event2.png", category: "Sports", title: "Annual Sports Meet", desc: "Champions in the making." },
-  { id: 3, src: "/gallery/event3.png", category: "Campus", title: "Serene Campus View", desc: "A perfect learning environment." },
-  // Reusing same images for demo purposes to fill grid
-  { id: 4, src: "/gallery/event1.png", category: "Events", title: "Cultural Fest", desc: "Celebrating traditions." },
-  { id: 5, src: "/gallery/event2.png", category: "Sports", title: "Football Tournament", desc: "Team spirit on the field." },
-  { id: 6, src: "/gallery/event3.png", category: "Campus", title: "Library Wing", desc: "Knowledge hub." },
-  { id: 7, src: "/gallery/event1.png", category: "Events", title: "Music Concert", desc: "Melodies of joy." },
-  { id: 8, src: "/gallery/event2.png", category: "Sports", title: "Yoga Session", desc: "Mind and body wellness." },
-  { id: 9, src: "/gallery/event3.png", category: "Academic", title: "Science Lab", desc: "Innovation in progress." },
-];
+const galleryCategories = ["All", ...DEFAULT_GALLERY_CATEGORIES];
 
 const GallerySection = () => {
+  const { images } = useGallery();
+  const galleryPhotos = images;
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedImage, setSelectedImage] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   const featuredImages = galleryPhotos.slice(0, 3);
+  const hasFeatured = featuredImages.length > 0;
 
   useEffect(() => {
+    if (!hasFeatured) return;
     const timer = setInterval(() => {
       setCarouselIndex((prev) => (prev + 1) % featuredImages.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, [featuredImages.length]);
+  }, [featuredImages.length, hasFeatured]);
 
   const filteredPhotos = activeCategory === "All"
     ? galleryPhotos
@@ -58,6 +50,12 @@ const GallerySection = () => {
 
       {/* 1. HERO CAROUSEL: Cinematic Look */}
       <div className="relative h-[70vh] w-full overflow-hidden">
+        {!hasFeatured ? (
+          <div className="absolute inset-0 bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500">
+            No gallery images yet.
+          </div>
+        ) : (
+        <>
         <AnimatePresence mode="wait">
           <motion.div
             key={carouselIndex}
@@ -67,13 +65,17 @@ const GallerySection = () => {
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="absolute inset-0"
           >
+            {featuredImages[carouselIndex]?.src?.startsWith?.("data:") ? (
+              <img src={featuredImages[carouselIndex].src} alt="Gallery Highlight" className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
             <Image
-              src={featuredImages[carouselIndex].src}
+              src={featuredImages[carouselIndex]?.src || "/gallery/event1.png"}
               alt="Gallery Highlight"
               fill
               className="object-cover"
               priority
             />
+            )}
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#2B2B2B]/90 via-[#2B2B2B]/40 to-transparent" />
           </motion.div>
@@ -102,7 +104,7 @@ const GallerySection = () => {
               transition={{ delay: 0.7, duration: 0.8 }}
               className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
             >
-              {featuredImages[carouselIndex].title}
+              {featuredImages[carouselIndex]?.title}
             </motion.h1>
 
             <motion.p
@@ -112,7 +114,7 @@ const GallerySection = () => {
               transition={{ delay: 1 }}
               className="text-white/80 text-lg md:text-xl max-w-xl font-light leading-relaxed mb-8"
             >
-              {featuredImages[carouselIndex].desc}
+              {featuredImages[carouselIndex]?.desc}
             </motion.p>
           </div>
         </div>
@@ -133,6 +135,8 @@ const GallerySection = () => {
             </button>
           ))}
         </div>
+        </>
+        )}
       </div>
 
       {/* 2. MAIN GALLERY SECTION */}
@@ -189,13 +193,17 @@ const GallerySection = () => {
               >
                 {/* Image Wrapper with Scale Effect */}
                 <div className="aspect-[3/4] overflow-hidden bg-gray-100 relative">
-                  <Image
-                    src={photo.src}
-                    alt={photo.title}
-                    fill
-                    className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  />
+                  {photo.src?.startsWith?.("data:") ? (
+                    <img src={photo.src} alt={photo.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110" />
+                  ) : (
+                    <Image
+                      src={photo.src}
+                      alt={photo.title}
+                      fill
+                      className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    />
+                  )}
 
                   {/* Premium Glass Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
@@ -270,13 +278,17 @@ const GallerySection = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative w-full h-[60vh] md:h-[75vh] bg-black shadow-2xl overflow-hidden rounded-sm">
-                <Image
-                  src={selectedImage.src}
-                  alt={selectedImage.title}
-                  fill
-                  className="object-contain"
-                  priority
-                />
+                {selectedImage.src?.startsWith?.("data:") ? (
+                  <img src={selectedImage.src} alt={selectedImage.title} className="w-full h-full object-contain" />
+                ) : (
+                  <Image
+                    src={selectedImage.src}
+                    alt={selectedImage.title}
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                )}
               </div>
 
               {/* Caption/Footer */}

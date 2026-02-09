@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, User, Clock, ChevronRight } from "lucide-react";
-import { blogPosts } from "../data/blogs";
+import { useBlogs } from "../hooks/useBlogs";
 
 const BlogCard = ({ post, index }) => {
+  const isDataUrl = post.image?.startsWith?.("data:");
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -17,13 +18,17 @@ const BlogCard = ({ post, index }) => {
     >
       {/* Image Container */}
       <Link href={`/blogs/${post.id}`} className="relative h-64 w-full overflow-hidden block">
-        <Image
-          src={post.image}
-          alt={post.title}
-          fill
-          className="object-cover scale-110 transition-transform duration-700 group-hover:scale-125"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        {isDataUrl ? (
+          <img src={post.image} alt={post.title} className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
+        ) : (
+          <Image
+            src={post.image || "/images/blog/blog-1.png"}
+            alt={post.title}
+            fill
+            className="object-cover scale-110 transition-transform duration-700 group-hover:scale-125"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
 
         {/* Date Badge */}
@@ -76,6 +81,7 @@ const BlogCard = ({ post, index }) => {
 };
 
 const BlogSection = () => {
+  const { blogs } = useBlogs();
   return (
     <section className="relative bg-[#FAFAFA] py-16 sm:py-24 px-4 sm:px-6 lg:px-10 overflow-hidden">
       {/* Background Decor */}
@@ -123,9 +129,9 @@ const BlogSection = () => {
           </motion.div>
         </div>
 
-        {/* Blog Grid */}
+        {/* Blog Grid - data from admin store (localStorage) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {blogPosts.map((post, index) => (
+          {blogs.map((post, index) => (
             <BlogCard key={post.id} post={post} index={index} />
           ))}
         </div>
