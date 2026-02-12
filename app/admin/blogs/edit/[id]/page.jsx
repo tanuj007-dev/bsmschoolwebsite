@@ -30,7 +30,7 @@ export default function EditBlogPage() {
     setForm({
       title: blog.title,
       slug: blog.slug,
-      image: blog.image || "/images/blog/blog-1.png",
+      image: blog.image || "/images/blog/blog-1.webp",
       date: blog.date,
       category: blog.category || "General",
       author: blog.author || "Admin",

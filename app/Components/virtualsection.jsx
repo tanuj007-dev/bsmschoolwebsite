@@ -93,7 +93,7 @@ export default function VirtualCampusSection() {
 
                 {/* 🔥 Downloaded Instagram Icon */}
                 <img
-                  src="/instagramlogo.png"
+                  src="/instagramlogo.webp"
                   alt="Instagram"
                   className="w-12 h-12 object-contain"
                 />

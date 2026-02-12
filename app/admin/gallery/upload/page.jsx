@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, Upload, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Upload, RotateCw, RotateCcw } from "lucide-react";
 import { useGallery } from "../../../hooks/useGallery";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../../data/seedGallery";
+import Toast from "../../components/Toast";
 
 /**
  * Convert File to base64 data URL for storing in localStorage.
@@ -20,9 +21,41 @@ function fileToDataUrl(file) {
   });
 }
 
+/**
+ * Rotate an image data URL by 90 degrees. Returns a new data URL.
+ * @param {string} dataUrl - image data URL
+ * @param {'left'|'right'} direction - 'right' = 90° clockwise, 'left' = 90° counter-clockwise
+ */
+function rotateDataUrl(dataUrl, direction) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const deg = direction === "right" ? 90 : -90;
+      if (deg === 90 || deg === -270) {
+        canvas.width = img.height;
+        canvas.height = img.width;
+        ctx.translate(canvas.width, 0);
+        ctx.rotate((90 * Math.PI) / 180);
+        ctx.drawImage(img, 0, 0);
+      } else {
+        canvas.width = img.height;
+        canvas.height = img.width;
+        ctx.translate(0, canvas.height);
+        ctx.rotate((-90 * Math.PI) / 180);
+        ctx.drawImage(img, 0, 0);
+      }
+      resolve(canvas.toDataURL("image/jpeg", 0.92));
+    };
+    img.onerror = () => reject(new Error("Failed to load image"));
+    img.src = dataUrl;
+  });
+}
+
 export default function UploadGalleryPage() {
   const router = useRouter();
-  const { addImage } = useGallery();
+  const { images, addImage } = useGallery();
   const fileInputRef = useRef(null);
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -30,6 +63,24 @@ export default function UploadGalleryPage() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [toast, setToast] = useState({ visible: false, message: "" });
+  const [rotatingIndex, setRotatingIndex] = useState(null);
+
+  const showToast = useCallback((message) => {
+    setToast({ visible: true, message });
+  }, []);
+
+  const rotatePreview = useCallback(async (index, direction) => {
+    setRotatingIndex(index);
+    try {
+      const newUrl = await rotateDataUrl(previews[index], direction);
+      setPreviews((p) => p.map((url, i) => (i === index ? newUrl : url)));
+    } catch {
+      showToast("Failed to rotate image.");
+    } finally {
+      setRotatingIndex(null);
+    }
+  }, [previews, showToast]);
 
   const handleFileChange = async (e) => {
     const selected = Array.from(e.target.files || []);
@@ -44,19 +95,37 @@ export default function UploadGalleryPage() {
     e.preventDefault();
     if (!previews.length) return;
     setUploading(true);
+    const existingSrcs = new Set((images || []).map((img) => img.src).filter(Boolean));
+    let added = 0;
+    let duplicates = 0;
     for (let i = 0; i < previews.length; i++) {
+      const dataUrl = previews[i];
+      if (existingSrcs.has(dataUrl)) {
+        duplicates++;
+        continue;
+      }
       addImage({
-        src: previews[i],
+        src: dataUrl,
         category,
         title: previews.length === 1 ? title : (files[i]?.name?.replace(/\.[^.]+$/, "") || `Image ${i + 1}`),
         desc: previews.length === 1 ? desc : "",
       });
+      existingSrcs.add(dataUrl);
+      added++;
     }
     setUploading(false);
     setFiles([]);
     setPreviews([]);
     setTitle("");
     setDesc("");
+    if (duplicates > 0) {
+      showToast(
+        added > 0
+          ? `${duplicates} duplicate image(s) skipped. ${added} new image(s) added.`
+          : "All selected images are already in the gallery. No images added."
+      );
+      return;
+    }
     router.push("/admin/gallery");
   };
 
@@ -112,13 +181,39 @@ export default function UploadGalleryPage() {
             {previews.map((src, i) => (
               <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-700 group">
                 <img src={src} alt="" className="w-full h-full object-cover" />
-                <button
-                  type="button"
-                  onClick={() => removePreview(i)}
-                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  ×
-                </button>
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  <button
+                    type="button"
+                    title="Rotate left"
+                    onClick={() => rotatePreview(i, "left")}
+                    disabled={rotatingIndex === i}
+                    className="p-2 rounded-full bg-white/90 text-slate-800 hover:bg-white disabled:opacity-50"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    title="Rotate right"
+                    onClick={() => rotatePreview(i, "right")}
+                    disabled={rotatingIndex === i}
+                    className="p-2 rounded-full bg-white/90 text-slate-800 hover:bg-white disabled:opacity-50"
+                  >
+                    <RotateCw className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    title="Remove"
+                    onClick={() => removePreview(i)}
+                    className="p-2 rounded-full bg-red-500 text-white hover:bg-red-600"
+                  >
+                    ×
+                  </button>
+                </div>
+                {rotatingIndex === i && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                    <span className="text-white text-sm font-medium">Rotating...</span>
+                  </div>
+                )}
               </div>
             ))}
           </motion.div>
@@ -176,6 +271,13 @@ export default function UploadGalleryPage() {
           </Link>
         </div>
       </form>
+
+      <Toast
+        visible={toast.visible}
+        message={toast.message}
+        onClose={() => setToast((p) => ({ ...p, visible: false }))}
+        variant="warning"
+      />
     </div>
   );
 }

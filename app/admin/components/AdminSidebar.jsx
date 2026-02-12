@@ -13,6 +13,7 @@ import {
   LogOut,
   Menu,
   X,
+  Link as LinkIcon,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
@@ -22,6 +23,7 @@ const navItems = [
   { href: "/admin/blogs", label: "Manage Blogs", icon: FileText },
   { href: "/admin/blogs/add", label: "Add Blog", icon: FileText },
   { href: "/admin/gallery", label: "Manage Gallery", icon: ImageIcon },
+  { href: "/admin/gallery/add", label: "Add Image by URL", icon: LinkIcon },
   { href: "/admin/gallery/upload", label: "Upload Images", icon: Upload },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];

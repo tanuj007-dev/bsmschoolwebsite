@@ -12,15 +12,14 @@ const HeaderHero = () => {
     <section className="relative w-full overflow-hidden bg-white">
       
       {/* ================= HERO IMAGE (NO EFFECT AT ALL) ================= */}
-      <div className="relative w-full h-[260px] sm:h-[360px] md:h-[460px] lg:h-[560px]">
-        
+      <div className="relative w-full h-[280px] sm:h-[360px] md:h-[460px] lg:h-[560px] min-h-[260px]">
         <Image
-          src="/finalbannerbsm.png"
+          src="/12345.webp"
           alt="Hero Banner"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-left sm:object-center"
         />
 
         {/* ================= LEFT SIDE 3D BUTTON ================= */}

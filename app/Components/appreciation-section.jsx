@@ -8,7 +8,7 @@ const AppreciationSlider = () => {
   const slides = [
     {
       id: 1,
-      video: "/seniorsection2.mp4",
+      video: "/senior%20school%201st%206seconds.mp4",
       title: "Senior Wing",
       text:
         "At B.S.M. Public School, the Senior Wing focuses on academic excellence, leadership development, and career readiness. We provide a disciplined yet inspiring environment that empowers students with critical thinking, confidence, and strong ethical values.",

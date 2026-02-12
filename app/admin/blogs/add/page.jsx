@@ -18,7 +18,7 @@ export default function AddBlogPage() {
   const [form, setForm] = useState({
     title: "",
     slug: "",
-    image: "/images/blog/blog-1.png",
+    image: "/images/blog/blog-1.webp",
     category: "General",
     author: "Admin",
     readTime: "5 min read",
@@ -95,7 +95,7 @@ export default function AddBlogPage() {
             type="text"
             value={form.image}
             onChange={(e) => update("image", e.target.value)}
-            placeholder="/images/blog/blog-1.png"
+            placeholder="/images/blog/blog-1.webp"
             className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
           />
         </div>

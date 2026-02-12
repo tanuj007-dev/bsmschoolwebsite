@@ -105,7 +105,7 @@ export default function PremiumFacilitiesSection() {
           <div className="overflow-hidden">
 
             {/* Soft Edge Fade */}
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-20 z-10 
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-10 z-10 
                             bg-gradient-to-r from-white via-white/50 to-transparent" />
             <div className="pointer-events-none absolute right-0 top-0 h-full w-20 z-10 
                             bg-gradient-to-l from-white via-white/50 to-transparent" />

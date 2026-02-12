@@ -53,7 +53,7 @@ export const useBlogStore = create((set, get) => ({
       id: blog.id || uuidv4(),
       slug,
       title: blog.title || "Untitled",
-      image: blog.image || "/images/blog/blog-1.png",
+      image: blog.image || "/images/blog/blog-1.webp",
       date: blog.date || { day: String(day), month, year: String(year) },
       category: blog.category || "General",
       author: blog.author || "Admin",

@@ -65,7 +65,7 @@ const ExtraCurricular = () => {
   const activities = [
     {
       title: "Skill Development",
-      imageSrc: "https://loremflickr.com/800/600/science,lab?lock=21",
+      imageSrc: "/gallery/Gemini_Generated_Image_61a76g61a76g61a7.png",
       items: [
         "Development of communication skills including listening, speaking, and writing.",
         "Strengthening logical thinking, problem-solving, and basic computational abilities.",
@@ -75,7 +75,7 @@ const ExtraCurricular = () => {
     },
     {
       title: "Self Development",
-      imageSrc: "https://loremflickr.com/800/600/yoga,student?lock=22",
+      imageSrc: "/gallery/Gemini_Generated_Image_pucaj3pucaj3puca.png",
       items: [
         "Building confidence and a positive self-image among students.",
         "Encouraging goal setting, achievement, and a lifelong love for learning.",
@@ -85,7 +85,7 @@ const ExtraCurricular = () => {
     },
     {
       title: "Social Development",
-      imageSrc: "https://loremflickr.com/800/600/teamwork,student?lock=23",
+      imageSrc: "/gallery/Gemini_Generated_Image_h9hbeh9hbeh9hbeh.png",
       items: [
         "Promoting teamwork and collaboration with peers and groups.",
         "Instilling respect for diverse cultures, values, and traditions.",
@@ -149,3 +149,4 @@ const ExtraCurricular = () => {
 };
 
 export default ExtraCurricular;
+  

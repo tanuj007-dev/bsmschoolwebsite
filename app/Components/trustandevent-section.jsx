@@ -116,7 +116,7 @@ const TrustAndEventsSection = () => {
         >
           <div className="relative md:w-[40%] h-[180px] md:h-full">
             <img
-              src="/keyframe.png"
+              src="/firstkey.webp"
               className="h-full w-full object-cover"
               alt="Parents Trust"
             />
@@ -145,7 +145,7 @@ const TrustAndEventsSection = () => {
         >
           <div className="relative md:w-[40%] h-[180px] md:h-full">
             <img
-              src="/latest.png"
+              src="/secondkey.webp"
               className="h-full w-full object-cover"
               alt="Activities"
             />

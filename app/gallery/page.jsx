@@ -13,7 +13,7 @@ export default function GalleryPage() {
         breadcrumbItems={[
           { label: "Gallery" }
         ]}
-        backgroundImage="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2604&auto=format&fit=crop"
+        backgroundImage="/gallery/gooD3jqYRKexi6Bkq2zSdNtSQW_aABNj2BM7YuAWgfxslK8pEce3DLNkG3J6KNREr9TSgjHH1rpg6DTaYEk6NyhtkgEBSSVAGNQUh_D9yJg.jpg"
       />
       <WhatsAppSticky />
       <GallerySection />

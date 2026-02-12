@@ -10,15 +10,15 @@ import { Menu, X, Phone, Mail } from "lucide-react";
 const socialLinks = [
   {
     href: "https://www.instagram.com/bsmpublicschoolkarala/",
-    icon: "/instagramlogo.png",
+    icon: "/instagramlogo.webp",
   },
   {
     href: "https://www.facebook.com/",
-    icon: "/facebooklogo.png",
+    icon: "/facebooklogo.webp",
   },
   {
     href: "https://www.youtube.com/",
-    icon: "/youtubelogo.png",
+    icon: "/youtubelogo.webp",
   },
 ];
 
@@ -54,7 +54,7 @@ const Navbar = () => {
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-3 group">
             <Image
-              src="/bsm_logo-removebg-preview.png"
+              src="/bsm_logo-removebg-preview.webp"
               alt="BSM Public School Logo"
               width={70}
               height={70}

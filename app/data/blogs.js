@@ -1,7 +1,7 @@
 export const blogPosts = [
   {
     id: 1,
-    image: "/images/blog/blog-1.png",
+    image: "/images/blog/blog-1.webp",
     date: { day: "22", month: "Jan", year: "2026" },
     title: "Best School in Gurgaon for Overall Development | Why TVS",
     category: "Academics",
@@ -29,7 +29,7 @@ export const blogPosts = [
   },
   {
     id: 2,
-    image: "/images/blog/blog-2.png",
+    image: "/images/blog/blog-2.webp",
     date: { day: "20", month: "Jan", year: "2026" },
     title: "Top Preschool in Gurgaon | Why Choose The Venkateshwar School",
     category: "Preschool",
@@ -58,7 +58,7 @@ export const blogPosts = [
   },
   {
     id: 3,
-    image: "/images/blog/blog-3.png",
+    image: "/images/blog/blog-3.webp",
     date: { day: "16", month: "Jan", year: "2026" },
     title: "School Admissions Open in Gurgaon 2026-27 | Complete Guide",
     category: "Admissions",
@@ -85,7 +85,7 @@ export const blogPosts = [
   },
   {
     id: 4,
-    image: "/images/blog/blog-4.png",
+    image: "/images/blog/blog-4.webp",
     date: { day: "12", month: "Jan", year: "2026" },
     title: "How CBSE Curriculum Helps in Holistic Student Development",
     category: "Curriculum",
@@ -110,7 +110,7 @@ export const blogPosts = [
   },
   {
     id: 5,
-    image: "/images/blog/blog-1.png",
+    image: "/images/blog/blog-1.webp",
     date: { day: "08", month: "Jan", year: "2026" },
     title: "Best Co-Ed School in Gurgaon with Modern Infrastructure",
     category: "Infrastructure",
@@ -136,7 +136,7 @@ export const blogPosts = [
   },
   {
     id: 6,
-    image: "/images/blog/blog-2.png",
+    image: "/images/blog/blog-2.webp",
     date: { day: "05", month: "Jan", year: "2026" },
     title: "Why Early Childhood Education Is Important for Kids",
     category: "Early Years",

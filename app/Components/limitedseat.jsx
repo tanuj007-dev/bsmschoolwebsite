@@ -38,7 +38,7 @@ const LimitedSeatsCTA = () => {
           {/* Background */}
           <div className="absolute inset-0">
             <img
-              src="/images/bsm_public_school_building_1769562460953.png"
+              src="/images/bsm_public_school_building_1769562460953.webp"
               alt="School Campus"
               className="h-full w-full object-cover"
             />

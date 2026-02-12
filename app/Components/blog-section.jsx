@@ -22,7 +22,7 @@ const BlogCard = ({ post, index }) => {
           <img src={post.image} alt={post.title} className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
         ) : (
           <Image
-            src={post.image || "/images/blog/blog-1.png"}
+            src={post.image || "/images/blog/blog-1.webp"}
             alt={post.title}
             fill
             className="object-cover scale-110 transition-transform duration-700 group-hover:scale-125"

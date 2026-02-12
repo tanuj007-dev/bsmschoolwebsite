@@ -2,10 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
-  Facebook,
-  Instagram,
-  Youtube,
   ChevronRight,
   MapPin,
   Phone,
@@ -36,22 +34,19 @@ export default function FooterSection() {
   /* ---------------- Social Links ---------------- */
   const socialLinks = [
     {
-      icon: Facebook,
+      icon: "/facebooklogo.webp",
       href: "https://facebook.com",
       label: "Facebook",
-      color: "#1877F2",
     },
     {
-      icon: Instagram,
+      icon: "/instagramlogo.webp",
       href: "https://www.instagram.com/bsmpublicschoolkarala/",
       label: "Instagram",
-      isGradient: true,
     },
     {
-      icon: Youtube,
+      icon: "/youtubelogo.webp",
       href: "https://www.youtube.com/@bsmpublicschoolkarala",
       label: "Youtube",
-      color: "#FF0000",
     },
   ];
 
@@ -69,7 +64,7 @@ export default function FooterSection() {
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
-          backgroundImage: "url('/bsm logo.png')",
+          backgroundImage: "url('/bsm logo.webp')",
           backgroundSize: "400px",
           backgroundRepeat: "repeat",
           filter: "grayscale(1)",
@@ -79,6 +74,7 @@ export default function FooterSection() {
       <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-5 lg:px-0">
+
         {/* Branding */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-20 border-b border-white/10 pb-12">
           <div>
@@ -90,22 +86,8 @@ export default function FooterSection() {
             </p>
           </div>
 
+          {/* Custom Social Icons */}
           <div className="flex gap-4">
-            <svg width="0" height="0" className="absolute">
-              <linearGradient
-                id="instagram-gradient"
-                x1="100%"
-                y1="100%"
-                x2="0%"
-                y2="0%"
-              >
-                <stop stopColor="#fdf497" offset="0%" />
-                <stop stopColor="#fd5949" offset="45%" />
-                <stop stopColor="#d6249f" offset="60%" />
-                <stop stopColor="#285AEB" offset="90%" />
-              </linearGradient>
-            </svg>
-
             {socialLinks.map((social, idx) => (
               <a
                 key={idx}
@@ -115,15 +97,12 @@ export default function FooterSection() {
                 aria-label={social.label}
                 className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300 hover:border-white/40 hover:bg-white/5 group"
               >
-                <social.icon
-                  size={20}
-                  className="transition-transform group-hover:scale-110"
-                  style={{
-                    stroke: social.isGradient
-                      ? "url(#instagram-gradient)"
-                      : social.color,
-                    strokeWidth: 2.5,
-                  }}
+                <Image
+                  src={social.icon}
+                  alt={social.label}
+                  width={28}
+                  height={28}
+                  className="transition-transform duration-300 group-hover:scale-110"
                 />
               </a>
             ))}
@@ -132,6 +111,7 @@ export default function FooterSection() {
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16">
+
           {/* Philosophy */}
           <div className="lg:col-span-4 space-y-6">
             <h3 className="text-2xl font-semibold text-[#D4AF37]">
@@ -199,22 +179,13 @@ export default function FooterSection() {
               title="Phone"
               desc={
                 <>
-                  <p
-                    onClick={() => handlePhoneClick("+919971231386")}
-                    className="cursor-pointer hover:text-[#D4AF37] transition-colors"
-                  >
+                  <p onClick={() => handlePhoneClick("+919971231386")} className="cursor-pointer hover:text-[#D4AF37] transition-colors">
                     +91 99712 31386 - Senior Desk
                   </p>
-                  <p
-                    onClick={() => handlePhoneClick("+917303061386")}
-                    className="cursor-pointer hover:text-[#D4AF37] transition-colors"
-                  >
+                  <p onClick={() => handlePhoneClick("+917303061386")} className="cursor-pointer hover:text-[#D4AF37] transition-colors">
                     +91 73030 61386 - Senior Desk
                   </p>
-                  <p
-                    onClick={() => handlePhoneClick("+919818301260")}
-                    className="cursor-pointer hover:text-[#D4AF37] transition-colors"
-                  >
+                  <p onClick={() => handlePhoneClick("+919818301260")} className="cursor-pointer hover:text-[#D4AF37] transition-colors">
                     +91 98183 01260 - Junior Desk
                   </p>
                 </>
@@ -229,23 +200,17 @@ export default function FooterSection() {
                 <p className="text-sm font-semibold uppercase tracking-wide">
                   Email
                 </p>
-                <a
-                  href="mailto:bsmpublicschool.karala@gmail.com"
-                  className="block text-white/60 text-sm hover:text-[#D4AF37] transition-colors break-all"
-                >
+                <a href="mailto:bsmpublicschool.karala@gmail.com" className="block text-white/60 text-sm hover:text-[#D4AF37] transition-colors break-all">
                   bsmpublicschool.karala@gmail.com
                 </a>
-                <a
-                  href="mailto:info@bsmschool.in"
-                  className="block text-white/60 text-sm hover:text-[#D4AF37] transition-colors break-all mt-1"
-                >
+                <a href="mailto:info@bsmschool.in" className="block text-white/60 text-sm hover:text-[#D4AF37] transition-colors break-all mt-1">
                   info@bsmschool.in
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Map */}
+          {/* Map Section (NOW INCLUDED 😎) */}
           <div className="lg:col-span-3 space-y-6">
             <h3 className="text-xl font-semibold border-l-4 border-[#D4AF37] pl-4">
               Locate Us
@@ -264,6 +229,7 @@ export default function FooterSection() {
               Visit us between 8:00 AM – 2:30 PM.
             </p>
           </div>
+
         </div>
 
         {/* Bottom */}
@@ -276,14 +242,12 @@ export default function FooterSection() {
             <Link href="/terms-conditions" className="hover:text-[#D4AF37]">
               Terms of Service
             </Link>
-            <Link
-              href="/shipping-and-refund-policy"
-              className="hover:text-[#D4AF37]"
-            >
+            <Link href="/shipping-and-refund-policy" className="hover:text-[#D4AF37]">
               Shipping & Refund Policy
             </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );

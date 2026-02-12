@@ -25,7 +25,7 @@ const AdmissionsFormSection = () => {
           <div className="md:w-5/12 p-8 flex flex-col justify-center relative bg-[#7A0C0C] text-white overflow-hidden">
             {/* Decorative Background Pattern */}
             <div className="absolute inset-0 opacity-[0.05]"
-              style={{ backgroundImage: "url('/bsm_logo-removebg-preview.png')", backgroundSize: '300px', backgroundRepeat: 'repeat', filter: 'grayscale(1)' }}></div>
+              style={{ backgroundImage: "url('/bsm_logo-removebg-preview.webp')", backgroundSize: '300px', backgroundRepeat: 'repeat', filter: 'grayscale(1)' }}></div>
 
             <div className="relative z-10">
               <motion.span

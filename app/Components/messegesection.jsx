@@ -135,7 +135,7 @@ export default function MessageSection() {
       title: "Founder of B.S.M Public School - Chairman",
       name: "Chairman Name",
       role: "Chairman",
-      imageSrc: "/chairman.jpg",
+      imageSrc: "/chairman.webp",
       isReversed: false,
       message: [
         "At our school, we believe that education is the foundation of a strong future. Our commitment is to create a centre of excellence where children are empowered with knowledge, values, and skills to succeed in a rapidly changing world.",
@@ -150,7 +150,7 @@ export default function MessageSection() {
       title: "From the Head of School",
       name: "Head of School Name",
       role: "Head of School",
-      imageSrc: "/headofschool.jpg",
+      imageSrc: "/headofschool.webp",
       isReversed: true,
       message: [
         '"Education is the most powerful weapon which you can use to change the world." – Dr. A.P.J Abdul Kalam',
@@ -165,7 +165,7 @@ export default function MessageSection() {
       title: "From The Senior Coordinator Desk",
       name: "Ms Ruchi Mathur",
       role: "Senior Coordinator",
-      imageSrc: "/seniorcoordinator.jpg",
+      imageSrc: "/seniorcoordinator.webp",
       isReversed: false,
       message: [
         '"The goal of education is not to increase the amount of knowledge but to create the possibilities for a child to invent and discover." — Jean Piaget',
@@ -181,7 +181,7 @@ export default function MessageSection() {
       title: "Message from the General Secretary",
       name: "General Secretary Name",
       role: "General Secretary",
-      imageSrc: "/generalsecretary.jpg",
+      imageSrc: "/generalsecretary.webp",
       isReversed: true,
       message: [
         "At B.S.M Public School, our vision is to create an institution where education inspires purpose, excellence, and responsible leadership.",

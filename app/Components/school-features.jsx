@@ -41,96 +41,84 @@ const ProgramsSection = () => {
       slug: "modern-school-campus",
       description:
         "A spacious and well-planned campus designed to provide a vibrant academic atmosphere with modern infrastructure and green surroundings.",
-      image:
-        "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/modern_indian_school_students_1770864610820.png",
     },
     {
       title: "Secure & Safe Campus",
       slug: "secure-safe-campus",
       description:
         "24/7 CCTV surveillance, disciplined environment and dedicated staff ensuring complete safety and peace of mind for students and parents.",
-      image:
-        "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/secure_campus_bsm_1770865786111.png",
     },
     {
       title: "Sports & Physical Education",
       slug: "sports-physical-education",
       description:
         "Comprehensive indoor and outdoor sports facilities encouraging teamwork, discipline and overall physical development.",
-      image:
-        "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/sports_physical_education_bsm_1770865926260.png",
     },
     {
       title: "Smart Classrooms",
       slug: "smart-classrooms",
       description:
         "Digitally equipped classrooms with smart boards and interactive learning tools to enhance engagement and academic excellence.",
-      image:
-        "https://images.unsplash.com/photo-1584697964358-3e14ca57658b?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/smart_classrooms_bsm_1770866154858.png",
     },
     {
       title: "Well-Stocked Library",
       slug: "well-stocked-library",
       description:
         "A rich collection of academic books, reference materials and digital resources fostering reading habits and independent learning.",
-      image:
-        "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/Gemini_Generated_Image_i3m9kji3m9kji3m9.png",
     },
     {
       title: "Advanced Physics Laboratory",
       slug: "advanced-physics-laboratory",
       description:
         "Fully equipped physics lab with modern apparatus to help students explore scientific principles through practical experiments.",
-      image:
-        "https://images.unsplash.com/photo-1581093588401-22f19d06c0b5?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/Gemini_Generated_Image_ggls7kggls7kggls.png",
     },
     {
       title: "Modern Chemistry Laboratory",
       slug: "modern-chemistry-laboratory",
       description:
         "Safe and well-maintained chemistry lab enabling hands-on experiments and deeper understanding of chemical concepts.",
-      image:
-        "https://images.unsplash.com/photo-1582719471384-894fbb16e074?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/Gemini_Generated_Image_gncqokgncqokgncq.png",
     },
     {
       title: "Biology & Life Science Lab",
       slug: "biology-life-science-lab",
       description:
         "Interactive biology lab with models and specimens helping students understand life sciences in a practical way.",
-      image:
-        "https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/Gemini_Generated_Image_lsz8rdlsz8rdlsz8.png",
     },
     {
       title: "Medical & First Aid Room",
       slug: "medical-first-aid-room",
       description:
         "On-campus medical assistance and first aid facilities to ensure immediate care and student well-being.",
-      image:
-        "https://images.unsplash.com/photo-1580281658629-0c9f5f9f3c6b?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/Gemini_Generated_Image_fk2lhpfk2lhpfk2l.png",
     },
     {
       title: "Children's Play Area",
       slug: "childrens-play-area",
       description:
         "Safe and joyful play area designed especially for young learners to promote fun, creativity and social interaction.",
-      image:
-        "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/Gemini_Generated_Image_muohfgmuohfgmuoh.png",
     },
     {
       title: "Music & Performing Arts Room",
       slug: "music-performing-arts-room",
       description:
         "Dedicated music and performing arts room encouraging creativity, rhythm and artistic talent among students.",
-      image:
-        "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop",
+      image: "/gallery/Gemini_Generated_Image_1y9ojt1y9ojt1y9o.png",
     },
     {
   title: "Dance & Performing Arts Room",
   slug: "dance-performing-arts-room",
   description:
     "A vibrant and spacious dance room equipped with full-length mirrors, wooden flooring, and an advanced sound system to nurture creativity, rhythm, and confidence in students through various dance and performing arts activities.",
-  image:
-    "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1200&auto=format&fit=crop",
+  image: "/gallery/Gemini_Generated_Image_yc6p9cyc6p9cyc6p.png",
 },
 
   ];
@@ -166,7 +154,6 @@ const ProgramsSection = () => {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     priority={index < 3}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#7A0C0C]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
                 {/* Content */}

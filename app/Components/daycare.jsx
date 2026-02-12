@@ -2,17 +2,12 @@ import React from "react";
 
 const DaycareSection = () => {
   const galleryImages = [
-    "https://loremflickr.com/600/450/daycare,toddler?lock=10",
-    "https://loremflickr.com/600/450/child,playing?lock=11",
-    "https://loremflickr.com/600/450/nursery,nap?lock=12",
-    "https://loremflickr.com/600/450/preschool,art?lock=13",
-    "https://loremflickr.com/600/450/kids,eating?lock=14",
-    "https://loremflickr.com/600/450/playground,child?lock=15",
-    "https://loremflickr.com/600/450/toy,baby?lock=16",
-    "https://loremflickr.com/600/450/care,teacher?lock=17",
-    "https://loremflickr.com/600/450/happy,child?lock=18",
-    "https://loremflickr.com/600/450/learning,blocks?lock=19",
-    "https://loremflickr.com/600/450/daycare,fun?lock=20",
+    { src: "/gallery/Gemini_Generated_Image_8kj0sz8kj0sz8kj0.png", alt: "Learn and grow – teacher and children with picture book" },
+    { src: "/gallery/Gemini_Generated_Image_bkprvwbkprvwbkpr.png", alt: "Daycare classroom with blocks, ball pit and books" },
+    { src: "/gallery/Gemini_Generated_Image_mxr6h5mxr6h5mxr6.png", alt: "Art class – create, innovate, express" },
+    { src: "/gallery/Gemini_Generated_Image_8p7e148p7e148p7e.png", alt: "Music and play – teacher with guitar, children in circle" },
+    { src: "/gallery/Gemini_Generated_Image_e3oo0ke3oo0ke3oo.png", alt: "School dining – children enjoying meal together" },
+    { src: "/gallery/IMG-20260103-WA0026.jpg.jpeg", alt: "Art and creativity in the classroom" },
   ];
 
   return (
@@ -43,16 +38,16 @@ const DaycareSection = () => {
           </div>
         </div>
 
-        {/* Image Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-5">
-          {galleryImages.map((src, index) => (
+        {/* 6 images: 3 cols × 2 rows */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+          {galleryImages.map((img, index) => (
             <div
               key={index}
-              className="relative aspect-[4/3] w-full overflow-hidden rounded-[2px] bg-[#f2f2f2]"
+              className="relative aspect-square sm:aspect-[4/3] w-full overflow-hidden rounded-[2px] bg-[#f2f2f2]"
             >
               <img
-                src={src}
-                alt={`Daycare Gallery Image ${index + 1}`}
+                src={img.src}
+                alt={img.alt}
                 className="h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
                 loading="lazy"
               />

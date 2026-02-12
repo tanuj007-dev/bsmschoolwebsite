@@ -10,9 +10,9 @@ const facilitiesData = {
     desc: "Our beautifully designed campus provides a peaceful and inspiring learning atmosphere.",
     video: "/schoolcampus.mp4",
     gallery: [
-      "/images/campus1.jpg",
-      "/images/campus2.jpg",
-      "/images/campus3.jpg",
+      "/images/campus1.webp",
+      "/images/campus2.webp",
+      "/images/campus3.webp",
     ],
   },
 
@@ -21,8 +21,8 @@ const facilitiesData = {
     desc: "24/7 CCTV monitored campus ensuring complete student safety and discipline.",
     video: "/videos/secure-campus.mp4",
     gallery: [
-      "/images/secure1.jpg",
-      "/images/secure2.jpg",
+      "/images/secure1.webp",
+      "/images/secure2.webp",
     ],
   },
 
@@ -31,8 +31,8 @@ const facilitiesData = {
     desc: "Digitally equipped classrooms with smart boards and modern teaching tools.",
     video: "/videos/smart-class.mp4",
     gallery: [
-      "/images/smart1.jpg",
-      "/images/smart2.jpg",
+      "/images/smart1.webp",
+      "/images/smart2.webp",
     ],
   },
 
@@ -41,8 +41,8 @@ const facilitiesData = {
     desc: "Indoor and outdoor sports facilities promoting fitness, teamwork and leadership.",
     video: "/videos/sports.mp4",
     gallery: [
-      "/images/sports1.jpg",
-      "/images/sports2.jpg",
+      "/images/sports1.webp",
+      "/images/sports2.webp",
     ],
   },
 
@@ -51,8 +51,8 @@ const facilitiesData = {
     desc: "A peaceful and well-stocked library encouraging reading and research culture.",
     video: "/videos/library.mp4",
     gallery: [
-      "/images/library1.jpg",
-      "/images/library2.jpg",
+      "/images/library1.webp",
+      "/images/library2.webp",
     ],
   },
 
@@ -61,8 +61,8 @@ const facilitiesData = {
     desc: "Fully equipped physics laboratory for practical scientific exploration.",
     video: "/videos/physics-lab.mp4",
     gallery: [
-      "/images/physics1.jpg",
-      "/images/physics2.jpg",
+      "/images/physics1.webp",
+      "/images/physics2.webp",
     ],
   },
 
@@ -71,8 +71,8 @@ const facilitiesData = {
     desc: "Advanced chemistry lab with modern safety measures and apparatus.",
     video: "/videos/chemistry-lab.mp4",
     gallery: [
-      "/images/chemistry1.jpg",
-      "/images/chemistry2.jpg",
+      "/images/chemistry1.webp",
+      "/images/chemistry2.webp",
     ],
   },
 
@@ -81,8 +81,8 @@ const facilitiesData = {
     desc: "Modern biology lab supporting hands-on learning and experiments.",
     video: "/videos/bio-lab.mp4",
     gallery: [
-      "/images/bio1.jpg",
-      "/images/bio2.jpg",
+      "/images/bio1.webp",
+      "/images/bio2.webp",
     ],
   },
 
@@ -91,8 +91,8 @@ const facilitiesData = {
     desc: "On-campus medical facility ensuring immediate healthcare assistance.",
     video: "/videos/medical-room.mp4",
     gallery: [
-      "/images/medical1.jpg",
-      "/images/medical2.jpg",
+      "/images/medical1.webp",
+      "/images/medical2.webp",
     ],
   },
 
@@ -101,8 +101,8 @@ const facilitiesData = {
     desc: "Safe and engaging play zone specially designed for junior students.",
     video: "/videos/play-area.mp4",
     gallery: [
-      "/images/play1.jpg",
-      "/images/play2.jpg",
+      "/images/play1.webp",
+      "/images/play2.webp",
     ],
   },
 
@@ -111,8 +111,8 @@ const facilitiesData = {
     desc: "Creative musical space for learning instruments and vocal training.",
     video: "/videos/music-room.mp4",
     gallery: [
-      "/images/music1.jpg",
-      "/images/music2.jpg",
+      "/images/music1.webp",
+      "/images/music2.webp",
     ],
   },
 };

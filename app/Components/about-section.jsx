@@ -5,7 +5,7 @@ export default function AboutUsSection() {
       <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: "url('/aboutusbanner.jpg')",
+          backgroundImage: "url('/aboutusbanner.webp')",
         }}
       >
         <div className="absolute inset-0 bg-black/50"></div>

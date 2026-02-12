@@ -55,7 +55,7 @@ export default function AdminBlogsPage() {
                 >
                   <div className="relative w-24 h-16 rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-600 flex-shrink-0">
                     <Image
-                      src={blog.image || "/images/blog/blog-1.png"}
+                      src={blog.image || "/images/blog/blog-1.webp"}
                       alt=""
                       fill
                       className="object-cover"

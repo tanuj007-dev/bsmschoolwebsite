@@ -20,7 +20,7 @@ const reviews = [
     id: 1,
     name: "Vinay",
     relation: "Senior Student",
-    image: "/7.jpeg",
+    image: "/7.webp",
     text: `I am Vinay, a student of B.S.M Senior Secondary Public School, and I feel proud to be a part of this institution. My school provides quality education along with good values, discipline and overall development of students. It creates a positive environment where students can learn and grow confidently.
 
 The school offers a friendly and supportive atmosphere. The teachers are well-qualified, kind and helpful. They explain every topic in an easy and clear manner which makes learning interesting and effective. Teachers always motivate students to improve and guide them whenever needed.`,
@@ -30,7 +30,7 @@ The school offers a friendly and supportive atmosphere. The teachers are well-qu
     id: 2,
     name: "Student Review",
     relation: "Senior Student",
-    image: "/bsm_logo-removebg-preview.png",
+    image: "/bsm_logo-removebg-preview.webp",
     text: `My school is a place where students learn not only subjects but also good values and discipline. The name of my school is B.S.M Public School.
 
 Our school has well-qualified and caring teachers who always guide us in the right directions. They explain every topic clearly and motivate us to do our best in academics as well as in other activities.
@@ -42,7 +42,7 @@ The campus is clean, green and disciplined. Many activities like sports, debates
     id: 3,
     name: "Parent Review",
     relation: "School Parent",
-    image: "/1.jpeg",
+    image: "/1.webp",
     text: `My experience at the school has been truly wonderful. The teachers are supportive, knowledgeable and always encourage students to do their best.
 
 The school provides a safe and motivating environment where children grow with confidence and discipline. I especially appreciate the focus on values, teamwork and personality development.`,
@@ -52,7 +52,7 @@ The school provides a safe and motivating environment where children grow with c
     id: 4,
     name: "Ananya Sharma",
     relation: "School Parent",
-    image: "/4.jpeg",
+    image: "/4.webp",
     text: `The academic structure of the school is very strong and well-organized. Teachers pay individual attention to every child.
 
 Along with studies, the school encourages sports, cultural activities and competitions which help children grow in every aspect.`,
@@ -62,7 +62,7 @@ Along with studies, the school encourages sports, cultural activities and compet
     id: 5,
     name: "Rohit Mehta",
     relation: "Alumni",
-    image: "/2.jpeg",
+    image: "/2.webp",
     text: `B.S.M Public School has played a major role in shaping my personality. The discipline and guidance I received here helped me build confidence.
 
 The teachers always encouraged me to aim high and work hard to achieve my goals.`,
@@ -72,7 +72,7 @@ The teachers always encouraged me to aim high and work hard to achieve my goals.
     id: 6,
     name: "Community Review",
     relation: "School Community",
-    image: "/bsm_logo-removebg-preview.png",
+    image: "/bsm_logo-removebg-preview.webp",
     text: `B.S.M Public School is truly a place where learning meets excellence. The infrastructure and faculty are outstanding.
 
 The school focuses on moral values, leadership skills and teamwork.`,
@@ -82,7 +82,7 @@ The school focuses on moral values, leadership skills and teamwork.`,
     id: 7,
     name: "Priya Verma",
     relation: "Student",
-    image: "/6.jpeg",
+    image: "/6.webp",
     text: `I feel lucky to study at B.S.M Public School. The teachers are very supportive and always help us understand concepts clearly.
 
 Apart from studies, we participate in competitions, cultural events and sports activities which make school life enjoyable.`,

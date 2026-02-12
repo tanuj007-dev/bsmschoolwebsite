@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Pencil, Trash2, Image as ImageIcon } from "lucide-react";
+import { Plus, Pencil, Trash2, Image as ImageIcon, Link as LinkIcon } from "lucide-react";
 import { useGallery } from "../../hooks/useGallery";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../data/seedGallery";
 
@@ -37,12 +37,20 @@ export default function AdminGalleryPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Manage Gallery</h1>
-        <Link
-          href="/admin/gallery/upload"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#7A0C0C] text-white font-medium hover:bg-[#5a0909] transition-colors"
-        >
-          <Plus className="w-5 h-5" /> Upload Images
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href="/admin/gallery/add"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-[#7A0C0C] text-[#7A0C0C] font-medium hover:bg-[#7A0C0C] hover:text-white transition-colors"
+          >
+            <LinkIcon className="w-5 h-5" /> Add by URL
+          </Link>
+          <Link
+            href="/admin/gallery/upload"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#7A0C0C] text-white font-medium hover:bg-[#5a0909] transition-colors"
+          >
+            <Plus className="w-5 h-5" /> Upload Images
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -65,10 +73,16 @@ export default function AdminGalleryPage() {
       {images.length === 0 ? (
         <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-12 text-center text-slate-500 dark:text-slate-400">
           <ImageIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
-          <p>No images yet. Upload your first image.</p>
-          <Link href="/admin/gallery/upload" className="mt-4 inline-block text-[#7A0C0C] font-medium">
-            Upload Image
-          </Link>
+          <p>No images yet. Add an image by URL or upload files.</p>
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
+            <Link href="/admin/gallery/add" className="inline-block text-[#7A0C0C] font-medium hover:underline">
+              Add by URL
+            </Link>
+            <span className="text-slate-400">|</span>
+            <Link href="/admin/gallery/upload" className="inline-block text-[#7A0C0C] font-medium hover:underline">
+              Upload Image
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">

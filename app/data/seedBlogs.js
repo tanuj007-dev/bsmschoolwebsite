@@ -16,7 +16,7 @@ export const seedBlogs = [
   {
     slug: "best-school-gurgaon-overall-development",
     title: "Best School in Gurgaon for Overall Development | Why BSM",
-    image: "/images/blog/blog-1.png",
+    image: "/images/blog/blog-1.webp",
     date: { day: "22", month: "Jan", year: "2026" },
     category: "Academics",
     author: "Admin",
@@ -30,7 +30,7 @@ export const seedBlogs = [
   {
     slug: "top-preschool-gurgaon",
     title: "Top Preschool in Gurgaon | Why Choose BSM",
-    image: "/images/blog/blog-2.png",
+    image: "/images/blog/blog-2.webp",
     date: { day: "20", month: "Jan", year: "2026" },
     category: "Preschool",
     author: "Early Years Head",
@@ -44,7 +44,7 @@ export const seedBlogs = [
   {
     slug: "school-admissions-open-gurgaon-2026",
     title: "School Admissions Open in Gurgaon 2026-27 | Complete Guide",
-    image: "/images/blog/blog-3.png",
+    image: "/images/blog/blog-3.webp",
     date: { day: "16", month: "Jan", year: "2026" },
     category: "Admissions",
     author: "Admission Office",
