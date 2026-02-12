@@ -1,125 +1,156 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useMotionValue, animate } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function PremiumFacilitiesSection() {
   const facilities = [
-    {
-      id: 1,
-      title: "Innovation & Robotics Lab",
-      slug: "innovation-robotics-lab",
-      desc: "Hands-on learning with modern tech & creativity.",
-      image: "/images/robotics_lab_school_1769561128597.png",
-    },
-    {
-      id: 2,
-      title: "Air-conditioned Classes",
-      slug: "air-conditioned-classes",
-      desc: "Comfortable classrooms for focused learning.",
-      image: "/images/modern_classroom_school_1769561148587.png",
-    },
-    {
-      id: 3,
-      title: "Secure Campus",
-      slug: "secure-campus",
-      desc: "Safety-first campus with secure monitoring.",
-      image: "/images/secure_school_campus_1769561212830.png",
-    },
-    {
-      id: 4,
-      title: "Sports Arena",
-      slug: "sports-arena",
-      desc: "Fitness, sportsmanship & energy in one place.",
-      image: "/images/sports_arena_school_1769561170526.png",
-    },
-    {
-      id: 5,
-      title: "Library Zone",
-      slug: "library-zone",
-      desc: "Quiet, focused and resourceful environment.",
-      image: "/images/school_library_modern_1769561191343.png",
-    },
+    { id: 1, title: "School Campus", slug: "innovation-robotics-lab", video: "/schoolcampus.mp4" },
+    { id: 2, title: "Dance Room", slug: "dance-room", video: "/danceroom1.mp4" },
+    { id: 3, title: "Sports Arena", slug: "sports-arena", video: "/playground.mp4" },
+    { id: 4, title: "Library Zone", slug: "library-zone", video: "/library.mp4" },
+    { id: 5, title: "Secure Campus", slug: "secure-campus", video: "/boyswashroom.mp4" },
   ];
 
-  const loopedFacilities = [...facilities, ...facilities, ...facilities];
-  const controls = useAnimationControls();
+  const duplicated = [...facilities, ...facilities];
 
-  const startAnimation = () => {
-    controls.start({
-      x: "-50%",
-      transition: {
-        duration: 25,
-        ease: "linear",
-        repeat: Infinity,
-      },
+  const x = useMotionValue(0);
+  const trackRef = useRef(null);
+  const animationRef = useRef(null);
+
+  useEffect(() => {
+    if (!trackRef.current) return;
+
+    const width = trackRef.current.scrollWidth / 2;
+
+    animationRef.current = animate(x, -width, {
+      ease: "linear",
+      duration: 35,
+      repeat: Infinity,
+    });
+
+    return () => animationRef.current?.stop();
+  }, [x]);
+
+  const pause = () => animationRef.current?.pause();
+  const resume = () => animationRef.current?.play();
+
+  const slide = (direction) => {
+    pause();
+
+    const moveAmount = 340;
+    const currentX = x.get();
+
+    const newX =
+      direction === "left"
+        ? currentX + moveAmount
+        : currentX - moveAmount;
+
+    animate(x, newX, {
+      duration: 0.9,
+      ease: [0.22, 1, 0.36, 1],
+      onComplete: resume,
     });
   };
 
-  useEffect(() => {
-    startAnimation();
-  }, []);
-
   return (
-    <section className="w-full bg-[#fafafa] py-20 overflow-hidden">
-      <div className="mx-auto max-w-7xl">
+    <section className="w-full py-24 bg-gradient-to-b from-white to-gray-100">
+      <div className="max-w-7xl mx-auto px-6">
 
-        {/* Header */}
-        <div className="mb-10">
-          <h3 className="font-serif text-[#1a2b5d] text-3xl">
+        {/* Heading */}
+        <div className="text-center mb-14">
+          <h2 className="text-4xl md:text-5xl font-sans font-semibold tracking-tight text-[#1a2b5d]">
             Premium Facilities
-          </h3>
+          </h2>
+          <div className="h-[3px] w-20 bg-[#D4AF37] mx-auto mt-6 rounded-full"></div>
         </div>
 
-        {/* Carousel */}
-        <div className="relative overflow-hidden -mx-6 md:-mx-12 px-6 md:px-12">
-          <motion.div
-            className="flex gap-6 w-max"
-            animate={controls}
-            onHoverStart={() => controls.stop()}
-            onHoverEnd={startAnimation}
+        {/* Wrapper */}
+        <div className="relative overflow-visible">
+
+          {/* Buttons OUTSIDE visible */}
+          <button
+            onClick={() => slide("left")}
+            className="absolute -left-16 top-1/2 -translate-y-1/2 z-40
+                       w-14 h-14 flex items-center justify-center
+                       rounded-full
+                       bg-[#1a2b5d]
+                       border-2 border-[#D4AF37]
+                       text-white
+                       shadow-xl
+                       transition-all duration-300
+                       hover:scale-110 hover:bg-[#8B0000] hover:text-[#1a2b5d]"
           >
-            {loopedFacilities.map((item, index) => (
-              <Link
-                href={`/facilities/${item.slug}`}
-                key={`${item.id}-${index}`}
-                className="min-w-[300px] md:min-w-[320px] bg-white rounded-3xl overflow-hidden shadow-sm border group"
-              >
-                {/* Image */}
-                <div className="relative h-[200px] overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+            <ChevronLeft size={22} />
+          </button>
 
-                  {/* PERFECT CIRCLE LOGO */}
-                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md shadow-md flex items-center justify-center overflow-hidden">
-                    <img
-                      src="/bsm_logo-removebg-preview.png"   // your logo
-                      alt="Logo"
-                      className="w-7 h-7 object-contain"
-                    />
+          <button
+            onClick={() => slide("right")}
+            className="absolute -right-16 top-1/2 -translate-y-1/2 z-40
+                       w-14 h-14 flex items-center justify-center
+                       rounded-full
+                       bg-[#1a2b5d]
+                       border-2 border-[#D4AF37]
+                       text-white
+                       shadow-xl
+                       transition-all duration-300
+                       hover:scale-110 hover:bg-[#D4AF37] hover:text-[#1a2b5d]"
+          >
+            <ChevronRight size={22} />
+          </button>
+
+          {/* Slider Viewport */}
+          <div className="overflow-hidden">
+
+            {/* Soft Edge Fade */}
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-20 z-10 
+                            bg-gradient-to-r from-white via-white/50 to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-20 z-10 
+                            bg-gradient-to-l from-white via-white/50 to-transparent" />
+
+            {/* Track */}
+            <motion.div
+              ref={trackRef}
+              style={{ x }}
+              className="flex gap-10 w-max"
+              onHoverStart={pause}
+              onHoverEnd={resume}
+            >
+              {duplicated.map((item, index) => (
+                <Link
+                  key={index}
+                  href={`/facilities/${item.slug}`}
+                  className="group flex-shrink-0 w-[300px]"
+                >
+                  <div className="relative aspect-[9/16] rounded-3xl overflow-hidden shadow-xl">
+
+                    <video
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    >
+                      <source src={item.video} type="video/mp4" />
+                    </video>
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                    <div className="absolute bottom-6 left-6 text-white">
+                      <h3 className="text-lg font-sans font-medium tracking-wide">
+                        {item.title}
+                      </h3>
+                      <div className="h-[2px] w-10 bg-[#D4AF37] mt-2 rounded-full"></div>
+                    </div>
+
                   </div>
-                </div>
+                </Link>
+              ))}
+            </motion.div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <h4 className="font-serif text-xl font-bold mb-2 text-[#1a1a1a]">
-                    {item.title}
-                  </h4>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </motion.div>
-
-          {/* Fade edges */}
-          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#fafafa] to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#fafafa] to-transparent z-10 pointer-events-none" />
+          </div>
         </div>
       </div>
     </section>

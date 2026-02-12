@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
+
+/* ---------------- Animation ---------------- */
 
 const containerVariants = {
   hidden: {},
@@ -29,62 +32,107 @@ const cardVariants = {
   },
 };
 
+/* ---------------- Component ---------------- */
+
 const ProgramsSection = () => {
   const cards = [
     {
-      title: "Academic & Value-Based Education",
+      title: "Modern School Campus",
+      slug: "modern-school-campus",
       description:
-        "A structured CBSE curriculum combined with discipline, moral values and character building to support holistic development.",
-      image: "https://loremflickr.com/800/600/indian,classroom,student?lock=1",
+        "A spacious and well-planned campus designed to provide a vibrant academic atmosphere with modern infrastructure and green surroundings.",
+      image:
+        "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1200&auto=format&fit=crop",
     },
     {
-      title: "Co-Curricular & Cultural Activities",
+      title: "Secure & Safe Campus",
+      slug: "secure-safe-campus",
       description:
-        "Regular participation in cultural programmes, debates, art & craft, music, dance and school events throughout the year.",
-      image: "https://loremflickr.com/800/600/indian,dance,culture?lock=2",
+        "24/7 CCTV surveillance, disciplined environment and dedicated staff ensuring complete safety and peace of mind for students and parents.",
+      image:
+        "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?q=80&w=1200&auto=format&fit=crop",
     },
     {
-      title: "Experienced & Dedicated Faculty",
+      title: "Sports & Physical Education",
+      slug: "sports-physical-education",
       description:
-        "Qualified and experienced teachers focused on academic excellence, student guidance and personal attention.",
-      image: "https://loremflickr.com/800/600/indian,teacher,classroom?lock=3",
+        "Comprehensive indoor and outdoor sports facilities encouraging teamwork, discipline and overall physical development.",
+      image:
+        "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1200&auto=format&fit=crop",
     },
     {
-      title: "Sports & Physical Development",
+      title: "Smart Classrooms",
+      slug: "smart-classrooms",
       description:
-        "Indoor and outdoor sports activities to promote physical fitness, teamwork and overall well-being.",
-      image: "https://loremflickr.com/800/600/kids,sports,playground?lock=4",
+        "Digitally equipped classrooms with smart boards and interactive learning tools to enhance engagement and academic excellence.",
+      image:
+        "https://images.unsplash.com/photo-1584697964358-3e14ca57658b?q=80&w=1200&auto=format&fit=crop",
     },
     {
-      title: "Smart Classrooms & Digital Learning",
+      title: "Well-Stocked Library",
+      slug: "well-stocked-library",
       description:
-        "Technology-enabled classrooms with digital tools to enhance engagement and learning outcomes.",
-      image: "https://loremflickr.com/800/600/computer,classroom,student?lock=5",
+        "A rich collection of academic books, reference materials and digital resources fostering reading habits and independent learning.",
+      image:
+        "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200&auto=format&fit=crop",
     },
     {
-      title: "Personality & Leadership Development",
+      title: "Advanced Physics Laboratory",
+      slug: "advanced-physics-laboratory",
       description:
-        "Programs designed to build confidence, communication skills and leadership qualities.",
-      image: "https://loremflickr.com/800/600/student,speech,microphone?lock=6",
+        "Fully equipped physics lab with modern apparatus to help students explore scientific principles through practical experiments.",
+      image:
+        "https://images.unsplash.com/photo-1581093588401-22f19d06c0b5?q=80&w=1200&auto=format&fit=crop",
     },
     {
-      title: "Art, Craft & Creativity",
+      title: "Modern Chemistry Laboratory",
+      slug: "modern-chemistry-laboratory",
       description:
-        "Creative activities encouraging imagination, innovation and artistic expression.",
-      image: "https://loremflickr.com/800/600/kids,painting,art?lock=7",
+        "Safe and well-maintained chemistry lab enabling hands-on experiments and deeper understanding of chemical concepts.",
+      image:
+        "https://images.unsplash.com/photo-1582719471384-894fbb16e074?q=80&w=1200&auto=format&fit=crop",
     },
     {
-      title: "Moral Education & Life Skills",
+      title: "Biology & Life Science Lab",
+      slug: "biology-life-science-lab",
       description:
-        "Value-based learning to instill ethics, responsibility and essential life skills.",
-      image: "https://loremflickr.com/800/600/kids,planting,helping?lock=8",
+        "Interactive biology lab with models and specimens helping students understand life sciences in a practical way.",
+      image:
+        "https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1200&auto=format&fit=crop",
     },
     {
-      title: "Safe & Supportive Environment",
+      title: "Medical & First Aid Room",
+      slug: "medical-first-aid-room",
       description:
-        "A secure, nurturing campus ensuring emotional, physical and academic safety.",
-      image: "https://loremflickr.com/800/600/school,security,safe?lock=9",
+        "On-campus medical assistance and first aid facilities to ensure immediate care and student well-being.",
+      image:
+        "https://images.unsplash.com/photo-1580281658629-0c9f5f9f3c6b?q=80&w=1200&auto=format&fit=crop",
     },
+    {
+      title: "Children's Play Area",
+      slug: "childrens-play-area",
+      description:
+        "Safe and joyful play area designed especially for young learners to promote fun, creativity and social interaction.",
+      image:
+        "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop",
+    },
+    {
+      title: "Music & Performing Arts Room",
+      slug: "music-performing-arts-room",
+      description:
+        "Dedicated music and performing arts room encouraging creativity, rhythm and artistic talent among students.",
+      image:
+        "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200&auto=format&fit=crop",
+    },
+    {
+  title: "Dance & Performing Arts Room",
+  slug: "dance-performing-arts-room",
+  description:
+    "A vibrant and spacious dance room equipped with full-length mirrors, wooden flooring, and an advanced sound system to nurture creativity, rhythm, and confidence in students through various dance and performing arts activities.",
+  image:
+    "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1200&auto=format&fit=crop",
+},
+
   ];
 
   return (
@@ -98,39 +146,43 @@ const ProgramsSection = () => {
           viewport={{ once: true, amount: 0.1 }}
         >
           {cards.map((card, index) => (
-            <motion.div
+            <Link
+              href={`/programs/${card.slug}`}
               key={index}
-              variants={cardVariants}
-              whileHover={{ y: -8 }}
-              className="group flex flex-col bg-white rounded-xl overflow-hidden h-full shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100"
+              className="group"
             >
-              {/* Image Container with Overlay */}
-              <div className="relative w-full aspect-16/10 overflow-hidden">
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  priority={index < 3}
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-[#7A0C0C]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
+              <motion.div
+                variants={cardVariants}
+                whileHover={{ y: -8 }}
+                className="cursor-pointer flex flex-col bg-white rounded-xl overflow-hidden h-full shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100"
+              >
+                {/* Image */}
+                <div className="relative w-full aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    priority={index < 3}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#7A0C0C]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
 
-              {/* Content */}
-              <div className="flex flex-col grow p-6 md:p-7 relative bg-white transition-colors duration-500 group-hover:bg-[#7A0C0C]">
-                {/* Decorative Accent */}
-                <div className="w-12 h-1 bg-[#D4AF37] mb-5 rounded-full" />
+                {/* Content */}
+                <div className="flex flex-col grow p-6 md:p-7 relative bg-white transition-colors duration-500 group-hover:bg-[#7A0C0C]">
+                  <div className="w-12 h-1 bg-[#D4AF37] mb-5 rounded-full" />
 
-                <h3 className="text-[#7A0C0C] group-hover:text-[#D4AF37] text-lg md:text-xl font-bold mb-3 transition-colors duration-500 font-serif">
-                  {card.title}
-                </h3>
+                  <h3 className="text-[#7A0C0C] group-hover:text-[#D4AF37] text-lg md:text-xl font-bold mb-3 transition-colors duration-500 font-serif">
+                    {card.title}
+                  </h3>
 
-                <p className="text-gray-600 group-hover:text-white/90 text-sm md:text-base leading-relaxed transition-colors duration-500">
-                  {card.description}
-                </p>
-              </div>
-            </motion.div>
+                  <p className="text-gray-600 group-hover:text-white/90 text-sm md:text-base leading-relaxed transition-colors duration-500">
+                    {card.description}
+                  </p>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </motion.div>
       </div>

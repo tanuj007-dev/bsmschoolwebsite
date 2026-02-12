@@ -14,7 +14,7 @@ export default function AboutUs() {
         breadcrumbItems={[
           { label: "About Us" }
         ]}
-        backgroundImage="/aboutusbanner.jpg"
+        backgroundImage="/aboutsussss.png"
         subtitle="Nurturing minds, building character, and shaping the leaders of tomorrow."
       />
       <AboutSchoolSection />

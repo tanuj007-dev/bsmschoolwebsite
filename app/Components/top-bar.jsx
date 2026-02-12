@@ -19,16 +19,15 @@ export default function TopBar() {
               href="tel:+919818301260"
               className="flex items-center gap-2 px-3 py-1 rounded-full
               bg-white/10 border border-white/20
-              hover:bg-[#D4AF37] hover:text-[#7A0C0C]
               transition-all duration-200"
             >
-              <Phone size={13} />
+              <Phone size={14} />
               <span className="font-medium whitespace-nowrap">
                 +91 98183 01260
               </span>
               <span
                 className="text-[10px] px-2 py-0.5 rounded-full
-                bg-green-500 text-white font-semibold"
+                bg-white/20 text-white font-medium"
               >
                 Junior Desk
               </span>
@@ -38,16 +37,16 @@ export default function TopBar() {
             <a
               href="tel:+919971231386"
               className="flex items-center gap-2 px-3 py-1 rounded-full
-              bg-yellow-400 text-[#7A0C0C] font-semibold shadow-sm
-              hover:scale-105 transition-all duration-200"
+              bg-white/10 border border-white/20
+              transition-all duration-200"
             >
-              <Phone size={13} />
-              <span className="whitespace-nowrap">
+              <Phone size={14} />
+              <span className="font-medium whitespace-nowrap">
                 +91 99712 31386
               </span>
               <span
                 className="text-[10px] px-2 py-0.5 rounded-full
-                bg-[#7A0C0C] text-white"
+                bg-white/20 text-white font-medium"
               >
                 Senior Desk
               </span>
@@ -57,16 +56,16 @@ export default function TopBar() {
             <a
               href="tel:+917303061386"
               className="flex items-center gap-2 px-3 py-1 rounded-full
-              bg-yellow-400 text-[#7A0C0C] font-semibold shadow-sm
-              hover:scale-105 transition-all duration-200"
+              bg-white/10 border border-white/20
+              transition-all duration-200"
             >
-              <Phone size={13} />
-              <span className="whitespace-nowrap">
+              <Phone size={14} />
+              <span className="font-medium whitespace-nowrap">
                 +91 73030 61386
               </span>
               <span
                 className="text-[10px] px-2 py-0.5 rounded-full
-                bg-[#7A0C0C] text-white"
+                bg-white/20 text-white font-medium"
               >
                 Senior Desk
               </span>
@@ -81,7 +80,6 @@ export default function TopBar() {
               href="mailto:bsmpublicschool.karala@gmail.com"
               className="flex items-center gap-2 px-3 py-1 rounded-full
               bg-white/10 border border-white/20
-              hover:bg-[#D4AF37] hover:text-[#7A0C0C]
               transition-all duration-200"
             >
               <Mail size={14} />
@@ -94,7 +92,6 @@ export default function TopBar() {
               href="mailto:info@bsmschool.in"
               className="flex items-center gap-2 px-3 py-1 rounded-full
               bg-white/10 border border-white/20
-              hover:bg-[#D4AF37] hover:text-[#7A0C0C]
               transition-all duration-200"
             >
               <Mail size={14} />

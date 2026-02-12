@@ -116,18 +116,13 @@ const TrustAndEventsSection = () => {
         >
           <div className="relative md:w-[40%] h-[180px] md:h-full">
             <img
-              src="/images/school_assembly_crowd_1769562629097.png"
+              src="/keyframe.png"
               className="h-full w-full object-cover"
               alt="Parents Trust"
             />
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-linear-to-r from-black/85 to-transparent" />
           </div>
 
           <div className="relative flex-1 p-6 md:p-8">
-            <div className="absolute top-0 right-0 opacity-5 p-4">
-              <ShieldCheck size={120} />
-            </div>
-
             <h3 className="text-black text-xs font-bold uppercase tracking-wider mb-4">
               Key Features
             </h3>
@@ -150,23 +145,23 @@ const TrustAndEventsSection = () => {
         >
           <div className="relative md:w-[40%] h-[180px] md:h-full">
             <img
-              src="/images/school_stage_performance_1769562652868.png"
+              src="/latest.png"
               className="h-full w-full object-cover"
               alt="Activities"
             />
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-linear-to-r from-[#0a1636]/90 to-transparent" />
           </div>
 
           <div className="relative flex-1 p-6 md:p-8">
-            <div className="absolute top-0 right-0 opacity-5 p-4 text-[#0a1636]">
-              <Trophy size={120} />
-            </div>
-
             <h3 className="text-black text-xs font-bold uppercase tracking-wider mb-4">
               Latest Updates
             </h3>
 
             <AnimatedVerticalList items={events} type="events" />
+
+            {/* ✅ Added Here */}
+            <p className="text-[10px] text-gray-400 font-medium pt-4 mt-4 border-t">
+              Updated for {ACADEMIC_YEAR}
+            </p>
           </div>
         </motion.div>
 

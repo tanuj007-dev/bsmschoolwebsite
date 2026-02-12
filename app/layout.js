@@ -16,7 +16,13 @@ const playfair = Playfair_Display({
 export const metadata = {
   title: "B.S.M. Public School",
   description: "B.S.M. Public School - Excellence in Education",
+  icons: {
+    icon: [
+      { url: "/bsm_logo-removebg-preview.png", type: "image/png", sizes: "32x32" },
+    ],
+  },
 };
+
 
 export default function RootLayout({ children }) {
   return (

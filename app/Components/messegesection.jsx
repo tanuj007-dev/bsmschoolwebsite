@@ -4,29 +4,46 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 
-/* ---------------- Animation Helpers ---------------- */
+/* ---------------- Smooth Animation Config ---------------- */
+
+const smoothEase = [0.16, 1, 0.3, 1];
+
 const textVariant = (isReversed) => ({
   hidden: {
     opacity: 0,
-    x: isReversed ? 50 : -50,
+    y: 60,
+    x: isReversed ? 40 : -40,
   },
   visible: {
     opacity: 1,
+    y: 0,
     x: 0,
-    transition: { duration: 0.8, ease: "easeOut" },
+    transition: {
+      duration: 1,
+      ease: smoothEase,
+    },
   },
 });
 
-const imageVariant = () => ({
-  hidden: { opacity: 0, scale: 0.95 },
+const imageVariant = {
+  hidden: {
+    opacity: 0,
+    scale: 0.96,
+    y: 40,
+  },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.8, ease: "easeOut" },
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: smoothEase,
+    },
   },
-});
+};
 
 /* ---------------- Leadership Block ---------------- */
+
 const LeadershipBlock = ({
   title,
   name,
@@ -36,17 +53,19 @@ const LeadershipBlock = ({
   isReversed = false,
 }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center py-20">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28 items-center py-24">
 
       {/* IMAGE */}
       <motion.div
-        variants={imageVariant()}
+        variants={imageVariant}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        className={`relative flex justify-center ${isReversed ? "lg:order-2" : "lg:order-1"}`}
+        viewport={{ once: true, amount: 0.25 }}
+        className={`relative flex justify-center ${
+          isReversed ? "lg:order-2" : "lg:order-1"
+        }`}
       >
-        <div className="relative w-full max-w-[500px] aspect-[4/5] rounded-xl overflow-hidden shadow-2xl">
+        <div className="relative w-full max-w-[520px] aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
           <Image
             src={imageSrc}
             alt={role}
@@ -54,17 +73,20 @@ const LeadershipBlock = ({
             className="object-cover transition-transform duration-700 hover:scale-105"
           />
 
-          <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+          <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-black/90 to-transparent flex items-end p-6">
             <div className="text-white">
-              {name && <p className="font-serif text-xl font-bold">{name}</p>}
-              <p className="text-[#D4AF37] text-sm uppercase tracking-wider">{role}</p>
+              <p className="text-xl font-semibold">{name}</p>
+              <p className="text-[#D4AF37] text-sm uppercase tracking-wider">
+                {role}
+              </p>
             </div>
           </div>
         </div>
 
         <div
-          className={`absolute top-6 bottom-6 w-full max-w-[500px] border-2 border-[#D4AF37] rounded-xl -z-10 ${isReversed ? "left-6" : "right-6"
-            }`}
+          className={`absolute top-8 bottom-8 w-full max-w-[520px] border-2 border-[#D4AF37] rounded-2xl -z-10 ${
+            isReversed ? "left-8" : "right-8"
+          }`}
         />
       </motion.div>
 
@@ -73,69 +95,106 @@ const LeadershipBlock = ({
         variants={textVariant(isReversed)}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        className={`${isReversed ? "lg:order-1" : "lg:order-2"} relative`}
+        viewport={{ once: true, amount: 0.25 }}
+        className={`relative ${
+          isReversed ? "lg:order-1" : "lg:order-2"
+        }`}
       >
-        <Quote className="absolute -top-10 -left-6 w-24 h-24 text-[#7A0C0C]/10 rotate-180" />
+        <Quote className="absolute -top-12 -left-6 w-20 h-20 text-[#7A0C0C]/10 rotate-180" />
 
-        <span className="text-[#D4AF37] font-bold tracking-[0.15em] uppercase text-xs mb-2 block">
-          Founder of B.S.M Public School
+        <span className="text-[#D4AF37] font-semibold tracking-[0.2em] uppercase text-xs mb-3 block">
+          {role}
         </span>
 
-        <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a0505] mb-6">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1a0505] mb-8">
           {title}
         </h2>
 
         <div className="space-y-6">
           {message.map((para, i) => (
-            <p key={i} className="text-gray-600 text-base md:text-lg leading-relaxed">
+            <p
+              key={i}
+              className="text-gray-600 text-base md:text-lg leading-relaxed"
+            >
               {para}
             </p>
           ))}
         </div>
-
-        {name && (
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <p className="font-serif text-2xl text-[#7A0C0C] italic">"{name}"</p>
-          </div>
-        )}
       </motion.div>
     </div>
   );
 };
 
 /* ---------------- Main Section ---------------- */
+
 export default function MessageSection() {
   const leadershipData = [
 
+    // 1️⃣ Chairman
     {
-      title: "Vision of Excellence",
-      name: "Adv. Hitesh Verma",
-      role: "Director",
-      imageSrc: "/director.jpg",
-      isReversed: true,
-      message: [
-        "Education is the most powerful weapon which you can use to change the world. Our vision is where tradition meets modern learning.",
-        "With experience in law and child psychology, I believe in building character along with academic excellence.",
-        "Through collective effort, BSM Public School continues to set benchmarks in quality education."
-      ],
-    },
-    {
-      title: "Nurturing Potential",
-      name: "Mrs. Vandana Khanna",
-      role: "Principal",
-      imageSrc: "/principal.jpg",
+      title: "Founder of B.S.M Public School - Chairman",
+      name: "Chairman Name",
+      role: "Chairman",
+      imageSrc: "/chairman.jpg",
       isReversed: false,
       message: [
-        "Every child is unique and carries immense potential waiting to be discovered.",
-        "Education is about confidence, compassion, and curiosity, not just academics.",
-        "Our focus is to provide a safe, inclusive environment where every child can grow and succeed."
+        "At our school, we believe that education is the foundation of a strong future. Our commitment is to create a centre of excellence where children are empowered with knowledge, values, and skills to succeed in a rapidly changing world.",
+        "With a focus on quality education, character building, and continuous growth, we strive to develop confident learners who bring pride to their families, society, and the nation.",
+        "Our vision is to make this school the finest institution in the area—where children learn with purpose, grow with values, and succeed with confidence. We aim to nurture responsible, capable learners who bring pride to their families, their community, and their region.",
+        "With committed educators and a progressive learning environment, we are building a school that shapes futures and creates leaders of tomorrow."
       ],
     },
+
+    // 2️⃣ Head of School
+    {
+      title: "From the Head of School",
+      name: "Head of School Name",
+      role: "Head of School",
+      imageSrc: "/headofschool.jpg",
+      isReversed: true,
+      message: [
+        '"Education is the most powerful weapon which you can use to change the world." – Dr. A.P.J Abdul Kalam',
+        "At B.S.M. Public School, we believe education shapes both intellect and character. Guided by the vision of NEP 2020, we nurture curious minds, strong values, and confident learners in a safe and inclusive environment.",
+        "Our focus is holistic development—empowering students with knowledge, integrity, and compassion to succeed in life and contribute meaningfully to society.",
+        "As Head of School, I am committed to ensuring every child realises their potential and grows into a responsible, capable, and compassionate citizen."
+      ],
+    },
+
+    // 3️⃣ Senior Coordinator
+    {
+      title: "From The Senior Coordinator Desk",
+      name: "Ms Ruchi Mathur",
+      role: "Senior Coordinator",
+      imageSrc: "/seniorcoordinator.jpg",
+      isReversed: false,
+      message: [
+        '"The goal of education is not to increase the amount of knowledge but to create the possibilities for a child to invent and discover." — Jean Piaget',
+        "At BSM School, we believe that education is far more than a curriculum; it is a powerful intersection where timeless human values meet the digital frontier, moving beyond textbooks into a vibrant world of innovation, creativity, and global collaboration.",
+        'This journey of progress is fueled by our "Golden Triangle" of partnership: our dedicated educators who continuously adapt to new frontiers, our resilient students who embrace challenges, and our supportive parents who remain our strongest allies.',
+        "Leadership here is a shared responsibility where technology becomes not just a tool, but a bridge to inspire critical thinking, ignite curiosity, and foster meaningful growth.",
+        "Together, we are nurturing a culture of lifelong excellence and integrity, ensuring our children emerge as visionary architects of their own bright futures."
+      ],
+    },
+
+    // 4️⃣ General Secretary
+    {
+      title: "Message from the General Secretary",
+      name: "General Secretary Name",
+      role: "General Secretary",
+      imageSrc: "/generalsecretary.jpg",
+      isReversed: true,
+      message: [
+        "At B.S.M Public School, our vision is to create an institution where education inspires purpose, excellence, and responsible leadership.",
+        "We are committed to fostering a learning culture that empowers students with knowledge, values, and future-ready skills to thrive in a dynamic world.",
+        "Through continuous innovation, strong ethical foundations, and collaborative partnerships with parents and educators, we strive to nurture confident individuals who think critically, act responsibly, and contribute meaningfully to society.",
+        "Together, we remain dedicated to shaping a progressive educational environment that prepares our learners to lead with integrity, resilience, and vision."
+      ],
+    },
+
   ];
 
   return (
-    <section className="bg-[#fcfbf9] py-10 px-6 md:px-12 lg:px-24 overflow-hidden">
+    <section className="bg-[#fcfbf9] py-20 px-6 md:px-12 lg:px-24 overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto">
         {leadershipData.map((item, index) => (
           <LeadershipBlock key={index} {...item} />

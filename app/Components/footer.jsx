@@ -15,6 +15,24 @@ import {
 export default function FooterSection() {
   const currentYear = new Date().getFullYear();
 
+  /* ---------------- Device Detect ---------------- */
+  const isMobile = () => {
+    if (typeof window === "undefined") return false;
+    return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+      navigator.userAgent
+    );
+  };
+
+  const handlePhoneClick = (number) => {
+    const cleanNumber = number.replace(/\s+/g, "");
+
+    if (isMobile()) {
+      window.location.href = `tel:${cleanNumber}`;
+    } else {
+      window.open(`https://wa.me/${cleanNumber}`, "_blank");
+    }
+  };
+
   /* ---------------- Social Links ---------------- */
   const socialLinks = [
     {
@@ -48,7 +66,6 @@ export default function FooterSection() {
 
   return (
     <footer className="relative bg-[#1a0505] text-white pt-24 pb-12 overflow-hidden font-sans">
-      {/* Background Pattern */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
@@ -59,16 +76,14 @@ export default function FooterSection() {
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-[#7A0C0C]/90 to-[#1a0505] pointer-events-none" />
-
-      {/* Top Golden Border */}
       <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37]" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-        {/* ================= Branding ================= */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-5 lg:px-0">
+        {/* Branding */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-20 border-b border-white/10 pb-12">
           <div>
             <h2 className="font-bold text-3xl md:text-4xl lg:text-5xl">
-              <span className="text-[#D4AF37]">B.S.M.</span> Public School
+              <span className="text-[#D4AF37]">B.S.M</span> Public School
             </h2>
             <p className="text-white/60 text-sm tracking-[0.3em] uppercase mt-2">
               Est. 2000 | Excellence in Education
@@ -76,7 +91,6 @@ export default function FooterSection() {
           </div>
 
           <div className="flex gap-4">
-            {/* Instagram Gradient */}
             <svg width="0" height="0" className="absolute">
               <linearGradient
                 id="instagram-gradient"
@@ -116,7 +130,7 @@ export default function FooterSection() {
           </div>
         </div>
 
-        {/* ================= Main Grid ================= */}
+        {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Philosophy */}
           <div className="lg:col-span-4 space-y-6">
@@ -171,9 +185,11 @@ export default function FooterSection() {
               title="Address"
               desc={
                 <>
-                  BSM Public School, Karala,
+                  B.S.M PUBLIC SCHOOL
                   <br />
-                  North West Delhi – 110081
+                  ANANDPUR DHAM, SULTANPUR ROAD,
+                  <br />
+                  KARALA, DELHI-81
                 </>
               }
             />
@@ -183,14 +199,28 @@ export default function FooterSection() {
               title="Phone"
               desc={
                 <>
-                  +91 99712 31386
-                  <br />
-                  +91 73030 61386
+                  <p
+                    onClick={() => handlePhoneClick("+919971231386")}
+                    className="cursor-pointer hover:text-[#D4AF37] transition-colors"
+                  >
+                    +91 99712 31386 - Senior Desk
+                  </p>
+                  <p
+                    onClick={() => handlePhoneClick("+917303061386")}
+                    className="cursor-pointer hover:text-[#D4AF37] transition-colors"
+                  >
+                    +91 73030 61386 - Senior Desk
+                  </p>
+                  <p
+                    onClick={() => handlePhoneClick("+919818301260")}
+                    className="cursor-pointer hover:text-[#D4AF37] transition-colors"
+                  >
+                    +91 98183 01260 - Junior Desk
+                  </p>
                 </>
               }
             />
 
-            {/* Email Section (Updated) */}
             <div className="flex gap-4">
               <div className="p-3 bg-white/5 rounded-lg h-fit">
                 <Mail size={20} className="text-[#D4AF37]" />
@@ -199,14 +229,12 @@ export default function FooterSection() {
                 <p className="text-sm font-semibold uppercase tracking-wide">
                   Email
                 </p>
-
                 <a
                   href="mailto:bsmpublicschool.karala@gmail.com"
                   className="block text-white/60 text-sm hover:text-[#D4AF37] transition-colors break-all"
                 >
                   bsmpublicschool.karala@gmail.com
                 </a>
-
                 <a
                   href="mailto:info@bsmschool.in"
                   className="block text-white/60 text-sm hover:text-[#D4AF37] transition-colors break-all mt-1"
@@ -230,7 +258,6 @@ export default function FooterSection() {
                 height="100%"
                 loading="lazy"
                 style={{ border: 0 }}
-                className="transition-all duration-700 contrast-110 hover:contrast-100"
               />
             </div>
             <p className="text-xs text-white/40 italic">
@@ -239,7 +266,7 @@ export default function FooterSection() {
           </div>
         </div>
 
-        {/* ================= Bottom Bar ================= */}
+        {/* Bottom */}
         <div className="border-t border-white/10 mt-20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40">
           <p>© {currentYear} BSM Public School. All Rights Reserved.</p>
           <div className="flex gap-6">
@@ -262,7 +289,7 @@ export default function FooterSection() {
   );
 }
 
-/* ---------------- Contact Item Component ---------------- */
+/* Contact Item */
 function ContactItem({ icon, title, desc }) {
   return (
     <div className="flex gap-4">
