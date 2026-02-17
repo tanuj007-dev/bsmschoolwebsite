@@ -19,12 +19,13 @@ const BlogCard = ({ post, index }) => {
       {/* Image Container */}
       <Link href={`/blogs/${post.id}`} className="relative h-64 w-full overflow-hidden block">
         {isDataUrl ? (
-          <img src={post.image} alt={post.title} className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
+          <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
         ) : (
           <Image
             src={post.image || "/images/blog/blog-1.webp"}
             alt={post.title}
             fill
+            loading="lazy"
             className="object-cover scale-110 transition-transform duration-700 group-hover:scale-125"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />

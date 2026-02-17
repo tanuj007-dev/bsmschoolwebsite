@@ -5,93 +5,68 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-/* ---------------- DATA ---------------- */
-
 const awardsSliderData = [
-  {
-    id: 2,
-    image: "/acedemic1st.webp",
-    rank: "1st Rank",
-    achievement: "Academic Excellence Award",
-    category: "Academic Achievement",
-  },
-  {
-    id: 3,
-    image: "/acedemis2ndposition.webp",
-    rank: "2nd Rank",
-    achievement: "Academic Excellence Award",
-    category: "Academic Achievement",
-  },
-  {
-    id: 4,
-    image: "/acedemis3ndposition.webp",
-    rank: "3rd Rank",
-    achievement: "Academic Excellence Award",
-    category: "Academic Achievement",
-  },
-  {
-    id: 1,
-    image: "/attendance100.webp",
-    rank: "",
-    achievement: "100 % Attendance Award",
-    category: "Attendance Achievement",
-  },
-  {
-    id: 5,
-    image: "/schrolship.webp",
-    rank: "",
-    achievement: "Scholarship Award",
-    category: "Academic Achievement",
-  },
-  {
-    id: 6,
-    image: "/sportwinners.webp",
-    rank: "",
-    achievement: "Sports Championship Winner",
-    category: "Sports Achievement",
-  },
+  { id: 1, image: `/${encodeURIComponent("100% attendance.JPG.webp")}`, achievement: "100% Attendance", category: "Attendance Achievement" },
+  { id: 2, image: `/${encodeURIComponent("Academics 1st position.JPG.webp")}`, achievement: "Academics 1st Position", category: "Academic Achievement" },
+  { id: 3, image: `/${encodeURIComponent("Academics 2nd position.JPG.webp")}`, achievement: "Academics 2nd Position", category: "Academic Achievement" },
+  { id: 4, image: `/${encodeURIComponent("Academics 3rd position.JPG.webp")}`, achievement: "Academics 3rd Position", category: "Academic Achievement" },
 ];
 
-/* Duplicate for Infinite Effect */
 const extendedData = [...awardsSliderData, ...awardsSliderData];
 
-/* ---------------- CARD ---------------- */
+/** Card that only loads the image when it enters (or is near) the viewport */
+function LazyAchievementCard({ item }) {
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const cardRef = useRef(null);
 
-const AchievementCard = ({ item }) => {
+  useEffect(() => {
+    if (!cardRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setShouldLoad(true);
+      },
+      { rootMargin: "150px 0px", threshold: 0.01 }
+    );
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="rounded-3xl overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-500">
-      <div className="relative h-[260px] w-full">
-        <Image
-          src={item.image}
-          alt={item.achievement}
-          fill
-          className="object-cover"
-        />
-        <div className="absolute top-4 left-4 bg-[#7A0C0C] text-white text-xs px-4 py-1 rounded-full">
-          {item.category}
-        </div>
-      </div>
-
-      <div className="bg-[#7A0C0C] p-6 text-center">
-        {item.rank && (
-          <p className="text-white/80 text-sm mb-2">{item.rank}</p>
+    <div ref={cardRef} className="rounded-3xl overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-500">
+      <div className="relative h-[260px] w-full bg-gray-100">
+        {shouldLoad ? (
+          <Image
+            src={item.image}
+            alt={item.achievement}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-gray-300 text-sm">
+            <span className="opacity-0">{item.achievement}</span>
+          </div>
         )}
-        <h3 className="text-white text-xl font-semibold">
-          {item.achievement}
-        </h3>
+        
+      </div>
+      <div className="bg-[#7A0C0C] p-6 text-center">
+        {item.rank && <p className="text-white/80 text-sm mb-2">{item.rank}</p>}
+        <h3 className="text-white text-xl font-semibold">{item.achievement}</h3>
       </div>
     </div>
   );
-};
+}
 
-/* ---------------- MAIN ---------------- */
+const N = awardsSliderData.length;
 
 export default function AwardsAchievementsSlider() {
   const [itemsToShow, setItemsToShow] = useState(3);
   const [index, setIndex] = useState(0);
+  const [noTransition, setNoTransition] = useState(false);
   const isHovered = useRef(false);
 
-  /* Responsive */
   useEffect(() => {
     const update = () => {
       if (window.innerWidth < 768) setItemsToShow(1);
@@ -103,45 +78,58 @@ export default function AwardsAchievementsSlider() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  /* Smooth Auto Slide */
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isHovered.current) {
-        setIndex((prev) => prev + 1);
-      }
+      if (!isHovered.current) setIndex((prev) => (prev + 1) % N);
     }, 2500);
-
     return () => clearInterval(interval);
   }, []);
 
-  /* Reset seamlessly */
+  // Seamless loop: when we reach the end (index N), instantly reset to 0 (same visual)
   useEffect(() => {
-    if (index >= awardsSliderData.length) {
-      setTimeout(() => {
-        setIndex(0);
-      }, 800);
-    }
+    if (index < N) return;
+    const t = setTimeout(() => {
+      setNoTransition(true);
+      setIndex(0);
+    }, 650);
+    return () => clearTimeout(t);
   }, [index]);
 
+  // Re-enable transition after instant jump
+  useEffect(() => {
+    if (noTransition) {
+      const t = setTimeout(() => setNoTransition(false), 50);
+      return () => clearTimeout(t);
+    }
+  }, [noTransition]);
+
   const slideLeft = () => {
-    setIndex((prev) =>
-      prev === 0 ? awardsSliderData.length - 1 : prev - 1
-    );
+    if (index === 0) {
+      setNoTransition(true);
+      setIndex(N);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setNoTransition(false);
+          setIndex(N - 1);
+        });
+      });
+    } else {
+      setIndex((prev) => prev - 1);
+    }
   };
 
   const slideRight = () => {
-    setIndex((prev) => prev + 1);
+    setIndex((prev) => (prev + 1) % (N + 1));
   };
 
   return (
     <section className="bg-[#F9F5F5] py-20 px-4">
       <div className="max-w-[1300px] mx-auto">
-
         <div className="text-center mb-14">
           <h2 className="text-4xl md:text-5xl font-semibold text-[#7A0C0C]">
             Awards & Achievements
           </h2>
-          <div className="w-20 h-[3px] bg-[#7A0C0C] mx-auto mt-4"></div>
+          <div className="w-20 h-[3px] bg-[#7A0C0C] mx-auto mt-4" />
         </div>
 
         <div
@@ -149,25 +137,20 @@ export default function AwardsAchievementsSlider() {
           onMouseEnter={() => (isHovered.current = true)}
           onMouseLeave={() => (isHovered.current = false)}
         >
-
-          {/* LEFT BUTTON */}
           <button
+            type="button"
             onClick={slideLeft}
-            className="absolute -left-6 md:-left-10 top-1/2 -translate-y-1/2 z-20
-                       h-12 w-12 flex items-center justify-center
-                       rounded-full bg-[#7A0C0C] text-white
-                       hover:scale-110 transition-all duration-300 shadow-xl"
+            aria-label="Previous slide"
+            className="absolute -left-6 md:-left-10 top-1/2 -translate-y-1/2 z-20 h-12 w-12 flex items-center justify-center rounded-full bg-[#7A0C0C] text-white hover:scale-110 transition-transform duration-300 shadow-xl"
           >
             <ChevronLeft size={22} />
           </button>
 
-          {/* RIGHT BUTTON */}
           <button
+            type="button"
             onClick={slideRight}
-            className="absolute -right-6 md:-right-10 top-1/2 -translate-y-1/2 z-20
-                       h-12 w-12 flex items-center justify-center
-                       rounded-full bg-[#7A0C0C] text-white
-                       hover:scale-110 transition-all duration-300 shadow-xl"
+            aria-label="Next slide"
+            className="absolute -right-6 md:-right-10 top-1/2 -translate-y-1/2 z-20 h-12 w-12 flex items-center justify-center rounded-full bg-[#7A0C0C] text-white hover:scale-110 transition-transform duration-300 shadow-xl"
           >
             <ChevronRight size={22} />
           </button>
@@ -175,26 +158,23 @@ export default function AwardsAchievementsSlider() {
           <div className="overflow-hidden">
             <motion.div
               className="flex"
-              animate={{
-                x: `-${index * (100 / itemsToShow)}%`,
-              }}
+              animate={{ x: `-${index * (100 / itemsToShow)}%` }}
               transition={{
-                duration: 0.8,
-                ease: [0.4, 0, 0.2, 1],
+                duration: noTransition ? 0 : 0.6,
+                ease: [0.25, 0.46, 0.45, 0.94],
               }}
             >
               {extendedData.map((item, i) => (
                 <div
-                  key={i}
+                  key={`${item.id}-${i}`}
                   className="px-4 shrink-0"
                   style={{ width: `${100 / itemsToShow}%` }}
                 >
-                  <AchievementCard item={item} />
+                  <LazyAchievementCard item={item} />
                 </div>
               ))}
             </motion.div>
           </div>
-
         </div>
       </div>
     </section>

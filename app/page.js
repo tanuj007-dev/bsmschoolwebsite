@@ -1,25 +1,60 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import HeaderHero from "./Components/herosection";
-import AppreciationSlider from "./Components/appreciation-section";
-import PremiumFacilitiesSection from "./Components/premium-facilities";
-import WhyChooseSection from "./Components/whychoosesection";
-import StickyEnrollButton from "./Components/enrollbutton";
-import AwardsAchievementsSlider from "./Components/awardsachievementsslider";
-import TrustAndEventsSection from "./Components/trustandevent-section";
-import VirtualCampusSection from "./Components/virtualsection";
-import TVSReviewsSection from "./Components/review";
-import AdmissionProcessSection from "./Components/admissionprocesssection";
-import WhatsAppSticky from "./Components/stickywhatup";
-import LimitedSeatsCTA from "./Components/limitedseat";
 
+// Code-split sections (smaller initial bundle) — all render immediately so content is never blank
+const AppreciationSlider = dynamic(
+  () => import("./Components/appreciation-section").then((m) => m.default),
+  { ssr: true }
+);
+const PremiumFacilitiesSection = dynamic(
+  () => import("./Components/premium-facilities").then((m) => m.default),
+  { ssr: true }
+);
+const AwardsAchievementsSlider = dynamic(
+  () => import("./Components/awardsachievementsslider").then((m) => m.default),
+  { ssr: true }
+);
+const TVSReviewsSection = dynamic(
+  () => import("./Components/review").then((m) => m.default),
+  { ssr: true }
+);
+const WhyChooseSection = dynamic(
+  () => import("./Components/whychoosesection").then((m) => m.default),
+  { ssr: true }
+);
+const StickyEnrollButton = dynamic(
+  () => import("./Components/enrollbutton").then((m) => m.default),
+  { ssr: true }
+);
+const TrustAndEventsSection = dynamic(
+  () => import("./Components/trustandevent-section").then((m) => m.default),
+  { ssr: true }
+);
+const VirtualCampusSection = dynamic(
+  () => import("./Components/virtualsection").then((m) => m.default),
+  { ssr: true }
+);
+const AdmissionProcessSection = dynamic(
+  () => import("./Components/admissionprocesssection").then((m) => m.default),
+  { ssr: true }
+);
+const WhatsAppSticky = dynamic(
+  () => import("./Components/stickywhatup").then((m) => m.default),
+  { ssr: true }
+);
+const LimitedSeatsCTA = dynamic(
+  () => import("./Components/limitedseat").then((m) => m.default),
+  { ssr: true }
+);
 
 export default function Home() {
   return (
     <>
-      <HeaderHero/>
+      <HeaderHero />
       <AppreciationSlider />
       <PremiumFacilitiesSection />
-       <AwardsAchievementsSlider />
+      <AwardsAchievementsSlider />
       <TVSReviewsSection />
       <WhyChooseSection />
       <StickyEnrollButton />

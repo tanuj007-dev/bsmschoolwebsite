@@ -48,7 +48,7 @@ export default function StudentLogin() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.logo}>
-          <Image src="/bsm_logo-removebg-preview.webp" alt="BSM Public School" width={90} height={90} />
+          <Image src="/bsm_logo-removebg-preview.webp" alt="BSM Public School" width={90} height={90} loading="lazy" />
         </div>
 
         <h2 className={styles.title}>Student Login</h2>

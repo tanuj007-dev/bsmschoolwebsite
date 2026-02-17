@@ -3,6 +3,8 @@ import "./globals.css";
 import SiteLayout from "./Components/SiteLayout";
 import ThemeProvider from "./Components/ThemeProvider";
 
+export const dynamic = "force-dynamic";
+
 const sourceSans3 = Source_Sans_3({
   variable: "--font-source-sans-3",
   subsets: ["latin"],

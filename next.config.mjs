@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: ['zustand'],
   images: {
     remotePatterns: [
       {
@@ -15,7 +16,11 @@ const nextConfig = {
         hostname: 'picsum.photos',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
   },
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
 };
 
 export default nextConfig;

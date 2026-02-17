@@ -1,13 +1,13 @@
+"use client";
+
 import React from "react";
+import LazyVideo from "./LazyVideo";
 
 const DaycareSection = () => {
-  const galleryImages = [
-    { src: "/gallery/Gemini_Generated_Image_8kj0sz8kj0sz8kj0.png", alt: "Learn and grow – teacher and children with picture book" },
-    { src: "/gallery/Gemini_Generated_Image_bkprvwbkprvwbkpr.png", alt: "Daycare classroom with blocks, ball pit and books" },
-    { src: "/gallery/Gemini_Generated_Image_mxr6h5mxr6h5mxr6.png", alt: "Art class – create, innovate, express" },
-    { src: "/gallery/Gemini_Generated_Image_8p7e148p7e148p7e.png", alt: "Music and play – teacher with guitar, children in circle" },
-    { src: "/gallery/Gemini_Generated_Image_e3oo0ke3oo0ke3oo.png", alt: "School dining – children enjoying meal together" },
-    { src: "/gallery/IMG-20260103-WA0026.jpg.jpeg", alt: "Art and creativity in the classroom" },
+  const videos = [
+    { video: `/${encodeURIComponent("Little scholars with the cutest chubby cheeks 💕#SchoolKids#ChubbyCheeks#LittleLearners#HappySch.mp4")}`, alt: "Little scholars at daycare" },
+    { video: `/${encodeURIComponent("Their laughter is the frame, the memories are the picture 💕💕💕💕#CuteKids #KidsMemories #Memor.mp4")}`, alt: "Daycare memories" },
+    { video: `/${encodeURIComponent("Tiny smiles, big memories — captured in the sweetest frame. 💛✨ #CuteKids #ChildhoodMemories #Li.mp4")}`, alt: "Tiny smiles, big memories" },
   ];
 
   return (
@@ -38,18 +38,18 @@ const DaycareSection = () => {
           </div>
         </div>
 
-        {/* 6 images: 3 cols × 2 rows */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-          {galleryImages.map((img, index) => (
+        {/* 3 videos - lazy load when in view */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          {videos.map((item, index) => (
             <div
               key={index}
-              className="relative aspect-square sm:aspect-[4/3] w-full overflow-hidden rounded-[2px] bg-[#f2f2f2]"
+              className="relative aspect-9/16 w-full overflow-hidden rounded-xl bg-[#f2f2f2]"
             >
-              <img
-                src={img.src}
-                alt={img.alt}
-                className="h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-105"
-                loading="lazy"
+              <LazyVideo
+                src={item.video}
+                className="h-full w-full"
+                preload="metadata"
+                ariaLabel={item.alt}
               />
             </div>
           ))}

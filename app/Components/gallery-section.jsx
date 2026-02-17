@@ -81,12 +81,13 @@ const GallerySection = () => {
                 {/* Image Wrapper - no rotation */}
                 <div className="absolute inset-0 overflow-hidden bg-gray-200">
                   {photo.src?.startsWith?.("data:") ? (
-                    <img src={photo.src} alt={photo.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
+                    <img src={photo.src} alt={photo.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
                   ) : (
                     <Image
                       src={photo.src}
                       alt={photo.title}
                       fill
+                      loading="lazy"
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       unoptimized

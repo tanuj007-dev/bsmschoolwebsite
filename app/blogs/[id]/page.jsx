@@ -39,7 +39,7 @@ export default function BlogPost({ params }) {
             {/* Dynamic Header/Hero Area for the Post */}
             <div className="relative h-[50vh] md:h-[60vh] min-h-[400px] w-full overflow-hidden">
                 {post.image?.startsWith?.("data:") ? (
-                    <img src={post.image} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
                 ) : (
                     <Image
                         src={post.image || "/images/blog/blog-1.webp"}
@@ -154,9 +154,9 @@ export default function BlogPost({ params }) {
                                 <Link key={related.id} href={`/blogs/${related.id}`} className="group flex gap-4 items-start">
                                     <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
                                         {related.image?.startsWith?.("data:") ? (
-                                            <img src={related.image} alt={related.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                            <img src={related.image} alt={related.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                         ) : (
-                                            <Image src={related.image || "/images/blog/blog-1.webp"} alt={related.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                            <Image src={related.image || "/images/blog/blog-1.webp"} alt={related.title} fill loading="lazy" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                                         )}
                                     </div>
                                     <div>

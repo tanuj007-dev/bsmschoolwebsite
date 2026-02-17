@@ -35,16 +35,18 @@ const LimitedSeatsCTA = () => {
             show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          {/* Background */}
-          <div className="absolute inset-0">
+          {/* Background - school image */}
+          <div className="absolute inset-0 bg-gray-200">
             <img
-              src="/images/bsm_public_school_building_1769562460953.webp"
-              alt="School Campus"
+              src="/bsm_public_school_building_1769562460953.png"
+              alt=""
               className="h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </div>
 
-          {/* Overlay */}
+          {/* Overlay - keeps text readable over school image */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-[#7A0C0C]/80 to-black/40" />
 
           {/* Content */}

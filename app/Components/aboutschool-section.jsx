@@ -1,7 +1,17 @@
-import React from "react";
-import { Quote, Award, Users, BookOpen } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { Award, Users, BookOpen } from "lucide-react";
+
+const CAMPUS_IMAGE_PRIMARY = "/IMG_3069.JPG.jpeg";
+const CAMPUS_IMAGE_FALLBACK = "/bsm_public_school_building_1769562460953.png";
 
 const AboutSchoolSection = () => {
+  const [imgSrc, setImgSrc] = useState(CAMPUS_IMAGE_PRIMARY);
+
+  const handleImageError = () => {
+    setImgSrc(CAMPUS_IMAGE_FALLBACK);
+  };
   return (
     <section className="w-full bg-white py-14 px-4 md:py-24 md:px-12 lg:px-24 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -95,9 +105,12 @@ const AboutSchoolSection = () => {
             {/* Main Image */}
             <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl md:shadow-2xl transform hover:scale-[1.01] transition-transform duration-500">
               <img
-                src="/images/bsm_public_school_building_1769562460953.png"
+                src={imgSrc}
                 alt="BSM Campus Life"
                 className="w-full h-auto object-cover aspect-[4/3]"
+                loading="lazy"
+                decoding="async"
+                onError={handleImageError}
               />
             </div>
 

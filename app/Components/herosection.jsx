@@ -14,7 +14,7 @@ const HeaderHero = () => {
       {/* ================= HERO IMAGE (NO EFFECT AT ALL) ================= */}
       <div className="relative w-full h-[280px] sm:h-[360px] md:h-[460px] lg:h-[560px] min-h-[260px]">
         <Image
-          src="/12345.webp"
+          src="/2.jpg.jpeg"
           alt="Hero Banner"
           fill
           priority
