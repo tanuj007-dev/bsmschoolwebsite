@@ -35,7 +35,7 @@ export const facilityCards = [
     title: "Clean Washrooms & Hygiene",
     description:
       "Well-maintained, hygienic washroom facilities across the campus ensuring cleanliness, safety and comfort for all students.",
-    video: "/boyswashroom.mp4",
+    video: "/boyswashroom.MP4",
   },
   {
     slug: "sports-physical-education",
