@@ -9,15 +9,28 @@ import { DEFAULT_GALLERY_CATEGORIES } from "../data/seedGallery";
 const galleryCategories = ["All", ...DEFAULT_GALLERY_CATEGORIES];
 
 const GallerySection = () => {
-  const images = useGalleryStore((state) => state.images);
+  const storeImages = useGalleryStore((state) => state.images);
+  const getImages = useGalleryStore((state) => state.getImages);
   const hydrate = useGalleryStore((state) => state.hydrate);
+  const [apiPhotos, setApiPhotos] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/gallery", { cache: "no-store" })
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (!cancelled && Array.isArray(data)) setApiPhotos(data);
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     hydrate();
   }, [hydrate]);
 
-  const galleryPhotos = images;
-  const [activeCategory, setActiveCategory] = useState("All");
+  const galleryPhotos = apiPhotos !== null ? apiPhotos : (storeImages?.length ? storeImages : (getImages?.() ?? []));
 
   const filteredPhotos = activeCategory === "All"
     ? galleryPhotos
@@ -80,8 +93,8 @@ const GallerySection = () => {
               >
                 {/* Image Wrapper - no rotation */}
                 <div className="absolute inset-0 overflow-hidden bg-gray-200">
-                  {photo.src?.startsWith?.("data:") ? (
-                    <img src={photo.src} alt={photo.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" />
+                  {photo.src?.startsWith?.("data:") || photo.src?.startsWith?.("http") ? (
+                    <img src={photo.src} alt={photo.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" referrerPolicy="no-referrer" />
                   ) : (
                     <Image
                       src={photo.src}

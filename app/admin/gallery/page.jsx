@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,11 +10,20 @@ import { DEFAULT_GALLERY_CATEGORIES } from "../../data/seedGallery";
 
 export default function AdminGalleryPage() {
   const { images, updateImage, deleteImage } = useGallery();
+  const [apiImages, setApiImages] = useState(null);
   const [filter, setFilter] = useState("All");
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ title: "", desc: "", category: "Other" });
 
-  const filtered = filter === "All" ? images : images.filter((img) => img.category === filter);
+  useEffect(() => {
+    fetch("/api/gallery", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => Array.isArray(data) && setApiImages(data))
+      .catch(() => {});
+  }, []);
+
+  const list = apiImages !== null ? apiImages : images;
+  const filtered = filter === "All" ? list : list.filter((img) => img.category === filter);
 
   const startEdit = (img) => {
     setEditingId(img.id);
@@ -24,6 +33,7 @@ export default function AdminGalleryPage() {
   const saveEdit = () => {
     if (editingId) {
       updateImage(editingId, editForm);
+      if (apiImages !== null) setApiImages((prev) => prev?.map((img) => (img.id === editingId ? { ...img, ...editForm } : img)) ?? prev);
       setEditingId(null);
     }
   };
@@ -31,6 +41,7 @@ export default function AdminGalleryPage() {
   const handleDelete = (id, title) => {
     if (!window.confirm(`Delete "${title}"?`)) return;
     deleteImage(id);
+    if (apiImages !== null) setApiImages((prev) => prev?.filter((img) => img.id !== id) ?? prev);
   };
 
   return (
@@ -70,7 +81,7 @@ export default function AdminGalleryPage() {
         ))}
       </div>
 
-      {images.length === 0 ? (
+      {list.length === 0 ? (
         <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-12 text-center text-slate-500 dark:text-slate-400">
           <ImageIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
           <p>No images yet. Add an image by URL or upload files.</p>
@@ -97,8 +108,8 @@ export default function AdminGalleryPage() {
                 className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden group"
               >
                 <div className="relative aspect-square">
-                  {img.src?.startsWith("data:") ? (
-                    <img src={img.src} alt={img.title} className="w-full h-full object-cover" />
+                  {img.src?.startsWith("data:") || img.src?.startsWith("http") ? (
+                    <img src={img.src} alt={img.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   ) : (
                     <Image
                       src={img.src}

@@ -2,19 +2,18 @@
   "name": "nfci",
   "version": "0.1.0",
   "private": true,
-
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
-
   "dependencies": {
     "@tiptap/extension-image": "^3.19.0",
     "@tiptap/extension-link": "^3.19.0",
     "@tiptap/extension-placeholder": "^3.19.0",
     "@tiptap/react": "^3.19.0",
     "@tiptap/starter-kit": "^3.19.0",
+    "@vercel/blob": "^2.2.0",
     "aos": "^2.3.4",
     "framer-motion": "^12.28.1",
     "lucide-react": "^0.562.0",
@@ -25,7 +24,6 @@
     "uuid": "^13.0.0",
     "zustand": "^5.0.11"
   },
-
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "20.12.7",

@@ -95,6 +95,50 @@ export default function UploadGalleryPage() {
     e.preventDefault();
     if (!previews.length) return;
     setUploading(true);
+
+    try {
+      const formData = new FormData();
+      for (let i = 0; i < previews.length; i++) {
+        const dataUrl = previews[i];
+        const res = await fetch(dataUrl);
+        const blob = await res.blob();
+        const name = files[i]?.name || `image-${i + 1}.jpg`;
+        formData.append("file", blob, name);
+      }
+      formData.set("category", category);
+      formData.set("title", title);
+      formData.set("desc", desc);
+
+      const apiRes = await fetch("/api/gallery/upload", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      if (apiRes.ok) {
+        const data = await apiRes.json();
+        setFiles([]);
+        setPreviews([]);
+        setTitle("");
+        setDesc("");
+        showToast(`Uploaded ${data.added} image(s). They will appear for all visitors.`);
+        router.push("/admin/gallery");
+        return;
+      }
+
+      if (apiRes.status === 401) {
+        showToast("Please log in again.");
+        setUploading(false);
+        return;
+      }
+      if (apiRes.status === 503) {
+        const err = await apiRes.json();
+        showToast(err.error || "Gallery storage not configured. Add a Vercel Blob store.");
+        setUploading(false);
+        return;
+      }
+    } catch (_) {}
+
     const existingSrcs = new Set((images || []).map((img) => img.src).filter(Boolean));
     let added = 0;
     let duplicates = 0;
@@ -121,11 +165,12 @@ export default function UploadGalleryPage() {
     if (duplicates > 0) {
       showToast(
         added > 0
-          ? `${duplicates} duplicate image(s) skipped. ${added} new image(s) added.`
-          : "All selected images are already in the gallery. No images added."
+          ? `${duplicates} duplicate(s) skipped. ${added} added (local only).`
+          : "All already in gallery (local)."
       );
       return;
     }
+    showToast("Saved locally. Add Vercel Blob for site-wide gallery.");
     router.push("/admin/gallery");
   };
 
