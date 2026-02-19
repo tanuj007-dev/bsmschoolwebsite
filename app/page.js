@@ -12,11 +12,9 @@ function SectionSkeleton({ height = "h-64" }) {
   );
 }
 
-// ─── Note: ssr:false is only valid inside Client Components.
-//     This is a Server Component (page.js has no "use client").
-//     We use dynamic() with ssr:true (default) + Suspense for code splitting.
-//     Each section is split into its own chunk, improving Time-to-Interactive
-//     since the browser can parse them in parallel after hydration.
+// ─── Code splitting: each section is a separate chunk (smaller initial JS).
+//     ssr: false is only allowed in Client Components (Next.js 16), so we use
+//     default ssr: true here and rely on skeletons for perceived performance.
 
 const AppreciationSlider = dynamic(
   () => import("./Components/appreciation-section"),

@@ -80,9 +80,25 @@ export async function POST(request) {
       allowOverwrite: true,
     });
 
-    return NextResponse.json({ success: true, added: newEntries.length, total: updatedList.length });
+    return NextResponse.json(
+      { success: true, added: newEntries.length, total: updatedList.length },
+      {
+        headers: {
+          "Cache-Control": "private, no-store, no-cache, max-age=0, must-revalidate",
+          Pragma: "no-cache",
+        },
+      }
+    );
   } catch (err) {
     console.error("[POST /api/gallery/upload]", err);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Upload failed" },
+      {
+        status: 500,
+        headers: {
+          "Cache-Control": "private, no-store, no-cache, max-age=0, must-revalidate",
+        },
+      }
+    );
   }
 }

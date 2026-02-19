@@ -16,7 +16,7 @@ const StickyWhatsAppEnroll = () => {
       initial={{ x: -80, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed left-3 top-1/2 -translate-y-1/2 z-[9999]"
+      className="fixed left-0 top-1/2 -translate-y-1/2 z-[9999] pl-[max(3rem,env(safe-area-inset-left))]"
     >
       {/* Bubble Trail (load only) */}
       <div className="absolute inset-0 pointer-events-none">

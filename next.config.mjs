@@ -34,6 +34,27 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // API routes: never cache dynamic data (gallery, login, etc.)
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store, no-cache, max-age=0, must-revalidate",
+          },
+          { key: "Pragma", value: "no-cache" },
+        ],
+      },
+      {
+        source: "/student-login/api/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store, no-cache, max-age=0, must-revalidate",
+          },
+          { key: "Pragma", value: "no-cache" },
+        ],
+      },
+      {
         // Cache static assets aggressively (Next.js handles cache-busting with hashes)
         source: "/_next/static/:path*",
         headers: [

@@ -75,17 +75,23 @@
 }
 
 html {
-  /* Buttery-smooth scrolling site-wide */
+  /* Fill viewport; smooth scroll */
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  /* Always reserve space for scrollbar to prevent flicker (appear/disappear) on desktop */
+  overflow-y: scroll;
   scroll-behavior: smooth;
-  /* Prevent layout shift from scrollbar appearance */
-  scrollbar-gutter: stable;
 }
 
 body {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  /* GPU-composited text rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeSpeed;
@@ -190,4 +196,25 @@ h6 {
 
 .page-enter {
   animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* ─── Moving border button (hero) ────────────────────────────────────── */
+@keyframes border-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes border-rotate-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-border-rotate {
+  animation: border-rotate 4s linear infinite;
+}
+
+.animate-border-rotate-reverse {
+  animation: border-rotate-reverse 4s linear infinite;
 }

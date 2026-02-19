@@ -28,6 +28,7 @@ export default function StudentLogin() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ admissionNo, dob }),
+        cache: "no-store",
       });
 
       const data = await res.json();

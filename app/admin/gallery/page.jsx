@@ -107,7 +107,7 @@ export default function AdminGalleryPage() {
                 className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden group"
               >
                 <div className="relative aspect-square">
-                  {img.src?.startsWith("data:") || img.src?.startsWith("http") ? (
+                  {img.src?.startsWith("data:") ? (
                     <img src={img.src} alt={img.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   ) : (
                     <Image
@@ -116,6 +116,7 @@ export default function AdminGalleryPage() {
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 50vw, 20vw"
+                      unoptimized={typeof img.src === "string" && /blob\.vercel-storage\.com/.test(img.src)}
                     />
                   )}
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">

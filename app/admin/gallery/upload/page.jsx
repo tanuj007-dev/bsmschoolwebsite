@@ -113,6 +113,7 @@ export default function UploadGalleryPage() {
         method: "POST",
         body: formData,
         credentials: "include",
+        cache: "no-store",
       });
 
       if (apiRes.ok) {

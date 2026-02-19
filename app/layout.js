@@ -1,9 +1,15 @@
 import { Source_Sans_3 } from "next/font/google";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import SiteLayout from "./Components/SiteLayout";
 import ThemeProvider from "./Components/ThemeProvider";
 import MotionProvider from "./Components/MotionProvider";
-import ErrorBoundary from "./Components/ErrorBoundary";
+
+// Code-split error UI so critical path stays smaller; still SSR so no flash.
+const ErrorBoundary = dynamic(
+  () => import("./Components/ErrorBoundary"),
+  { ssr: true }
+);
 
 // ❌ Removed: export const dynamic = "force-dynamic"
 // This was forcing EVERY page to SSR on every request, bypassing static caching.
@@ -15,6 +21,14 @@ const sourceSans3 = Source_Sans_3({
   display: "swap",
   preload: true,
 });
+
+// Prevent zoomed-out mobile view and black letterbox bars; ensure 1:1 scale.
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#ffffff",
+};
 
 export const metadata = {
   title: {

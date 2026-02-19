@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 import { m, AnimatePresence } from "framer-motion";
 import { useGalleryStore } from "../store/galleryStore";
 
 const galleryCategories = ["Events", "Sports"];
 
-const GallerySection = () => {
+const GallerySection = memo(function GallerySection() {
   const storeImages = useGalleryStore((state) => state.images);
   const getImages = useGalleryStore((state) => state.getImages);
   const hydrate = useGalleryStore((state) => state.hydrate);
@@ -30,11 +30,10 @@ const GallerySection = () => {
   }, [hydrate]);
 
   const galleryPhotos = apiPhotos !== null ? apiPhotos : (storeImages?.length ? storeImages : (getImages?.() ?? []));
-
-  const filteredPhotos = galleryPhotos.filter(photo => photo.category === activeCategory);
-
-  // Same size for all cards: single aspect ratio so every div is equal.
-  const getGridClass = () => "aspect-[4/3]";
+  const filteredPhotos = useMemo(
+    () => galleryPhotos.filter((photo) => photo.category === activeCategory),
+    [galleryPhotos, activeCategory]
+  );
 
   return (
     <section className="bg-[#FFFDF9] min-h-screen relative font-sans">
@@ -84,7 +83,7 @@ const GallerySection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.35, delay: Math.min(index * 0.02, 0.3) }}
-                className={`group relative block overflow-hidden rounded-xl md:rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-200 ${getGridClass(index)}`}
+                className="group relative block overflow-hidden rounded-xl md:rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-200 aspect-4/3"
               >
                 {/* Image Wrapper - no rotation */}
                 <div className="absolute inset-0 overflow-hidden bg-gray-100 flex items-center justify-center">
@@ -102,7 +101,7 @@ const GallerySection = () => {
                   )}
 
                   {/* Premium Glass Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
                   {/* Hover Border Effect */}
                   <div className="absolute inset-4 border border-white/20 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500" />
@@ -114,6 +113,6 @@ const GallerySection = () => {
       </div>
     </section>
   );
-};
+});
 
 export default GallerySection;

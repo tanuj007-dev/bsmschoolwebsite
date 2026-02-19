@@ -76,77 +76,54 @@ const HeaderHero = () => {
   const closeModal = useCallback(() => setOpen(false), []);
 
   return (
-    <section className="relative w-full overflow-hidden bg-white">
+    <section className="relative w-full min-w-0 overflow-x-hidden bg-white">
 
       {/* ── HERO IMAGES ────────────────────────────────────────────────── */}
-      <div className="relative w-full h-[280px] sm:h-[360px] md:h-[460px] lg:h-[560px] min-h-[260px]">
+      <div className="relative w-full min-h-[280px] md:min-h-0 md:h-[460px] lg:h-[560px]">
+        {/* Mobile: full image, no crop — container fits 4:5 image so nothing is cut */}
+        <div className="relative w-full aspect-[4/5] min-h-[min(80vh,125vw)] md:hidden">
+          <Image
+            src="/ADMISSIONS%20NOW%20OPEN%20-%202026%20(Instagram%20Post%20(45)).png"
+            alt="BSM Public School Admissions Open 2026"
+            fill
+            priority
+            fetchPriority="high"
+            sizes="100vw"
+            className="object-contain object-center"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+          />
+        </div>
+        {/* Desktop: fixed height, cover */}
+        <div className="relative w-full h-[460px] lg:h-[560px] hidden md:block">
+          <Image
+            src="/2.jpg.jpeg"
+            alt="B.S.M. Public School Campus Banner"
+            fill
+            priority
+            fetchPriority="high"
+            sizes="(min-width: 769px) 100vw, 0vw"
+            className="object-cover object-left sm:object-center"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AJQAB/9k="
+          />
+        </div>
 
-        {/* Mobile Image — priority + fetchPriority drives LCP */}
-        <Image
-          src="/ADMISSIONS%20NOW%20OPEN%20-%202026%20(Instagram%20Post%20(45)).png"
-          alt="BSM Public School Admissions Open 2026"
-          fill
-          priority
-          fetchPriority="high"
-          sizes="(max-width: 768px) 100vw, 0vw"
-          className="block md:hidden object-cover object-center"
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-        />
-
-        {/* Desktop Image */}
-        <Image
-          src="/2.jpg.jpeg"
-          alt="B.S.M. Public School Campus Banner"
-          fill
-          priority
-          fetchPriority="high"
-          sizes="(min-width: 769px) 100vw, 0vw"
-          className="hidden md:block object-cover object-left sm:object-center"
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AJQAB/9k="
-        />
-
-        {/* ── ENROLL NOW BUTTON ───────────────────────────────────────── */}
-        <div className="absolute bottom-10 sm:bottom-16 md:bottom-20
-          left-6 sm:left-12 md:left-20 z-20 flex items-center justify-start">
-
-          <m.button
+        {/* ── ENROLL NOW (moving border button) — hidden on mobile; shown in appreciation-section instead */}
+        <div className="absolute bottom-10 sm:bottom-16 md:bottom-20 left-6 sm:left-12 md:left-20 z-20 hidden md:flex items-center justify-start">
+          <button
+            type="button"
             onClick={openModal}
-            animate={reducedMotion ? false : { y: [0, -5, 0] }}
-            transition={{ y: { repeat: Infinity, duration: 3, ease: "easeInOut" } }}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.98 }}
             aria-label="Open enrollment modal"
-            className="relative group px-8 sm:px-12 py-3 sm:py-4
-              text-sm sm:text-lg rounded-full font-bold tracking-wider
-              text-white bg-linear-to-br from-[#8B0000] via-[#B22222] to-[#5c0000]
-              shadow-lg overflow-hidden
-              transition-shadow duration-300 hover:shadow-xl"
+            className={`relative rounded-full p-[2px] overflow-visible  `}
+            
           >
-            {!reducedMotion && (
-              <span className="absolute top-0 left-[-120%] w-full h-full
-                bg-linear-to-r from-transparent via-white/30 to-transparent
-                rotate-12 group-hover:left-[120%] transition-all duration-500
-                pointer-events-none"
-              />
-            )}
-
-            <span className="relative flex items-center gap-3">
-              ENROLL NOW
-              {reducedMotion ? (
-                <span aria-hidden="true">→</span>
-              ) : (
-                <m.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-                  aria-hidden="true"
-                >
-                  →
-                </m.span>
-              )}
+            <span
+              className={`flex items-center gap-2 rounded-full bg-[#7A0C0C] px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base font-bold tracking-wider text-white `}
+            >
+              ENROLL NOW →
             </span>
-          </m.button>
+          </button>
         </div>
       </div>
 

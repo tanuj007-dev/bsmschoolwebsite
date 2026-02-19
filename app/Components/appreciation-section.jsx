@@ -3,6 +3,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
+const WHATSAPP_NUMBER = "917303061386";
+const WA_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+
 const slides = [
   {
     id: 1,
@@ -87,6 +90,19 @@ export default function AppreciationSlider() {
   return (
     <section className="w-full py-14 bg-white overflow-hidden font-sans">
       <div className="container-wide px-4">
+        {/* ENROLL NOW — same moving-border style as hero; top center on mobile only */}
+        <a
+          href={WA_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="md:hidden flex items-center justify-center w-full mb-6 rounded-full p-[2px] overflow-visible  "
+          
+          aria-label="Enroll now via WhatsApp"
+        >
+          <span className="flex items-center gap-2 rounded-full bg-[#7A0C0C] px-8 py-3 text-sm font-bold tracking-wider text-white">
+            ENROLL NOW →
+          </span>
+        </a>
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row min-h-[480px]">
           {/* MEDIA - lazy loaded video; center crop (top and bottom cut) */}
           <div className="relative md:w-[35%] h-[300px] md:h-auto overflow-hidden bg-gray-100 shrink-0">
