@@ -32,8 +32,8 @@ function LazyAchievementCard({ item }) {
   }, []);
 
   return (
-    <div ref={cardRef} className="rounded-3xl overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-500">
-      <div className="relative h-[260px] w-full bg-gray-100">
+    <div ref={cardRef} className="rounded-2xl md:rounded-3xl overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-500">
+      <div className="relative h-[200px] sm:h-[240px] md:h-[260px] w-full bg-gray-100">
         {shouldLoad ? (
           <Image
             src={item.image}
@@ -49,9 +49,9 @@ function LazyAchievementCard({ item }) {
         )}
 
       </div>
-      <div className="bg-[#7A0C0C] p-6 text-center">
+      <div className="bg-[#7A0C0C] p-4 md:p-6 text-center">
         {item.rank && <p className="text-white/80 text-sm mb-2">{item.rank}</p>}
-        <h3 className="text-white text-xl font-semibold">{item.achievement}</h3>
+        <h3 className="text-white text-lg md:text-xl font-semibold">{item.achievement}</h3>
       </div>
     </div>
   );
@@ -121,13 +121,13 @@ export default function AwardsAchievementsSlider() {
   };
 
   return (
-    <section className="bg-[#F9F5F5] py-20 px-4">
+    <section className="bg-[#F9F5F5] py-14 sm:py-20 px-3 sm:px-4">
       <div className="container-wide">
-        <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-semibold text-[#7A0C0C]">
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#7A0C0C]">
             Awards & Achievements
           </h2>
-          <div className="w-20 h-[3px] bg-[#7A0C0C] mx-auto mt-4" />
+          <div className="w-20 h-[3px] bg-[#7A0C0C] mx-auto mt-3 md:mt-4" />
         </div>
 
         <div
@@ -135,20 +135,20 @@ export default function AwardsAchievementsSlider() {
           onMouseEnter={() => (isHovered.current = true)}
           onMouseLeave={() => (isHovered.current = false)}
         >
+          {/* Desktop: floating left/right buttons */}
           <button
             type="button"
             onClick={slideLeft}
             aria-label="Previous slide"
-            className="absolute -left-6 md:-left-10 top-1/2 -translate-y-1/2 z-20 h-12 w-12 flex items-center justify-center rounded-full bg-[#7A0C0C] text-white hover:scale-110 transition-transform duration-300 shadow-xl"
+            className="hidden md:flex absolute -left-10 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center rounded-full bg-[#7A0C0C] text-white hover:bg-[#961212] hover:scale-110 active:scale-95 transition-all duration-300 shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0C0C] focus-visible:ring-offset-2"
           >
             <ChevronLeft size={22} />
           </button>
-
           <button
             type="button"
             onClick={slideRight}
             aria-label="Next slide"
-            className="absolute -right-6 md:-right-10 top-1/2 -translate-y-1/2 z-20 h-12 w-12 flex items-center justify-center rounded-full bg-[#7A0C0C] text-white hover:scale-110 transition-transform duration-300 shadow-xl"
+            className="hidden md:flex absolute -right-10 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center rounded-full bg-[#7A0C0C] text-white hover:bg-[#961212] hover:scale-110 active:scale-95 transition-all duration-300 shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0C0C] focus-visible:ring-offset-2"
           >
             <ChevronRight size={22} />
           </button>
@@ -158,20 +158,42 @@ export default function AwardsAchievementsSlider() {
               className="flex"
               animate={{ x: `-${index * (100 / itemsToShow)}%` }}
               transition={{
-                duration: noTransition ? 0 : 0.6,
-                ease: [0.25, 0.46, 0.45, 0.94],
+                duration: noTransition ? 0 : 0.5,
+                ease: [0.32, 0.72, 0, 1],
               }}
             >
               {extendedData.map((item, i) => (
                 <div
                   key={`${item.id}-${i}`}
-                  className="px-4 shrink-0"
+                  className="px-2 sm:px-4 shrink-0"
                   style={{ width: `${100 / itemsToShow}%` }}
                 >
                   <LazyAchievementCard item={item} />
                 </div>
               ))}
             </m.div>
+          </div>
+
+          {/* Mobile: Previous & Next below slider */}
+          <div className="flex md:hidden items-center justify-center gap-4 mt-6">
+            <button
+              type="button"
+              onClick={slideLeft}
+              aria-label="Previous"
+              className="flex items-center gap-2 rounded-full bg-[#7A0C0C] text-white px-5 py-3 text-sm font-semibold shadow-lg transition-all duration-200 hover:bg-[#961212] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0C0C] focus-visible:ring-offset-2"
+            >
+              <ChevronLeft size={20} />
+              
+            </button>
+            <button
+              type="button"
+              onClick={slideRight}
+              aria-label="Next"
+              className="flex items-center gap-2 rounded-full bg-[#7A0C0C] text-white px-5 py-3 text-sm font-semibold shadow-lg transition-all duration-200 hover:bg-[#961212] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0C0C] focus-visible:ring-offset-2"
+            >
+              
+              <ChevronRight size={20} />
+            </button>
           </div>
         </div>
       </div>

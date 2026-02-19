@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState, memo } from "react";
 import Image from "next/image";
 import { m } from "framer-motion";
 import { FaInstagram } from "react-icons/fa6";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const youtubeVideos = [
   {
@@ -21,18 +22,17 @@ const youtubeVideos = [
 ];
 
 const localReels = [
-  { id: 1, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497588/babuman1_hxg5mm.mp4" },
-  { id: 2, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497619/bsmall_hmerqs.mp4" },
-  { id: 3, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497639/celebrity_dootj1.mp4" },
-  { id: 4, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497663/khalifirst_ftmfgn.mp4" },
-  { id: 5, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497668/khalisecond_rlbepl.mp4" },
+  { id: 1, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497588/babuman1_hxg5mm.mp4", title: "Cultural Performance", subtitle: "Annual Day • B.S.M Karala" },
+  { id: 2, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497619/bsmall_hmerqs.mp4", title: "School Events", subtitle: "Highlights • Student Life" },
+  { id: 3, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497639/celebrity_dootj1.mp4", title: "Celebrations", subtitle: "Special Events • B.S.M" },
+  { id: 4, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497663/khalifirst_ftmfgn.mp4", title: "Achievements", subtitle: "Excellence • Discipline • Growth" },
+  { id: 5, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497668/khalisecond_rlbepl.mp4", title: "Life at B.S.M", subtitle: "Learning • Together" },
 ];
 
 /**
  * ✅ LazyReel: loads & autoplays video ONLY when it enters the viewport.
- *    Prevents 5 simultaneous video downloads on page load.
  */
-const LazyReel = memo(function LazyReel({ path, index }) {
+const LazyReel = memo(function LazyReel({ path, index, fillContainer }) {
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
   const videoRef = useRef(null);
@@ -40,12 +40,11 @@ const LazyReel = memo(function LazyReel({ path, index }) {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.disconnect(); // once loaded, stop observing
+          observer.disconnect();
         }
       },
       { rootMargin: "150px", threshold: 0.1 }
@@ -54,18 +53,13 @@ const LazyReel = memo(function LazyReel({ path, index }) {
     return () => observer.disconnect();
   }, []);
 
-  // Pause video when it scrolls out of view to save CPU/battery
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !isVisible) return;
-
     const playObserver = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => { });
-        } else {
-          video.pause();
-        }
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
       },
       { threshold: 0.25 }
     );
@@ -76,11 +70,15 @@ const LazyReel = memo(function LazyReel({ path, index }) {
   return (
     <m.div
       ref={containerRef}
-      initial={{ opacity: 0, scale: 0.92 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, delay: index * 0.07 }}
-      className="relative rounded-2xl overflow-hidden shadow-lg aspect-9/16 bg-gray-200"
+      initial={fillContainer ? {} : { opacity: 0, scale: 0.92 }}
+      whileInView={fillContainer ? {} : { opacity: 1, scale: 1 }}
+      viewport={fillContainer ? undefined : { once: true, margin: "-40px" }}
+      transition={{ duration: 0.4, delay: fillContainer ? 0 : index * 0.07 }}
+      className={
+        fillContainer
+          ? "absolute inset-0 rounded-2xl overflow-hidden bg-gray-200"
+          : "relative rounded-2xl overflow-hidden shadow-lg aspect-9/16 bg-gray-200"
+      }
     >
       {isVisible ? (
         <video
@@ -90,14 +88,32 @@ const LazyReel = memo(function LazyReel({ path, index }) {
           loop
           muted
           playsInline
-          preload="none"   // ✅ none = don't fetch until play() is called
+          preload="none"
         />
       ) : (
-        /* Skeleton placeholder while not in viewport */
         <div className="absolute inset-0 skeleton-shimmer" aria-hidden="true" />
       )}
       <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent pointer-events-none" />
     </m.div>
+  );
+});
+
+/** Mobile-only reel card: video + dark bottom overlay with title, subtitle, yellow accent line */
+const MobileReelCard = memo(function MobileReelCard({ reel, index }) {
+  return (
+    <div className="relative rounded-2xl overflow-hidden shadow-xl bg-gray-200">
+      <div className="relative aspect-9/16">
+        <LazyReel path={reel.path} index={index} fillContainer />
+        {/* Dark overlay at bottom — title (accent), subtitle (white), yellow line */}
+        <div className="absolute bottom-0 left-0 right-0 bg-black/85 px-5 pt-4 pb-5">
+          <h3 className="text-lg font-semibold text-[#7DD3C0]" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
+            {reel.title}
+          </h3>
+          <p className="text-white/90 text-sm mt-1">{reel.subtitle}</p>
+          <div className="h-1 w-10 bg-[#D4AF37] rounded-full mt-3" aria-hidden="true" />
+        </div>
+      </div>
+    </div>
   );
 });
 
@@ -168,38 +184,54 @@ const LazyYouTubeEmbed = memo(function LazyYouTubeEmbed({ video, index }) {
 });
 
 export default function VirtualCampusSection() {
+  const mobileReelRef = useRef(null);
+  const [reelIndex, setReelIndex] = useState(0);
+
+  const scrollToReel = (direction) => {
+    const N = localReels.length;
+    const next =
+      direction === "next"
+        ? (reelIndex + 1) % N
+        : (reelIndex - 1 + N) % N;
+    setReelIndex(next);
+    const el = mobileReelRef.current;
+    if (el) {
+      const card = el.querySelector(`[data-reel-index="${next}"]`);
+      card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
+  };
+
   return (
-    <section className="w-full bg-[#fafafa] py-24">
+    <section className="w-full bg-[#fafafa] py-14 md:py-24">
       <div className="container-wide px-4 md:px-8">
 
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-16">
           <m.h2
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
-            className="font-serif text-4xl md:text-5xl font-semibold text-[#7A0C0C] mb-6"
+            className="font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-[#7A0C0C] mb-4 md:mb-6"
           >
             Life at <span className="text-[#7A0C0C]">B.S.M</span>
           </m.h2>
-          <p className="text-gray-600 text-base">
+          <p className="text-gray-600 text-sm md:text-base">
             Watch our students grow, learn and celebrate together.
           </p>
         </div>
 
-        {/* YouTube Section — thumbnail-first pattern */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+        {/* YouTube Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-16 md:mb-24">
           {youtubeVideos.map((video, index) => (
             <LazyYouTubeEmbed key={video.id} video={video} index={index} />
           ))}
         </div>
 
         {/* Reels heading */}
-        <div className="flex items-center justify-between mb-8">
-          <h3 className="font-serif text-3xl font-semibold text-[#7A0C0C] flex items-center gap-5">
+        <div className="flex items-center justify-between mb-6 md:mb-8">
+          <h3 className="font-serif text-2xl md:text-3xl font-semibold text-[#7A0C0C] flex items-center gap-3 md:gap-5">
             Latest <span className="text-[#7A0C0C]">Highlights</span>
-
             <a
               href="https://www.instagram.com/bsmpublicschoolkarala/"
               target="_blank"
@@ -215,16 +247,51 @@ export default function VirtualCampusSection() {
                 </linearGradient>
               </svg>
               <FaInstagram
-                size={40}
+                size={32}
+                className="md:w-10 md:h-10 transition-transform duration-300 group-hover:scale-110"
                 style={{ fill: "url(#virt-ig-gradient)" }}
-                className="transition-transform duration-300 group-hover:scale-110"
               />
             </a>
           </h3>
         </div>
 
-        {/* Reels Grid — viewport lazy-loaded */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {/* Mobile only: card carousel with dark overlay + Prev/Next below */}
+        <div className="md:hidden">
+          <div
+            ref={mobileReelRef}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 -mx-1 px-1 scrollbar-hide"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
+            {localReels.map((reel, index) => (
+              <div key={reel.id} data-reel-index={index} className="snap-center flex-[0_0_85%] min-w-0">
+                <MobileReelCard reel={reel} index={index} />
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-center gap-4 mt-6">
+            <button
+              type="button"
+              onClick={() => scrollToReel("prev")}
+              aria-label="Previous"
+              className="flex items-center gap-2 rounded-full bg-[#7A0C0C] text-white px-5 py-3 text-sm font-semibold shadow-lg transition-all duration-200 hover:bg-[#961212] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0C0C] focus-visible:ring-offset-2"
+            >
+              <ChevronLeft size={20} />
+              
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToReel("next")}
+              aria-label="Next"
+              className="flex items-center gap-2 rounded-full bg-[#7A0C0C] text-white px-5 py-3 text-sm font-semibold shadow-lg transition-all duration-200 hover:bg-[#961212] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0C0C] focus-visible:ring-offset-2"
+            >
+               
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop: Reels grid */}
+        <div className="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-4">
           {localReels.map((reel, index) => (
             <LazyReel key={reel.id} path={reel.path} index={index} />
           ))}

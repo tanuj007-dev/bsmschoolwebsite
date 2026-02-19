@@ -89,7 +89,7 @@ export default function AppreciationSlider() {
 
   return (
     <section className="w-full py-14 bg-white overflow-hidden font-sans">
-      <div className="container-wide px-4">
+      <div className="container-wide px-3 md:px-4">
         {/* ENROLL NOW — same moving-border style as hero; top center on mobile only */}
         <a
           href={WA_URL}
@@ -121,8 +121,8 @@ export default function AppreciationSlider() {
             </div>
           </div>
 
-          {/* CONTENT - larger right side */}
-          <div className="relative md:w-[65%] p-8 md:p-12 flex flex-col justify-between min-w-0">
+          {/* CONTENT - larger right side; tighter horizontal padding on mobile so text fits with no extra space */}
+          <div className="relative md:w-[65%] px-4 py-6 md:p-12 flex flex-col justify-between min-w-0">
             <Quote
               size={100}
               className="absolute top-8 left-8 text-gray-100 hidden md:block"
