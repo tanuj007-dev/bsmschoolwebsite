@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Send, CheckCircle } from "lucide-react";
 
 const AdmissionsFormSection = () => {
@@ -28,16 +28,16 @@ const AdmissionsFormSection = () => {
               style={{ backgroundImage: "url('/bsm_logo-removebg-preview.webp')", backgroundSize: '300px', backgroundRepeat: 'repeat', filter: 'grayscale(1)' }}></div>
 
             <div className="relative z-10">
-              <motion.span
+              <m.span
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="text-[#D4AF37] text-xs font-bold tracking-[0.2em] uppercase mb-2 block"
               >
                 Join Our Family
-              </motion.span>
+              </m.span>
 
-              <motion.h2
+              <m.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -45,19 +45,19 @@ const AdmissionsFormSection = () => {
               >
                 Start Your <br />
                 <span className="text-[#D4AF37] italic">Journey</span>
-              </motion.h2>
+              </m.h2>
 
-              <motion.p
+              <m.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-white/80 text-sm leading-relaxed mb-6 font-sans font-light"
               >
                 Experience a world-class education that nurtures creativity, character, and excellence.
-              </motion.p>
+              </m.p>
 
               {/* Highlights */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
@@ -75,7 +75,7 @@ const AdmissionsFormSection = () => {
                     <span className="text-white/90 font-medium tracking-wide text-xs">{item}</span>
                   </div>
                 ))}
-              </motion.div>
+              </m.div>
             </div>
           </div>
 

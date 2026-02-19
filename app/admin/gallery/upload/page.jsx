@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowLeft, Upload, RotateCw, RotateCcw } from "lucide-react";
 import { useGallery } from "../../../hooks/useGallery";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../../data/seedGallery";
@@ -188,13 +188,13 @@ export default function UploadGalleryPage() {
         <ArrowLeft className="w-4 h-4" /> Back to Gallery
       </Link>
 
-      <motion.h1
+      <m.h1
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-bold text-slate-800 dark:text-white"
       >
         Upload Images
-      </motion.h1>
+      </m.h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -218,7 +218,7 @@ export default function UploadGalleryPage() {
         </div>
 
         {previews.length > 0 && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             className="grid grid-cols-2 sm:grid-cols-4 gap-4"
@@ -261,7 +261,7 @@ export default function UploadGalleryPage() {
                 )}
               </div>
             ))}
-          </motion.div>
+          </m.div>
         )}
 
         <div>

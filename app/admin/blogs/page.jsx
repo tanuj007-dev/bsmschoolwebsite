@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Plus, Pencil, Trash2, Eye, FileText } from "lucide-react";
 import { useBlogs } from "../../hooks/useBlogs";
 
@@ -45,7 +45,7 @@ export default function AdminBlogsPage() {
           <ul className="divide-y divide-slate-200 dark:divide-slate-700">
             <AnimatePresence>
               {blogs.map((blog, i) => (
-                <motion.li
+                <m.li
                   key={blog.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -96,7 +96,7 @@ export default function AdminBlogsPage() {
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                </motion.li>
+                </m.li>
               ))}
             </AnimatePresence>
           </ul>

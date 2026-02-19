@@ -3,13 +3,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const awardsSliderData = [
-  { id: 1, image: `/${encodeURIComponent("100% attendance.JPG.webp")}`, achievement: "100% Attendance", category: "Attendance Achievement" },
-  { id: 2, image: `/${encodeURIComponent("Academics 1st position.JPG.webp")}`, achievement: "Academics 1st Position", category: "Academic Achievement" },
-  { id: 3, image: `/${encodeURIComponent("Academics 2nd position.JPG.webp")}`, achievement: "Academics 2nd Position", category: "Academic Achievement" },
-  { id: 4, image: `/${encodeURIComponent("Academics 3rd position.JPG.webp")}`, achievement: "Academics 3rd Position", category: "Academic Achievement" },
+  { id: 1, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495688/100_attendance.JPG_whk1sp.webp", achievement: "100% Attendance", category: "Attendance Achievement" },
+  { id: 2, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495722/Academics_1st_position.JPG_okyr9v.webp", achievement: "Academics 1st Position", category: "Academic Achievement" },
+  { id: 3, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495722/Academics_2nd_position.JPG_oohxo7.webp", achievement: "Academics 2nd Position", category: "Academic Achievement" },
+  { id: 4, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495720/Academics_3rd_position.JPG_y0myck.webp", achievement: "Academics 3rd Position", category: "Academic Achievement" },
 ];
 
 const extendedData = [...awardsSliderData, ...awardsSliderData];
@@ -45,11 +45,9 @@ function LazyAchievementCard({ item }) {
             decoding="async"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-gray-300 text-sm">
-            <span className="opacity-0">{item.achievement}</span>
-          </div>
+          <div className="absolute inset-0 skeleton-shimmer" aria-hidden="true" />
         )}
-        
+
       </div>
       <div className="bg-[#7A0C0C] p-6 text-center">
         {item.rank && <p className="text-white/80 text-sm mb-2">{item.rank}</p>}
@@ -74,7 +72,7 @@ export default function AwardsAchievementsSlider() {
       else setItemsToShow(3);
     };
     update();
-    window.addEventListener("resize", update);
+    window.addEventListener("resize", update, { passive: true });
     return () => window.removeEventListener("resize", update);
   }, []);
 
@@ -156,7 +154,7 @@ export default function AwardsAchievementsSlider() {
           </button>
 
           <div className="overflow-hidden">
-            <motion.div
+            <m.div
               className="flex"
               animate={{ x: `-${index * (100 / itemsToShow)}%` }}
               transition={{
@@ -173,7 +171,7 @@ export default function AwardsAchievementsSlider() {
                   <LazyAchievementCard item={item} />
                 </div>
               ))}
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { UserCheck, Presentation, Globe, Lightbulb, GraduationCap } from "lucide-react";
 
 const TeachersEmpowermentSection = () => {
@@ -47,7 +47,7 @@ const TeachersEmpowermentSection = () => {
             <div className="container-wide flex flex-col items-center text-center relative z-10">
 
                 {/* Heading */}
-                <motion.div
+                <m.div
                     className="mb-16 space-y-4"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -60,12 +60,12 @@ const TeachersEmpowermentSection = () => {
                     <h2 className="font-serif text-3xl md:text-4xl text-[#1a0505] leading-tight">
                         Empowering Our <span className="text-[#7A0C0C] italic">Educators</span>
                     </h2>
-                </motion.div>
+                </m.div>
 
                 {/* Features Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                     {features.map((feature, index) => (
-                        <motion.div
+                        <m.div
                             key={index}
                             className={`group relative bg-white p-8 rounded-2xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.06)] hover:shadow-[0_15px_40px_-5px_rgba(0,0,0,0.1)] border border-gray-50 border-b-4 ${feature.borderColor} transition-all duration-300 hover:-translate-y-1`}
                             initial={{ opacity: 0, y: 30 }}
@@ -89,7 +89,7 @@ const TeachersEmpowermentSection = () => {
                             <p className="text-gray-500 text-sm leading-relaxed">
                                 {feature.text}
                             </p>
-                        </motion.div>
+                        </m.div>
                     ))}
                 </div>
 

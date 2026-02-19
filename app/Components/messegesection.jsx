@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Quote } from "lucide-react";
 
 /* ---------------- Smooth Animation Config ---------------- */
@@ -56,7 +56,7 @@ const LeadershipBlock = ({
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28 items-center py-24">
 
       {/* IMAGE */}
-      <motion.div
+      <m.div
         variants={imageVariant}
         initial="hidden"
         whileInView="visible"
@@ -88,10 +88,10 @@ const LeadershipBlock = ({
             isReversed ? "left-8" : "right-8"
           }`}
         />
-      </motion.div>
+      </m.div>
 
       {/* TEXT */}
-      <motion.div
+      <m.div
         variants={textVariant(isReversed)}
         initial="hidden"
         whileInView="visible"
@@ -120,7 +120,7 @@ const LeadershipBlock = ({
             </p>
           ))}
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 };

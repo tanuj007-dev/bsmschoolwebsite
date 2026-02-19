@@ -1,15 +1,16 @@
 "use client";
-import React from "react";
+
+import React, { memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowUpRight, User, Clock, ChevronRight } from "lucide-react";
 import { useBlogs } from "../hooks/useBlogs";
 
-const BlogCard = ({ post, index }) => {
+const BlogCard = memo(function BlogCard({ post, index }) {
   const isDataUrl = post.image?.startsWith?.("data:");
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -77,9 +78,9 @@ const BlogCard = ({ post, index }) => {
           </Link>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
-};
+});
 
 const BlogSection = () => {
   const { blogs } = useBlogs();
@@ -94,15 +95,15 @@ const BlogSection = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row items-end justify-between gap-8 mb-16 px-2">
           <div className="max-w-2xl">
-            <motion.span
+            <m.span
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="text-[#7A0C0C] font-bold tracking-[0.2em] uppercase text-sm mb-3 block"
             >
               School Updates & Insights
-            </motion.span>
-            <motion.h2
+            </m.span>
+            <m.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
@@ -113,10 +114,10 @@ const BlogSection = () => {
                 Our Blog
 
               </span>
-            </motion.h2>
+            </m.h2>
           </div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
@@ -127,7 +128,7 @@ const BlogSection = () => {
               View All Articles
               <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Blog Grid - data from admin store (localStorage) */}

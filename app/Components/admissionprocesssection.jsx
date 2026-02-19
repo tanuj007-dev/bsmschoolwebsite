@@ -99,7 +99,7 @@ const AdmissionProcessSection = () => {
           className={`text-center transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
         >
-          <h2 className="text-[#7A0C0C] font-medium tracking-wide text-[30px] sm:text-[36px] md:text-[44px]">
+          <h2 className="text-[#7A0C0C] font-serif font-semibold text-4xl md:text-5xl">
             Admission Process at B.S.M. Public School
           </h2>
         </div>
@@ -148,14 +148,6 @@ const AdmissionProcessSection = () => {
           ))}
         </div>
 
-        {/* Button */}
-        <div
-          className={`mt-10 flex justify-center transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
-          style={{ transitionDelay: "500ms" }}
-        >
-          
-        </div>
       </div>
     </section>
   );

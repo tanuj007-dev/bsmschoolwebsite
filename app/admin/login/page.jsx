@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Lock, User, School } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -45,7 +45,7 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-900 flex items-center justify-center p-4">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -109,7 +109,7 @@ function LoginForm() {
             Demo: username <strong>admin</strong>, password <strong>admin123</strong>
           </p>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

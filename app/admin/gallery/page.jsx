@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Plus, Pencil, Trash2, Image as ImageIcon, Link as LinkIcon } from "lucide-react";
 import { useGallery } from "../../hooks/useGallery";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../data/seedGallery";
@@ -97,11 +97,10 @@ export default function AdminGalleryPage() {
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="sync">
             {filtered.map((img, i) => (
-              <motion.div
+              <m.div
                 key={img.id}
-                layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
@@ -140,7 +139,7 @@ export default function AdminGalleryPage() {
                   <p className="text-sm font-medium text-slate-800 dark:text-white truncate">{img.title}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">{img.category}</p>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </AnimatePresence>
         </div>
@@ -149,14 +148,14 @@ export default function AdminGalleryPage() {
       {/* Edit modal */}
       <AnimatePresence>
         {editingId && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
             onClick={() => setEditingId(null)}
           >
-            <motion.div
+            <m.div
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
@@ -212,8 +211,8 @@ export default function AdminGalleryPage() {
                   Cancel
                 </button>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

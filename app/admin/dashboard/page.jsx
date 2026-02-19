@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FileText, Image as ImageIcon, TrendingUp, Calendar, ArrowRight } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useBlogs } from "../../hooks/useBlogs";
@@ -24,7 +24,7 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-8">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
@@ -33,13 +33,13 @@ export default function AdminDashboardPage() {
         <p className="text-slate-500 dark:text-slate-400 mt-1">
           Welcome back, {user?.username || "Admin"}. Here’s an overview of your content.
         </p>
-      </motion.div>
+      </m.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <motion.div
+            <m.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -57,12 +57,12 @@ export default function AdminDashboardPage() {
                   </span>
                 </div>
               </Link>
-            </motion.div>
+            </m.div>
           );
         })}
       </div>
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.3 }}
@@ -83,7 +83,7 @@ export default function AdminDashboardPage() {
             <ImageIcon className="w-4 h-4" /> Upload Image
           </Link>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

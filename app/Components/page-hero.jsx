@@ -7,16 +7,20 @@ import { ChevronRight, Home } from "lucide-react";
 const PageHero = ({
     title,
     breadcrumbItems = [],
-    backgroundImage = "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=2069&auto=format&fit=crop", // "Dreamy Kids Playing" Fallback
+    backgroundImage = "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=2069&auto=format&fit=crop", // Fallback CDN
     subtitle
 }) => {
+    // Support local paths (e.g. /gallery/...) and full CDN URLs; JSON.stringify escapes quotes for CSS
+    const bgImage = typeof backgroundImage === "string" && backgroundImage
+        ? backgroundImage
+        : "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=2069&auto=format&fit=crop";
     return (
         <section className="relative w-full h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden">
-            {/* Background Image with Parallax-like fixed position */}
+            {/* Background: local path or CDN URL */}
             <div
                 className="absolute inset-0 z-0 bg-cover bg-center bg-fixed"
                 style={{
-                    backgroundImage: `url('${backgroundImage}')`,
+                    backgroundImage: `url(${JSON.stringify(bgImage)})`,
                 }}
             >
                 <div className="absolute inset-0 bg-black/60"></div>

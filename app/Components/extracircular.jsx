@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 /* ---------------- Animations ---------------- */
 const fadeUp = {
@@ -13,7 +13,7 @@ const fadeUp = {
 /* ---------------- Activity Card ---------------- */
 const ActivityCard = ({ imageSrc, title, items, delay = 0 }) => {
   return (
-    <motion.div
+    <m.div
       variants={fadeUp}
       initial="hidden"
       whileInView="visible"
@@ -56,7 +56,7 @@ const ActivityCard = ({ imageSrc, title, items, delay = 0 }) => {
           ))}
         </ul>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -100,7 +100,7 @@ const ExtraCurricular = () => {
       <div className="container-wide">
 
         {/* Header */}
-        <motion.div
+        <m.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
@@ -130,7 +130,7 @@ const ExtraCurricular = () => {
               and grow into responsible, confident individuals.
             </p>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

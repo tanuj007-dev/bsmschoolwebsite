@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Calendar, User, Clock, ArrowLeft, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useBlogs } from '../../hooks/useBlogs';
 
@@ -52,7 +52,7 @@ export default function BlogPost({ params }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
                 <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 lg:p-20 text-white max-w-5xl mx-auto">
-                    <motion.div
+                    <m.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
@@ -81,14 +81,14 @@ export default function BlogPost({ params }) {
                                 <span>{post.readTime}</span>
                             </div>
                         </div>
-                    </motion.div>
+                    </m.div>
                 </div>
             </div>
 
             <div className="container-wide px-4 md:px-8 mt-12 grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-12">
 
                 {/* Main Content Area */}
-                <motion.div
+                <m.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -129,7 +129,7 @@ export default function BlogPost({ params }) {
                             </button>
                         </div>
                     </div>
-                </motion.div>
+                </m.div>
 
                 {/* Sidebar */}
                 <aside className="space-y-8">

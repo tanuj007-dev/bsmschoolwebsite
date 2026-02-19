@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Atom, Rocket, Landmark, ChevronLeft, ChevronRight, Music, Trophy, Palette } from "lucide-react";
 
 const WowEventsSection = () => {
@@ -77,7 +77,7 @@ const WowEventsSection = () => {
             <div className="container-wide flex flex-col items-center relative">
 
                 {/* Heading */}
-                <motion.h2
+                <m.h2
                     className="font-serif text-3xl md:text-5xl text-[#1a1a1a] mb-20 text-center"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ const WowEventsSection = () => {
                     transition={{ duration: 0.6 }}
                 >
                     Events That Created a ‘Wow’ Factor
-                </motion.h2>
+                </m.h2>
 
                 {/* Content Wrapper with Arrows */}
                 <div className="relative w-full flex items-center justify-center">
@@ -100,9 +100,9 @@ const WowEventsSection = () => {
 
                     {/* Grid Display (Carousel) */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-16 w-full px-8 md:px-12 lg:px-16 overflow-hidden">
-                        <AnimatePresence mode="popLayout">
+                        <AnimatePresence mode="sync">
                             {getVisibleEvents().map((event, index) => (
-                                <motion.div
+                                <m.div
                                     key={`${currentIndex}-${index}`}
                                     className="flex flex-col items-center text-center group min-w-0"
                                     initial={{ opacity: 0, x: 50 }}
@@ -124,7 +124,7 @@ const WowEventsSection = () => {
                                     <p className="text-gray-500 text-sm leading-relaxed">
                                         {event.text}
                                     </p>
-                                </motion.div>
+                                </m.div>
                             ))}
                         </AnimatePresence>
                     </div>

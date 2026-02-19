@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useMotionValue, animate } from "framer-motion";
+import { m, useMotionValue, animate } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { facilityCards } from "./school-features";
 
@@ -109,10 +109,10 @@ export default function PremiumFacilitiesSection() {
     <section className="w-full py-24 bg-white overflow-hidden">
       <div className="container-wide px-6">
         <div className="text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-sans font-semibold tracking-tight text-[#1a2b5d]">
+          <h2 className="text-4xl md:text-5xl font-sans font-semibold tracking-tight text-[#7A0C0C]">
             Premium Facilities
           </h2>
-          <div className="h-[3px] w-20 bg-[#D4AF37] mx-auto mt-6 rounded-full" />
+          <div className="h-[3px] w-20 bg-[#7A0C0C] mx-auto mt-6 rounded-full" />
         </div>
 
         <div className="relative overflow-visible">
@@ -137,14 +137,14 @@ export default function PremiumFacilitiesSection() {
           <div className="relative overflow-hidden select-none">
             {/* Left edge gradient */}
             <div
-            className="pointer-events-none absolute left-0 top-0 bottom-0 w-5 sm:w-6 z-10 bg-gradient-to-r from-[#fcfcfc] to-transparent"
-            aria-hidden
-          />
+              className="pointer-events-none absolute left-0 top-0 bottom-0 w-5 sm:w-6 z-10 bg-linear-to-r from-[#fcfcfc] to-transparent"
+              aria-hidden
+            />
           <div
-            className="pointer-events-none absolute right-0 top-0 bottom-0 w-5 sm:w-6 z-10 bg-gradient-to-l from-[#fcfcfc] to-transparent"
+            className="pointer-events-none absolute right-0 top-0 bottom-0 w-5 sm:w-6 z-10 bg-linear-to-l from-[#fcfcfc] to-transparent"
             aria-hidden
           />
-            <motion.div
+            <m.div
               ref={trackRef}
               style={{ x, willChange: "transform" }}
               className="flex gap-8 w-max"
@@ -155,7 +155,7 @@ export default function PremiumFacilitiesSection() {
               {duplicated.map((item, index) => (
                 <LazyFacilityCard key={`${item.slug}-${index}`} item={item} index={index} />
               ))}
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </div>

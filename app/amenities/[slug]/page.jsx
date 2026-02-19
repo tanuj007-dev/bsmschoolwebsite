@@ -73,9 +73,9 @@ export default function AmenitySlugPage() {
 
         <div
           ref={videoWrapRef}
-          className="w-full min-h-[calc(100vh-280px)] flex items-start justify-center px-2 py-6 md:py-8"
+          className="w-full min-h-[calc(100vh-280px)] flex items-start justify-start px-4 md:px-8 py-6 md:py-8"
         >
-          <div className="relative h-[95vh] max-h-[900px] aspect-9/16 w-auto mx-auto rounded-2xl overflow-hidden shadow-2xl bg-[#0a0a0a]">
+          <div className="relative h-[95vh] max-h-[900px] aspect-9/16 w-auto rounded-2xl overflow-hidden shadow-2xl bg-[#0a0a0a]">
             {videoInView ? (
               <video
                 src={facility.video}

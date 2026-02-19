@@ -1,24 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Mail } from "lucide-react";
+import { FaInstagram, FaYoutube } from "react-icons/fa";
+import { BiLogoFacebookSquare } from "react-icons/bi";
 
 const socialLinks = [
   {
     href: "https://www.instagram.com/bsmpublicschoolkarala/",
-    icon: "/instagramlogo.webp",
+    Icon: FaInstagram,
+    label: "Instagram",
+    color: "#E1306C"
   },
   {
     href: "https://www.facebook.com/",
-    icon: "/facebooklogo.webp",
+    Icon: BiLogoFacebookSquare,
+    label: "Facebook",
+    color: "#1877F2"
   },
   {
     href: "https://www.youtube.com/",
-    icon: "/youtubelogo.webp",
+    Icon: FaYoutube,
+    label: "YouTube",
+    color: "#FF0000"
   },
 ];
 
@@ -27,26 +36,31 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  // ✅ passive: true — tells browser this listener won't call preventDefault()
+  //    which allows the browser to optimise scrolling without waiting for JS.
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  // ✅ useMemo — navLinks array only created once, not on every render
+  const navLinks = useMemo(() => [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about-us" },
-   
     { name: "Gallery", href: "/gallery" },
-  ];
+  ], []);
+
+  // ✅ useCallback — stable refs prevent m.div remounting
+  const openMenu = useCallback(() => setIsOpen(true), []);
+  const closeMenu = useCallback(() => setIsOpen(false), []);
 
   return (
     <nav
-      className={`sticky top-0 sm:top-11 z-[990] w-full transition-all duration-300 ${
-        scrolled
-          ? "bg-white/80 backdrop-blur-xl shadow-md"
-          : "bg-white"
-      }`}
+      className={`sticky top-0 sm:top-11 z-[990] w-full transition-all duration-300 ${scrolled
+        ? "bg-white/90 backdrop-blur-md shadow-sm"
+        : "bg-white"
+        }`}
     >
       <div className="container-wide px-4 sm:px-6 lg:px-10">
         <div className="flex h-[85px] items-center justify-between">
@@ -80,18 +94,17 @@ const Navbar = () => {
                   <div key={link.name} className="relative">
                     <Link
                       href={link.href}
-                      className={`text-[15px] font-medium transition ${
-                        active
-                          ? "text-[#7A0C0C]"
-                          : "text-gray-800 hover:text-[#7A0C0C]"
-                      }`}
+                      className={`text-[15px] font-medium transition ${active
+                        ? "text-[#7A0C0C]"
+                        : "text-gray-800 hover:text-[#7A0C0C]"
+                        }`}
                     >
                       {link.name}
                     </Link>
                     {active && (
-                      <motion.div
-                        layoutId="nav-line"
+                      <span
                         className="absolute -bottom-2 left-0 w-full h-[3px] bg-[#7A0C0C] rounded-full"
+                        aria-hidden="true"
                       />
                     )}
                   </div>
@@ -120,32 +133,49 @@ const Navbar = () => {
             </Link>
 
             <div className="flex items-center gap-3 ml-2">
+              {/* Unique gradient definition for Navbar icons */}
+              <svg width="0" height="0" className="absolute">
+                <linearGradient id="nav-instagram-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+                  <stop stopColor="#833ab4" offset="0%" />
+                  <stop stopColor="#fd1d1d" offset="50%" />
+                  <stop stopColor="#fcb045" offset="100%" />
+                </linearGradient>
+              </svg>
+
               {socialLinks.map((item, i) => (
-                <motion.a
+                <m.a
                   key={i}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center transition"
+                  className="flex items-center justify-center transition p-1"
+                  aria-label={item.label}
                 >
-                  <Image
-                    src={item.icon}
-                    alt="social"
-                    width={31}
-                    height={31}
-                    className="object-contain"
+                  <item.Icon
+                    size={26}
+                    style={{
+                      fill:
+                        item.label === "Instagram"
+                          ? "url(#nav-instagram-gradient)"
+                          : item.color,
+                      color:
+                        item.label === "Instagram"
+                          ? undefined
+                          : item.color,
+                    }}
                   />
-                </motion.a>
+                </m.a>
               ))}
             </div>
           </div>
 
           {/* MOBILE MENU BUTTON */}
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={openMenu}
             className="xl:hidden p-2 text-gray-800"
+            aria-label="Open navigation menu"
           >
             <Menu size={28} />
           </button>
@@ -156,15 +186,15 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <>
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
+              onClick={closeMenu}
               className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[1000]"
             />
 
-            <motion.div
+            <m.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -172,10 +202,8 @@ const Navbar = () => {
               className="fixed right-0 top-0 h-full w-[85%] max-w-[340px] bg-white shadow-2xl z-[1001] flex flex-col"
             >
               <div className="flex justify-between items-center p-5 border-b">
-                <h2 className="font-semibold text-[#7A0C0C] text-lg">
-                  Menu
-                </h2>
-                <button onClick={() => setIsOpen(false)}>
+                <h2 className="font-semibold text-[#7A0C0C] text-lg">Menu</h2>
+                <button onClick={closeMenu} aria-label="Close menu">
                   <X size={26} />
                 </button>
               </div>
@@ -188,11 +216,10 @@ const Navbar = () => {
                       key={link.name}
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className={`text-lg font-medium transition ${
-                        active
-                          ? "text-[#7A0C0C]"
-                          : "text-gray-700"
-                      }`}
+                      className={`text-lg font-medium transition ${active
+                        ? "text-[#7A0C0C]"
+                        : "text-gray-700"
+                        }`}
                     >
                       {link.name}
                     </Link>
@@ -211,19 +238,36 @@ const Navbar = () => {
               <div className="mt-auto p-6 border-t space-y-5 text-sm text-gray-600">
 
                 <div className="flex gap-4">
+                  {/* Separate gradient for mobile to ensure visibility if desktop is hidden */}
+                  <svg width="0" height="0" className="absolute">
+                    <linearGradient id="nav-mobile-instagram-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+                      <stop stopColor="#833ab4" offset="0%" />
+                      <stop stopColor="#fd1d1d" offset="50%" />
+                      <stop stopColor="#fcb045" offset="100%" />
+                    </linearGradient>
+                  </svg>
+
                   {socialLinks.map((item, i) => (
                     <a
                       key={i}
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center"
+                      className="flex items-center justify-center p-1"
+                      aria-label={item.label}
                     >
-                      <Image
-                        src={item.icon}
-                        alt="social"
-                        width={22}
-                        height={22}
+                      <item.Icon
+                        size={28}
+                        style={{
+                          fill:
+                            item.label === "Instagram"
+                              ? "url(#nav-mobile-instagram-gradient)"
+                              : item.color,
+                          color:
+                            item.label === "Instagram"
+                              ? undefined
+                              : item.color,
+                        }}
                       />
                     </a>
                   ))}
@@ -240,7 +284,7 @@ const Navbar = () => {
                   <Mail size={16} /> bsmpublicschool.karala@gmail.com
                 </a>
               </div>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>

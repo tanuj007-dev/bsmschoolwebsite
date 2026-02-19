@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   FileText,
   Waypoints,
@@ -63,7 +63,7 @@ export default function WhyChooseSection() {
   };
 
   return (
-    <motion.section
+    <m.section
       variants={sectionAnim}
       initial="hidden"
       whileInView="visible"
@@ -73,17 +73,17 @@ export default function WhyChooseSection() {
       <div className="container-wide flex flex-col items-center text-center">
 
         {/* ---------- Header ---------- */}
-        <motion.div variants={itemAnim} className="mb-12">
-          <h2 className="text-2xl md:text-4xl text-white font-serif mb-3">
+        <m.div variants={itemAnim} className="mb-12">
+          <h2 className="text-4xl md:text-5xl font-serif font-semibold text-white mb-3">
             Why Choose B.S.M Public School?
           </h2>
           <p className="text-[#D4AF37] font-bold text-xs md:text-sm tracking-wide uppercase">
             Ranked Among North Delhi&apos;s Finest CBSE Schools
           </p>
-        </motion.div>
+        </m.div>
 
         {/* ---------- Features Grid ---------- */}
-        <motion.div
+        <m.div
           variants={sectionAnim}
           className="grid grid-cols-2 lg:grid-cols-5 gap-y-10 gap-x-6 w-full mb-14"
         >
@@ -92,7 +92,7 @@ export default function WhyChooseSection() {
             const centerItem = index === 4;
 
             return (
-              <motion.div
+              <m.div
                 key={index}
                 variants={itemAnim}
                 whileHover={{ y: -4 }}
@@ -111,13 +111,13 @@ export default function WhyChooseSection() {
                 <p className="text-white/90 text-xs md:text-sm font-medium leading-snug max-w-[170px]">
                   {item.text}
                 </p>
-              </motion.div>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
 
         {/* ---------- CTA ---------- */}
-        <motion.div
+        <m.div
           variants={itemAnim}
           whileHover={{ scale: 1.015 }}
           className="w-full md:w-auto flex flex-col md:flex-row items-center gap-5
@@ -134,7 +134,7 @@ export default function WhyChooseSection() {
             </h3>
           </div>
 
-          <motion.button
+          <m.button
             onClick={handleWhatsAppClick}
             whileTap={{ scale: 0.94 }}
             className="bg-[#D4AF37] hover:bg-[#fff0c0]
@@ -144,10 +144,10 @@ export default function WhyChooseSection() {
           >
             <RiWhatsappFill size={20} />
             Enroll Now
-          </motion.button>
-        </motion.div>
+          </m.button>
+        </m.div>
 
       </div>
-    </motion.section>
+    </m.section>
   );
 }

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   LayoutDashboard,
   FileText,
@@ -64,7 +64,7 @@ export default function AdminSidebar() {
         />
       )}
 
-      <motion.aside
+      <m.aside
         initial={false}
         animate={{ x: isDesktop ? 0 : mobileOpen ? 0 : "-100%" }}
         className={`
@@ -130,7 +130,7 @@ export default function AdminSidebar() {
             </button>
           </div>
         </div>
-      </motion.aside>
+      </m.aside>
     </>
   );
 }

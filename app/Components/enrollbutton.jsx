@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 
 const bubbles = [
@@ -12,7 +12,7 @@ const bubbles = [
 
 const StickyWhatsAppEnroll = () => {
   return (
-    <motion.div
+    <m.div
       initial={{ x: -80, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -21,7 +21,7 @@ const StickyWhatsAppEnroll = () => {
       {/* Bubble Trail (load only) */}
       <div className="absolute inset-0 pointer-events-none">
         {bubbles.map((b, i) => (
-          <motion.span
+          <m.span
             key={i}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: [0, 0.4, 0], y: -40 }}
@@ -68,7 +68,7 @@ const StickyWhatsAppEnroll = () => {
           Enroll Now
         </span>
       </a>
-    </motion.div>
+    </m.div>
   );
 };
 

@@ -12,13 +12,13 @@ import {
 } from "lucide-react";
 
 const reviews = [
-  { id: 1, name: "Vinay", relation: "Senior Student", image: "/7.webp", text: `I am Vinay, a student of B.S.M Senior Secondary Public School, and I feel proud to be a part of this institution. My school provides quality education along with good values, discipline and overall development of students. It creates a positive environment where students can learn and grow confidently.\n\nThe school offers a friendly and supportive atmosphere. The teachers are well-qualified, kind and helpful. They explain every topic in an easy and clear manner which makes learning interesting and effective. Teachers always motivate students to improve and guide them whenever needed.`, rating: 5 },
-  { id: 2, name: "Student Review", relation: "Senior Student", image: "/bsm_logo-removebg-preview.webp", text: `My school is a place where students learn not only subjects but also good values and discipline. The name of my school is B.S.M Public School.\n\nOur school has well-qualified and caring teachers who always guide us in the right directions. They explain every topic clearly and motivate us to do our best in academics as well as in other activities.\n\nThe campus is clean, green and disciplined. Many activities like sports, debates, cultural programs and morning assemblies are organized regularly.`, rating: 5 },
-  { id: 3, name: "Parent Review", relation: "School Parent", image: "/1.webp", text: `My experience at the school has been truly wonderful. The teachers are supportive, knowledgeable and always encourage students to do their best.\n\nThe school provides a safe and motivating environment where children grow with confidence and discipline. I especially appreciate the focus on values, teamwork and personality development.`, rating: 5 },
-  { id: 4, name: "Ananya Sharma", relation: "School Parent", image: "/4.webp", text: `The academic structure of the school is very strong and well-organized. Teachers pay individual attention to every child.\n\nAlong with studies, the school encourages sports, cultural activities and competitions which help children grow in every aspect.`, rating: 5 },
-  { id: 5, name: "Rohit Mehta", relation: "Alumni", image: "/2.webp", text: `B.S.M Public School has played a major role in shaping my personality. The discipline and guidance I received here helped me build confidence.\n\nThe teachers always encouraged me to aim high and work hard to achieve my goals.`, rating: 5 },
-  { id: 6, name: "Community Review", relation: "School Community", image: "/bsm_logo-removebg-preview.webp", text: `B.S.M Public School is truly a place where learning meets excellence. The infrastructure and faculty are outstanding.\n\nThe school focuses on moral values, leadership skills and teamwork.`, rating: 5 },
-  { id: 7, name: "Priya Verma", relation: "Student", image: "/6.webp", text: `I feel lucky to study at B.S.M Public School. The teachers are very supportive and always help us understand concepts clearly.\n\nApart from studies, we participate in competitions, cultural events and sports activities which make school life enjoyable.`, rating: 5 },
+  { id: 1, name: "Vinay", image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771502110/7_flx6oz.webp", text: `I am Vinay, a student of B.S.M Senior Secondary Public School, and I feel proud to be a part of this institution. My school provides quality education along with good values, discipline and overall development of students. It creates a positive environment where students can learn and grow confidently.\n\nThe school offers a friendly and supportive atmosphere. The teachers are well-qualified, kind and helpful. They explain every topic in an easy and clear manner which makes learning interesting and effective. Teachers always motivate students to improve and guide them whenever needed.`, rating: 5 },
+  // { id: 2, name: "Student Review", image: "/bsm_logo-removebg-preview.webp", text: `My school is a place where students learn not only subjects but also good values and discipline. The name of my school is B.S.M Public School.\n\nOur school has well-qualified and caring teachers who always guide us in the right directions. They explain every topic clearly and motivate us to do our best in academics as well as in other activities.\n\nThe campus is clean, green and disciplined. Many activities like sports, debates, cultural programs and morning assemblies are organized regularly.`, rating: 5 },
+  { id: 3, name: "Parent Review", image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771502138/1_p850fn.webp", text: `My experience at the school has been truly wonderful. The teachers are supportive, knowledgeable and always encourage students to do their best.\n\nThe school provides a safe and motivating environment where children grow with confidence and discipline. I especially appreciate the focus on values, teamwork and personality development.`, rating: 5 },
+  { id: 4, name: "Ananya Sharma", image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771502145/4_itmy1o.webp", text: `The academic structure of the school is very strong and well-organized. Teachers pay individual attention to every child.\n\nAlong with studies, the school encourages sports, cultural activities and competitions which help children grow in every aspect.`, rating: 5 },
+  { id: 5, name: "Rohit Mehta", image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771502150/2_utoxei.webp", text: `B.S.M Public School has played a major role in shaping my personality. The discipline and guidance I received here helped me build confidence.\n\nThe teachers always encouraged me to aim high and work hard to achieve my goals.`, rating: 5 },
+  // { id: 6, name: "Community Review", image: "/bsm_logo-removebg-preview.webp", text: `B.S.M Public School is truly a place where learning meets excellence. The infrastructure and faculty are outstanding.\n\nThe school focuses on moral values, leadership skills and teamwork.`, rating: 5 },
+  { id: 7, name: "Priya Verma", image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771502165/6_oupax1.webp", text: `I feel lucky to study at B.S.M Public School. The teachers are very supportive and always help us understand concepts clearly.\n\nApart from studies, we participate in competitions, cultural events and sports activities which make school life enjoyable.`, rating: 5 },
 ];
 
 const CARD_WIDTH = 320;
@@ -68,7 +68,7 @@ const ReviewCard = ({ item, onReadMore }) => {
         <LazyAvatar src={item.image} alt={item.name} />
         <div className="min-w-0">
           <h4 className="text-base font-semibold text-[#1a1a1a] truncate">{item.name}</h4>
-          <p className="text-xs text-gray-500 truncate">{item.relation}</p>
+
         </div>
       </div>
 
@@ -137,7 +137,7 @@ export default function TVSReviewsSection() {
                 Parents Voice
               </span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl text-[#1a1a1a]">
+            <h2 className="font-serif text-4xl md:text-5xl font-semibold text-[#1a1a1a]">
               Loved by <span className="text-[#7A0C0C]">Parents & Students</span>
             </h2>
           </div>
@@ -213,7 +213,7 @@ export default function TVSReviewsSection() {
               </div>
               <div>
                 <h4 className="text-lg font-semibold">{selectedReview.name}</h4>
-                <p className="text-sm text-gray-500">{selectedReview.relation}</p>
+
               </div>
             </div>
 

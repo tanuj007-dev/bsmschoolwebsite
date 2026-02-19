@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useThemeStore } from "../../store/themeStore";
 
@@ -30,15 +30,15 @@ export default function AdminSettingsPage() {
 
   return (
     <div className="max-w-2xl space-y-8">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
       >
         <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Settings</h1>
         <p className="text-slate-500 dark:text-slate-400 mt-1">Customize the admin panel.</p>
-      </motion.div>
+      </m.div>
 
-      <motion.section
+      <m.section
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -67,9 +67,9 @@ export default function AdminSettingsPage() {
             </button>
           ))}
         </div>
-      </motion.section>
+      </m.section>
 
-      <motion.section
+      <m.section
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
@@ -79,7 +79,7 @@ export default function AdminSettingsPage() {
         <p className="text-sm text-slate-500 dark:text-slate-400">
           B.S.M. Admin Panel. All data is stored in your browser (localStorage). No backend required.
         </p>
-      </motion.section>
+      </m.section>
     </div>
   );
 }

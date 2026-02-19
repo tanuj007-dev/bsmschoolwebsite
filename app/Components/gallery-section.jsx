@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useGalleryStore } from "../store/galleryStore";
 
 const galleryCategories = ["Events", "Sports"];
@@ -62,9 +62,9 @@ const GallerySection = () => {
               >
                 {cat}
                 {activeCategory === cat && (
-                  <motion.div
-                    layoutId="active-tab"
+                  <span
                     className="absolute bottom-0 left-0 w-full h-[2px] bg-[#7A0C0C]"
+                    aria-hidden="true"
                   />
                 )}
               </button>
@@ -73,24 +73,22 @@ const GallerySection = () => {
         </div>
 
         {/* Gallery Grid - all cards equal size (4:3); object-contain = no crop */}
-        <motion.div
-          layout
+        <m.div
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
         >
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="sync">
             {filteredPhotos.map((photo, index) => (
-              <motion.div
-                layout
+              <m.div
                 key={photo.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: Math.min(index * 0.03, 0.5) }}
-                className={`group relative block overflow-hidden rounded-xl md:rounded-2xl shadow-md hover:shadow-2xl transition-shadow duration-300 ${getGridClass(index)}`}
+                transition={{ duration: 0.35, delay: Math.min(index * 0.02, 0.3) }}
+                className={`group relative block overflow-hidden rounded-xl md:rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-200 ${getGridClass(index)}`}
               >
                 {/* Image Wrapper - no rotation */}
                 <div className="absolute inset-0 overflow-hidden bg-gray-100 flex items-center justify-center">
-                  {photo.src?.startsWith?.("data:") || photo.src?.startsWith?.("http") ? (
+                  {photo.src?.startsWith?.("data:") ? (
                     <img src={photo.src} alt={photo.title} loading="lazy" decoding="async" className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105" referrerPolicy="no-referrer" />
                   ) : (
                     <Image
@@ -100,7 +98,6 @@ const GallerySection = () => {
                       loading="lazy"
                       className="object-contain transition-transform duration-500 ease-out group-hover:scale-105"
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                      unoptimized
                     />
                   )}
 
@@ -110,10 +107,10 @@ const GallerySection = () => {
                   {/* Hover Border Effect */}
                   <div className="absolute inset-4 border border-white/20 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500" />
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

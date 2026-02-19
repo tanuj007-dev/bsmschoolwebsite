@@ -2,63 +2,48 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import {
-  ChevronRight,
-  MapPin,
-  Phone,
-  Mail,
-} from "lucide-react";
+import { ChevronRight, MapPin, Phone, Mail } from "lucide-react";
+import { FaInstagram, FaYoutube } from "react-icons/fa";
+import { BiLogoFacebookSquare } from "react-icons/bi";
+
+const socialLinks = [
+  { Icon: BiLogoFacebookSquare, href: "https://facebook.com", label: "Facebook", color: "#1877F2" },
+  { Icon: FaInstagram, href: "https://www.instagram.com/bsmpublicschoolkarala/", label: "Instagram", color: "instagram" },
+  { Icon: FaYoutube, href: "https://www.youtube.com/@bsmpublicschoolkarala", label: "Youtube", color: "#FF0000" },
+];
+
+const quickLinks = [
+  { name: "Home", href: "/" },
+  { name: "About Us", href: "/about-us" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Contact", href: "/contact" },
+];
+
+const phones = [
+  { number: "+919971231386", display: "+91 99712 31386", desk: "Senior Desk" },
+  { number: "+917303061386", display: "+91 73030 61386", desk: "Senior Desk" },
+  { number: "+919818301260", display: "+91 98183 01260", desk: "Junior Desk" },
+];
+
+const currentYear = new Date().getFullYear();
+
+function isMobile() {
+  if (typeof window === "undefined") return false;
+  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+    navigator.userAgent
+  );
+}
+
+function handlePhoneClick(number) {
+  const clean = number.replace(/\s+/g, "");
+  if (isMobile()) {
+    window.location.href = `tel:${clean}`;
+  } else {
+    window.open(`https://wa.me/${clean.replace("+", "")}`, "_blank");
+  }
+}
 
 export default function FooterSection() {
-  const currentYear = new Date().getFullYear();
-
-  /* ---------------- Device Detect ---------------- */
-  const isMobile = () => {
-    if (typeof window === "undefined") return false;
-    return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
-      navigator.userAgent
-    );
-  };
-
-  const handlePhoneClick = (number) => {
-    const cleanNumber = number.replace(/\s+/g, "");
-
-    if (isMobile()) {
-      window.location.href = `tel:${cleanNumber}`;
-    } else {
-      window.open(`https://wa.me/${cleanNumber}`, "_blank");
-    }
-  };
-
-  /* ---------------- Social Links ---------------- */
-  const socialLinks = [
-    {
-      icon: "/facebooklogo.webp",
-      href: "https://facebook.com",
-      label: "Facebook",
-    },
-    {
-      icon: "/instagramlogo.webp",
-      href: "https://www.instagram.com/bsmpublicschoolkarala/",
-      label: "Instagram",
-    },
-    {
-      icon: "/youtubelogo.webp",
-      href: "https://www.youtube.com/@bsmpublicschoolkarala",
-      label: "Youtube",
-    },
-  ];
-
-  /* ---------------- Quick Links ---------------- */
-  const quickLinks = [
-    { name: "Home", href: "/" },
-    { name: "About Us", href: "/about-us" },
-    // { name: "Blogs", href: "/blogs" },
-    { name: "Gallery", href: "/gallery" },
-    { name: "Contact", href: "/contact" },
-  ];
-
   return (
     <footer className="relative bg-[#1a0505] text-white pt-24 pb-12 overflow-hidden font-sans">
       <div
@@ -75,7 +60,7 @@ export default function FooterSection() {
 
       <div className="relative z-10 container-wide px-6 md:px-5 lg:px-0">
 
-        {/* Branding */}
+        {/* Branding + Socials */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-20 border-b border-white/10 pb-12">
           <div>
             <h2 className="font-bold text-3xl md:text-4xl lg:text-5xl">
@@ -86,23 +71,31 @@ export default function FooterSection() {
             </p>
           </div>
 
-          {/* Custom Social Icons */}
+          <svg width="0" height="0" className="absolute">
+            <linearGradient id="footer-ig-grad" x1="100%" y1="100%" x2="0%" y2="0%">
+              <stop stopColor="#833ab4" offset="0%" />
+              <stop stopColor="#fd1d1d" offset="50%" />
+              <stop stopColor="#fcb045" offset="100%" />
+            </linearGradient>
+          </svg>
           <div className="flex gap-4">
-            {socialLinks.map((social, idx) => (
+            {socialLinks.map((social) => (
               <a
-                key={idx}
+                key={social.label}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300 hover:border-white/40 hover:bg-white/5 group"
+                className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center
+                  transition-all duration-300 hover:border-white/40 hover:bg-white/5 group"
               >
-                <Image
-                  src={social.icon}
-                  alt={social.label}
-                  width={28}
-                  height={28}
+                <social.Icon
+                  size={24}
                   className="transition-transform duration-300 group-hover:scale-110"
+                  style={{
+                    color: social.color === "instagram" ? undefined : social.color,
+                    fill: social.color === "instagram" ? "url(#footer-ig-grad)" : social.color,
+                  }}
                 />
               </a>
             ))}
@@ -114,9 +107,7 @@ export default function FooterSection() {
 
           {/* Philosophy */}
           <div className="lg:col-span-4 space-y-6">
-            <h3 className="text-2xl font-semibold text-[#D4AF37]">
-              Our Philosophy
-            </h3>
+            <h3 className="text-2xl font-semibold text-[#D4AF37]">Our Philosophy</h3>
             <p className="text-white/70 text-sm md:text-base leading-relaxed">
               At B.S.M. Public School, we believe in nurturing not just students,
               but future leaders. Our holistic approach blends academic
@@ -127,18 +118,13 @@ export default function FooterSection() {
               className="inline-flex items-center gap-2 text-[#D4AF37] text-sm font-semibold uppercase tracking-wider hover:text-white transition-colors group"
             >
               Read More
-              <ChevronRight
-                size={16}
-                className="transition-transform group-hover:translate-x-1"
-              />
+              <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
 
           {/* Quick Links */}
           <div className="lg:col-span-2 space-y-6">
-            <h3 className="text-xl font-semibold border-l-4 border-[#D4AF37] pl-4">
-              Quick Links
-            </h3>
+            <h3 className="text-xl font-semibold border-l-4 border-[#D4AF37] pl-4">Quick Links</h3>
             <ul className="space-y-4">
               {quickLinks.map((link) => (
                 <li key={link.name}>
@@ -156,50 +142,51 @@ export default function FooterSection() {
 
           {/* Contact Info */}
           <div className="lg:col-span-3 space-y-6">
-            <h3 className="text-xl font-semibold border-l-4 border-[#D4AF37] pl-4">
-              Contact Info
-            </h3>
+            <h3 className="text-xl font-semibold border-l-4 border-[#D4AF37] pl-4">Contact Info</h3>
 
-            <ContactItem
-              icon={<MapPin size={20} className="text-[#D4AF37]" />}
-              title="Address"
-              desc={
-                <>
-                  B.S.M PUBLIC SCHOOL
-                  <br />
-                  ANANDPUR DHAM, SULTANPUR ROAD,
-                  <br />
+            {/* Address */}
+            <div className="flex gap-4">
+              <div className="p-3 bg-white/5 rounded-lg h-fit">
+                <MapPin size={20} className="text-[#D4AF37]" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wide">Address</p>
+                <div className="text-white/60 text-sm leading-relaxed">
+                  B.S.M PUBLIC SCHOOL<br />
+                  ANANDPUR DHAM, SULTANPUR ROAD,<br />
                   KARALA, DELHI-81
-                </>
-              }
-            />
+                </div>
+              </div>
+            </div>
 
-            <ContactItem
-              icon={<Phone size={20} className="text-[#D4AF37]" />}
-              title="Phone"
-              desc={
-                <>
-                  <p onClick={() => handlePhoneClick("+919971231386")} className="cursor-pointer hover:text-[#D4AF37] transition-colors">
-                    +91 99712 31386 - Senior Desk
-                  </p>
-                  <p onClick={() => handlePhoneClick("+917303061386")} className="cursor-pointer hover:text-[#D4AF37] transition-colors">
-                    +91 73030 61386 - Senior Desk
-                  </p>
-                  <p onClick={() => handlePhoneClick("+919818301260")} className="cursor-pointer hover:text-[#D4AF37] transition-colors">
-                    +91 98183 01260 - Junior Desk
-                  </p>
-                </>
-              }
-            />
+            {/* Phone */}
+            <div className="flex gap-4">
+              <div className="p-3 bg-white/5 rounded-lg h-fit">
+                <Phone size={20} className="text-[#D4AF37]" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wide">Phone</p>
+                <div className="space-y-1 mt-1">
+                  {phones.map(({ number, display, desk }) => (
+                    <p
+                      key={number}
+                      onClick={() => handlePhoneClick(number)}
+                      className="cursor-pointer text-white/60 text-sm hover:text-[#D4AF37] transition-colors"
+                    >
+                      {display} — {desk}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
 
+            {/* Email */}
             <div className="flex gap-4">
               <div className="p-3 bg-white/5 rounded-lg h-fit">
                 <Mail size={20} className="text-[#D4AF37]" />
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wide">
-                  Email
-                </p>
+                <p className="text-sm font-semibold uppercase tracking-wide">Email</p>
                 <a href="mailto:bsmpublicschool.karala@gmail.com" className="block text-white/60 text-sm hover:text-[#D4AF37] transition-colors break-all">
                   bsmpublicschool.karala@gmail.com
                 </a>
@@ -210,11 +197,9 @@ export default function FooterSection() {
             </div>
           </div>
 
-          {/* Map Section (NOW INCLUDED 😎) */}
+          {/* Map */}
           <div className="lg:col-span-3 space-y-6">
-            <h3 className="text-xl font-semibold border-l-4 border-[#D4AF37] pl-4">
-              Locate Us
-            </h3>
+            <h3 className="text-xl font-semibold border-l-4 border-[#D4AF37] pl-4">Locate Us</h3>
             <div className="w-full h-48 rounded-lg overflow-hidden border border-white/20 shadow-2xl">
               <iframe
                 title="BSM School Location"
@@ -225,9 +210,7 @@ export default function FooterSection() {
                 style={{ border: 0 }}
               />
             </div>
-            <p className="text-xs text-white/40 italic">
-              Visit us between 8:00 AM – 2:30 PM.
-            </p>
+            <p className="text-xs text-white/40 italic">Visit us between 8:00 AM – 2:30 PM.</p>
           </div>
 
         </div>
@@ -236,32 +219,13 @@ export default function FooterSection() {
         <div className="border-t border-white/10 mt-20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40">
           <p>© {currentYear} BSM Public School. All Rights Reserved.</p>
           <div className="flex gap-6">
-            <Link href="/privacy-policy" className="hover:text-[#D4AF37]">
-              Privacy Policy
-            </Link>
-            <Link href="/terms-conditions" className="hover:text-[#D4AF37]">
-              Terms of Service
-            </Link>
-            <Link href="/shipping-and-refund-policy" className="hover:text-[#D4AF37]">
-              Shipping & Refund Policy
-            </Link>
+            <Link href="/privacy-policy" className="hover:text-[#D4AF37] transition-colors">Privacy Policy</Link>
+            <Link href="/terms-conditions" className="hover:text-[#D4AF37] transition-colors">Terms of Service</Link>
+            <Link href="/shipping-and-refund-policy" className="hover:text-[#D4AF37] transition-colors">Shipping &amp; Refund Policy</Link>
           </div>
         </div>
 
       </div>
     </footer>
-  );
-}
-
-/* Contact Item */
-function ContactItem({ icon, title, desc }) {
-  return (
-    <div className="flex gap-4">
-      <div className="p-3 bg-white/5 rounded-lg h-fit">{icon}</div>
-      <div>
-        <p className="text-sm font-semibold uppercase tracking-wide">{title}</p>
-        <div className="text-white/60 text-sm leading-relaxed">{desc}</div>
-      </div>
-    </div>
   );
 }

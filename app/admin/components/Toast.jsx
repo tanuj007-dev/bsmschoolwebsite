@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { AlertCircle } from "lucide-react";
 
 /**
@@ -21,7 +21,7 @@ export default function Toast({ visible, message, onClose, variant = "warning" }
   return (
     <AnimatePresence>
       {visible && message && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
@@ -37,7 +37,7 @@ export default function Toast({ visible, message, onClose, variant = "warning" }
             <AlertCircle className="w-5 h-5 shrink-0" />
             <p className="text-sm font-medium">{message}</p>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

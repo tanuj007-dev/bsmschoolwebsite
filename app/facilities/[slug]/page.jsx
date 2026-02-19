@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 /* ================= FACILITIES DATA ================= */
 
@@ -175,14 +176,16 @@ export default function FacilityDetailPage() {
             {facility.gallery.map((img, i) => (
               <div
                 key={i}
-                className="relative overflow-hidden rounded-xl shadow-md group bg-white"
+                className="relative overflow-hidden rounded-xl shadow-md group bg-white h-[250px]"
               >
-                <img
+                <Image
                   src={img}
-                  alt={facility.title}
-                  className="w-full h-[250px] object-cover transition-transform duration-700 group-hover:scale-110"
+                  alt={`${facility.title} gallery ${i + 1}`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
               </div>
             ))}
           </div>

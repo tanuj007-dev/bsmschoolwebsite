@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowLeft, Link as LinkIcon } from "lucide-react";
 import { useGallery } from "../../../hooks/useGallery";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../../data/seedGallery";
@@ -69,14 +69,14 @@ export default function AddGalleryImagePage() {
         <ArrowLeft className="w-4 h-4" /> Back to Gallery
       </Link>
 
-      <motion.h1
+      <m.h1
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-bold text-slate-800 dark:text-white flex items-center gap-2"
       >
         <LinkIcon className="w-8 h-8 text-[#7A0C0C]" />
         Add Image by URL
-      </motion.h1>
+      </m.h1>
 
       <p className="text-slate-600 dark:text-slate-400 text-sm">
         Add an image that already exists in your project. Use a path like{" "}

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import LazyVideo from "./LazyVideo";
 
 const containerVariants = {
@@ -28,14 +28,14 @@ export const facilityCards = [
     title: "Modern School Campus",
     description:
       "A spacious and well-planned campus designed to provide a vibrant academic atmosphere with modern infrastructure and green surroundings.",
-    video: "/senior%20school%201st%206seconds.mp4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771492809/senior_school_1st_6seconds_eigwzv.mp4",
   },
   {
     slug: "clean-washrooms-hygiene",
     title: "Clean Washrooms & Hygiene",
     description:
       "Well-maintained, hygienic washroom facilities across the campus ensuring cleanliness, safety and comfort for all students.",
-    video: "/boyswashroom.MP4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771499857/boyswashroom_laddr9.mp4",
   },
   {
     slug: "sports-physical-education",
@@ -70,7 +70,7 @@ export const facilityCards = [
     title: "Modern Chemistry Laboratory",
     description:
       "Safe and well-maintained chemistry lab enabling hands-on experiments and deeper understanding of chemical concepts.",
-    video: "/chemistrylab.mp4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771499629/chem_lab_vwqzrc.mov",
   },
   {
     slug: "biology-life-science-lab",
@@ -80,11 +80,18 @@ export const facilityCards = [
     video: "/bio_lab.mp4",
   },
   {
+    slug: "computer-laboratory",
+    title: "Computer Laboratory",
+    description:
+      "Advanced computer lab equipped with high-speed internet and modern systems to foster digital literacy and coding skills.",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771499978/computer_lab_1_lsub6k.mov",
+  },
+  {
     slug: "medical-first-aid-room",
     title: "Medical & First Aid Room",
     description:
       "On-campus medical assistance and first aid facilities to ensure immediate care and student well-being.",
-    video: "/medicalroom.mov",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771500044/medical_room_sudmw4.mov",
   },
   {
     slug: "childrens-play-area",
@@ -98,7 +105,7 @@ export const facilityCards = [
     title: "Music & Performing Arts Room",
     description:
       "Dedicated music and performing arts room encouraging creativity, rhythm and artistic talent among students.",
-    video: `/${encodeURIComponent("Music practice in full swing for our Annual Day—every beat, every note bringing us closer to a m.mp4")}`,
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771500150/music_room_aejiyx.mov",
   },
   {
     slug: "dance-performing-arts-room",
@@ -106,6 +113,13 @@ export const facilityCards = [
     description:
       "A vibrant and spacious dance room equipped with full-length mirrors, wooden flooring, and an advanced sound system to nurture creativity, rhythm, and confidence in students through various dance and performing arts activities.",
     video: "/danceroom2.mp4",
+  },
+  {
+    slug: "auditorium",
+    title: "Auditorium",
+    description:
+      "A grand, fully-equipped auditorium providing the perfect stage for annual functions, cultural events, seminars and student performances.",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771500590/auditorium_i8l503.mov",
   },
 ];
 
@@ -115,7 +129,7 @@ const ProgramsSection = () => {
   return (
     <section className="w-full bg-[#fdfdfd] py-12 md:py-20 px-4 md:px-8">
       <div className="container-wide">
-        <motion.div
+        <m.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-4"
           variants={containerVariants}
           initial="hidden"
@@ -124,7 +138,7 @@ const ProgramsSection = () => {
         >
           {cards.map((card, index) => (
             <Link key={index} href={`/amenities/${card.slug}`}>
-              <motion.div
+              <m.div
                 variants={cardVariants}
                 whileHover={{ y: -8 }}
                 className="group flex flex-col bg-white rounded-xl overflow-hidden h-full shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100"
@@ -150,10 +164,10 @@ const ProgramsSection = () => {
                     {card.description}
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             </Link>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

@@ -8,14 +8,16 @@ import { useThemeStore } from "../store/themeStore";
  * Include once in root layout so theme persists across admin and main site.
  */
 export default function ThemeProvider({ children }) {
-  const { theme, hydrate } = useThemeStore();
+  const theme = useThemeStore((s) => s.theme);
+  const hydrate = useThemeStore((s) => s.hydrate);
 
   useEffect(() => {
-    hydrate();
+    if (typeof hydrate === "function") hydrate();
   }, [hydrate]);
 
   useEffect(() => {
     const root = document.documentElement;
+    if (!root) return;
     if (theme === "dark") {
       root.classList.add("dark");
     } else if (theme === "light") {

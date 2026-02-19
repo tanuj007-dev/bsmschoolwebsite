@@ -1,68 +1,124 @@
-import React from "react";
+import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
 import HeaderHero from "./Components/herosection";
 
-// Code-split sections (smaller initial bundle) — all render immediately so content is never blank
+// ─── Skeleton loader ───────────────────────────────────────────────────────
+function SectionSkeleton({ height = "h-64" }) {
+  return (
+    <div
+      className={`w-full ${height} bg-linear-to-r from-gray-100 via-gray-200 to-gray-100 animate-pulse`}
+      aria-hidden="true"
+    />
+  );
+}
+
+// ─── Note: ssr:false is only valid inside Client Components.
+//     This is a Server Component (page.js has no "use client").
+//     We use dynamic() with ssr:true (default) + Suspense for code splitting.
+//     Each section is split into its own chunk, improving Time-to-Interactive
+//     since the browser can parse them in parallel after hydration.
+
 const AppreciationSlider = dynamic(
-  () => import("./Components/appreciation-section").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/appreciation-section"),
+  { loading: () => <SectionSkeleton height="h-[480px]" /> }
 );
+
 const PremiumFacilitiesSection = dynamic(
-  () => import("./Components/premium-facilities").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/premium-facilities"),
+  { loading: () => <SectionSkeleton height="h-96" /> }
 );
+
 const AwardsAchievementsSlider = dynamic(
-  () => import("./Components/awardsachievementsslider").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/awardsachievementsslider"),
+  { loading: () => <SectionSkeleton height="h-72" /> }
 );
+
 const TVSReviewsSection = dynamic(
-  () => import("./Components/review").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/review"),
+  { loading: () => <SectionSkeleton height="h-80" /> }
 );
+
 const WhyChooseSection = dynamic(
-  () => import("./Components/whychoosesection").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/whychoosesection"),
+  { loading: () => <SectionSkeleton height="h-64" /> }
 );
-const StickyEnrollButton = dynamic(
-  () => import("./Components/enrollbutton").then((m) => m.default),
-  { ssr: true }
-);
+
 const TrustAndEventsSection = dynamic(
-  () => import("./Components/trustandevent-section").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/trustandevent-section"),
+  { loading: () => <SectionSkeleton height="h-96" /> }
 );
+
 const VirtualCampusSection = dynamic(
-  () => import("./Components/virtualsection").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/virtualsection"),
+  { loading: () => <SectionSkeleton height="h-[600px]" /> }
 );
+
 const AdmissionProcessSection = dynamic(
-  () => import("./Components/admissionprocesssection").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/admissionprocesssection"),
+  { loading: () => <SectionSkeleton height="h-64" /> }
 );
-const WhatsAppSticky = dynamic(
-  () => import("./Components/stickywhatup").then((m) => m.default),
-  { ssr: true }
-);
+
 const LimitedSeatsCTA = dynamic(
-  () => import("./Components/limitedseat").then((m) => m.default),
-  { ssr: true }
+  () => import("./Components/limitedseat"),
+  { loading: () => <SectionSkeleton height="h-64" /> }
+);
+
+const StickyEnrollButton = dynamic(
+  () => import("./Components/enrollbutton"),
+  { loading: () => null }
+);
+
+const WhatsAppSticky = dynamic(
+  () => import("./Components/stickywhatup"),
+  { loading: () => null }
 );
 
 export default function Home() {
   return (
     <>
+      {/* LCP — eagerly server-rendered for fastest visible paint */}
       <HeaderHero />
-      <AppreciationSlider />
-      <PremiumFacilitiesSection />
-      <AwardsAchievementsSlider />
-      <TVSReviewsSection />
-      <WhyChooseSection />
+
+      {/* Code-split sections with skeleton fallbacks for perceived performance */}
+      <Suspense fallback={<SectionSkeleton height="h-[480px]" />}>
+        <AppreciationSlider />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton height="h-96" />}>
+        <PremiumFacilitiesSection />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton height="h-72" />}>
+        <AwardsAchievementsSlider />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton height="h-80" />}>
+        <TVSReviewsSection />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton height="h-64" />}>
+        <WhyChooseSection />
+      </Suspense>
+
       <StickyEnrollButton />
-      <TrustAndEventsSection />
-      <VirtualCampusSection />
-      <AdmissionProcessSection />
+
+      <Suspense fallback={<SectionSkeleton height="h-96" />}>
+        <TrustAndEventsSection />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton height="h-[600px]" />}>
+        <VirtualCampusSection />
+      </Suspense>
+
+      <Suspense fallback={<SectionSkeleton height="h-64" />}>
+        <AdmissionProcessSection />
+      </Suspense>
+
       <WhatsAppSticky />
-      <LimitedSeatsCTA />
+
+      <Suspense fallback={<SectionSkeleton height="h-64" />}>
+        <LimitedSeatsCTA />
+      </Suspense>
     </>
   );
 }

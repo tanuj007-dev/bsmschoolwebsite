@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { useBlogs } from "../../../hooks/useBlogs";
 import { createSlug } from "../../../data/seedBlogs";
@@ -58,13 +58,13 @@ export default function AddBlogPage() {
         <ArrowLeft className="w-4 h-4" /> Back to Blogs
       </Link>
 
-      <motion.h1
+      <m.h1
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-bold text-slate-800 dark:text-white"
       >
         Add New Blog
-      </motion.h1>
+      </m.h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
