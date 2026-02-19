@@ -126,7 +126,7 @@ export default function TVSReviewsSection() {
 
   return (
     <section className="w-full bg-[#fcfcfc] py-20 overflow-hidden border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="container-wide px-4">
         <div className="mb-12 flex flex-wrap justify-between items-center gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">

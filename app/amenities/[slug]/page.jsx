@@ -55,7 +55,7 @@ export default function AmenitySlugPage() {
       <WhatsAppSticky />
 
       <section className="w-full bg-[#fdfdfd]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 md:pt-10 pb-6">
+        <div className="container-wide px-4 md:px-8 pt-8 md:pt-10 pb-6">
           <div className="w-12 h-1 bg-[#D4AF37] mb-4 rounded-full" />
           <h2 className="text-2xl md:text-3xl font-bold text-[#7A0C0C] mb-4 font-serif">
             {facility.title}

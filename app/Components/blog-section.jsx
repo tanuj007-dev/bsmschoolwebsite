@@ -90,7 +90,7 @@ const BlogSection = () => {
       <div className="absolute top-20 right-0 w-[400px] h-[400px] bg-[#A97E3C]/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-20 left-0 w-[300px] h-[300px] bg-[#7A0C0C]/5 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="max-w-[1400px] mx-auto">
+      <div className="container-wide">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row items-end justify-between gap-8 mb-16 px-2">
           <div className="max-w-2xl">

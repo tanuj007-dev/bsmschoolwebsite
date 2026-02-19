@@ -70,12 +70,12 @@ export default function WhyChooseSection() {
       viewport={{ once: true, amount: 0.3 }}
       className="w-full bg-[#7A0C0C] py-14 px-4 md:px-8 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
+      <div className="container-wide flex flex-col items-center text-center">
 
         {/* ---------- Header ---------- */}
         <motion.div variants={itemAnim} className="mb-12">
           <h2 className="text-2xl md:text-4xl text-white font-serif mb-3">
-            Why Choose BSM Public School?
+            Why Choose B.S.M Public School?
           </h2>
           <p className="text-[#D4AF37] font-bold text-xs md:text-sm tracking-wide uppercase">
             Ranked Among North Delhi&apos;s Finest CBSE Schools

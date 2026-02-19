@@ -86,7 +86,7 @@ export default function AppreciationSlider() {
 
   return (
     <section className="w-full py-14 bg-white overflow-hidden font-sans">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="container-wide px-4">
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row min-h-[480px]">
           {/* MEDIA - lazy loaded video; center crop (top and bottom cut) */}
           <div className="relative md:w-[35%] h-[300px] md:h-auto overflow-hidden bg-gray-100 shrink-0">

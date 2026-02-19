@@ -73,7 +73,7 @@ export default function FooterSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#7A0C0C]/90 to-[#1a0505] pointer-events-none" />
       <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37]" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-5 lg:px-0">
+      <div className="relative z-10 container-wide px-6 md:px-5 lg:px-0">
 
         {/* Branding */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-20 border-b border-white/10 pb-12">

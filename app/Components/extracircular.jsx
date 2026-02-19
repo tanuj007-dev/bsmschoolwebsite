@@ -97,7 +97,7 @@ const ExtraCurricular = () => {
 
   return (
     <section className="bg-[#FFF6EA] py-16 px-6 md:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto">
+      <div className="container-wide">
 
         {/* Header */}
         <motion.div

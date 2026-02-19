@@ -85,7 +85,7 @@ export default function BlogPost({ params }) {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 md:px-8 mt-12 grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-12">
+            <div className="container-wide px-4 md:px-8 mt-12 grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-12">
 
                 {/* Main Content Area */}
                 <motion.div

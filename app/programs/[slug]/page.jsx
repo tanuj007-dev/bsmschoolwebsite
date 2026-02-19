@@ -156,7 +156,7 @@ export default function ProgramDetailsPage() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] py-16 px-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="container-wide">
 
         {/* Title */}
         <h1 className="text-3xl md:text-4xl font-bold text-[#7A0C0C] mb-12 font-serif text-center">

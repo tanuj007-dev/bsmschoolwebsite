@@ -36,7 +36,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about-us" },
-    { name: "Amenities", href: "/amenities" },
+   
     { name: "Gallery", href: "/gallery" },
   ];
 
@@ -48,7 +48,7 @@ const Navbar = () => {
           : "bg-white"
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="container-wide px-4 sm:px-6 lg:px-10">
         <div className="flex h-[85px] items-center justify-between">
 
           {/* LOGO */}

@@ -12,7 +12,7 @@ const DaycareSection = () => {
 
   return (
     <section className="w-full bg-white py-12 md:py-20 antialiased">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className="container-wide px-6 md:px-12 lg:px-16">
 
         {/* Header */}
         <div className="mb-12">

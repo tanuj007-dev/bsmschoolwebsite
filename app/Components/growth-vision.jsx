@@ -43,7 +43,7 @@ const GrowthVisionSection = () => {
                 <Scissors size={150} strokeWidth={0.5} />
             </div>
 
-            <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
+            <div className="container-wide flex flex-col items-center text-center relative z-10">
 
                 {/* Heading */}
                 <motion.div

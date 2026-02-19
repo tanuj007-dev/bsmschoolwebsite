@@ -107,7 +107,7 @@ export default function PremiumFacilitiesSection() {
 
   return (
     <section className="w-full py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="container-wide px-6">
         <div className="text-center mb-14">
           <h2 className="text-4xl md:text-5xl font-sans font-semibold tracking-tight text-[#1a2b5d]">
             Premium Facilities

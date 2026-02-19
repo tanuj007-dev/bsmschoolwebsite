@@ -8,7 +8,7 @@ export default function TopBar() {
       className="hidden sm:block sticky top-0 w-full z-[99999]
       bg-[#7A0C0C]/95 backdrop-blur-md text-white shadow-md"
     >
-      <div className="max-w-[1400px] mx-auto px-4">
+      <div className="container-wide">
         <div className="flex items-center justify-between h-11 text-sm">
 
           {/* LEFT — Phone Numbers */}

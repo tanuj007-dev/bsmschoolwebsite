@@ -4,16 +4,15 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGalleryStore } from "../store/galleryStore";
-import { DEFAULT_GALLERY_CATEGORIES } from "../data/seedGallery";
 
-const galleryCategories = ["All", ...DEFAULT_GALLERY_CATEGORIES];
+const galleryCategories = ["Events", "Sports"];
 
 const GallerySection = () => {
   const storeImages = useGalleryStore((state) => state.images);
   const getImages = useGalleryStore((state) => state.getImages);
   const hydrate = useGalleryStore((state) => state.hydrate);
   const [apiPhotos, setApiPhotos] = useState(null);
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("Events");
 
   useEffect(() => {
     let cancelled = false;
@@ -32,16 +31,14 @@ const GallerySection = () => {
 
   const galleryPhotos = apiPhotos !== null ? apiPhotos : (storeImages?.length ? storeImages : (getImages?.() ?? []));
 
-  const filteredPhotos = activeCategory === "All"
-    ? galleryPhotos
-    : galleryPhotos.filter(photo => photo.category === activeCategory);
+  const filteredPhotos = galleryPhotos.filter(photo => photo.category === activeCategory);
 
   // Same size for all cards: single aspect ratio so every div is equal.
   const getGridClass = () => "aspect-[4/3]";
 
   return (
     <section className="bg-[#FFFDF9] min-h-screen relative font-sans">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 py-24">
+      <div className="container-wide px-4 sm:px-8 py-24">
 
         {/* Section Header & Filters */}
         <div className="flex flex-col lg:flex-row items-end justify-between gap-10 mb-16 border-b border-gray-200 pb-8">
@@ -92,16 +89,16 @@ const GallerySection = () => {
                 className={`group relative block overflow-hidden rounded-xl md:rounded-2xl shadow-md hover:shadow-2xl transition-shadow duration-300 ${getGridClass(index)}`}
               >
                 {/* Image Wrapper - no rotation */}
-                <div className="absolute inset-0 overflow-hidden bg-gray-200">
+                <div className="absolute inset-0 overflow-hidden bg-gray-100 flex items-center justify-center">
                   {photo.src?.startsWith?.("data:") || photo.src?.startsWith?.("http") ? (
-                    <img src={photo.src} alt={photo.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" referrerPolicy="no-referrer" />
+                    <img src={photo.src} alt={photo.title} loading="lazy" decoding="async" className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105" referrerPolicy="no-referrer" />
                   ) : (
                     <Image
                       src={photo.src}
                       alt={photo.title}
                       fill
                       loading="lazy"
-                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      className="object-contain transition-transform duration-500 ease-out group-hover:scale-105"
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                       unoptimized
                     />

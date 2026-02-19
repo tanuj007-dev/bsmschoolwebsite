@@ -104,7 +104,7 @@ const TrustAndEventsSection = () => {
 
   return (
     <section className="bg-[#fcfcfc] py-20 px-4 md:px-8 overflow-hidden">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="container-wide grid grid-cols-1 lg:grid-cols-2 gap-12">
 
         {/* TRUST CARD */}
         <motion.div
@@ -114,9 +114,9 @@ const TrustAndEventsSection = () => {
           transition={{ duration: 0.8 }}
           className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] border overflow-hidden flex flex-col md:flex-row h-[420px] md:h-[360px]"
         >
-          <div className="relative md:w-[40%] h-[180px] md:h-full">
+          <div className="relative md:w-[50%] h-[180px] md:h-full">
             <img
-              src="/firstkey.webp"
+              src="/IMG_3069.JPG.jpeg"
               className="h-full w-full object-cover"
               alt="Parents Trust"
             />
@@ -143,7 +143,7 @@ const TrustAndEventsSection = () => {
           transition={{ duration: 0.8 }}
           className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] border overflow-hidden flex flex-col md:flex-row h-[420px] md:h-[360px]"
         >
-          <div className="relative md:w-[40%] h-[180px] md:h-full">
+          <div className="relative md:w-[50%] h-[180px] md:h-full">
             <img
               src="/secondkey.webp"
               className="h-full w-full object-cover"

@@ -13,7 +13,7 @@ const PhilosophySection = () => {
 
   return (
     <section className="relative w-full bg-white py-16 px-4 md:px-8 overflow-hidden">
-      <div className="relative z-10 max-w-6xl mx-auto text-center">
+      <div className="relative z-10 container-wide text-center">
         <h2 className="text-2xl md:text-3xl font-serif text-[#1a0505] mb-10">
           The <span className="text-[#D4AF37]">H.E.A.R.T.</span> Philosophy
         </h2>

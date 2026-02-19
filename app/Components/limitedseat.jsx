@@ -29,7 +29,7 @@ const LimitedSeatsCTA = () => {
 
   return (
     <section ref={sectionRef} className="w-full bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+      <div className="container-wide px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <div
           className={`relative overflow-hidden rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] transition-all duration-700 ${
             show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -38,7 +38,7 @@ const LimitedSeatsCTA = () => {
           {/* Background - school image */}
           <div className="absolute inset-0 bg-gray-200">
             <img
-              src="/bsm_public_school_building_1769562460953.png"
+              src="/IMG_3069.JPG.jpeg"
               alt=""
               className="h-full w-full object-cover"
               loading="lazy"
@@ -47,7 +47,7 @@ const LimitedSeatsCTA = () => {
           </div>
 
           {/* Overlay - keeps text readable over school image */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-[#7A0C0C]/80 to-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 to-black/20" />
 
           {/* Content */}
           <div className="relative grid md:grid-cols-2 items-center">

@@ -195,7 +195,7 @@ export default function MessageSection() {
 
   return (
     <section className="bg-[#fcfbf9] py-20 px-6 md:px-12 lg:px-24 overflow-hidden font-sans">
-      <div className="max-w-7xl mx-auto">
+      <div className="container-wide">
         {leadershipData.map((item, index) => (
           <LeadershipBlock key={index} {...item} />
         ))}

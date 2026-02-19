@@ -7,14 +7,14 @@ export default function VirtualCampusSection() {
   const youtubeVideos = [
     {
       id: 1,
-      title: "Campus Walkthrough",
-      subtitle: "Classrooms • Library • Sports",
+      title: "Annual Day — Cultural Dance",
+      subtitle: "Traditional dance • Stage performance • Annual celebration",
       videoId: "fudHB7hHBXg",
     },
     {
       id: 2,
-      title: "Student Life",
-      subtitle: "Activities • Events • Learning",
+      title: "Annual Day — Student Performance",
+      subtitle: "Skit & talent • Annual function • B.S.M Karala",
       videoId: "MYcPS8llxJk",
     },
   ];
@@ -29,7 +29,7 @@ export default function VirtualCampusSection() {
 
   return (
     <section className="w-full bg-[#fafafa] py-24">
-      <div className="mx-auto max-w-7xl px-4 md:px-8">
+      <div className="container-wide px-4 md:px-8">
 
         {/* -------- Header -------- */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -39,7 +39,7 @@ export default function VirtualCampusSection() {
             transition={{ duration: 0.6 }}
             className="font-serif text-4xl md:text-5xl text-[#1a1a1a] mb-6"
           >
-            Life at <span className="text-[#7A0C0C]">BSM</span>
+            Life at <span className="text-[#7A0C0C]">B.S.M</span>
           </motion.h2>
 
           <p className="text-gray-600 text-lg">

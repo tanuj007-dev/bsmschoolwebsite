@@ -124,7 +124,7 @@ export default function AwardsAchievementsSlider() {
 
   return (
     <section className="bg-[#F9F5F5] py-20 px-4">
-      <div className="max-w-[1300px] mx-auto">
+      <div className="container-wide">
         <div className="text-center mb-14">
           <h2 className="text-4xl md:text-5xl font-semibold text-[#7A0C0C]">
             Awards & Achievements

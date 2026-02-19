@@ -74,7 +74,7 @@ const WowEventsSection = () => {
 
     return (
         <section className="w-full bg-[#f8f9fa] py-24 px-6 md:px-12 lg:px-24">
-            <div className="max-w-7xl mx-auto flex flex-col items-center relative">
+            <div className="container-wide flex flex-col items-center relative">
 
                 {/* Heading */}
                 <motion.h2

@@ -22,6 +22,17 @@
   --foreground: #171717;
   --font-georgia: Georgia, "Times New Roman", Times, serif;
   --font-adobe: var(--font-source-sans-3), ui-sans-serif, sans-serif;
+  /* Wide container: use more width on large screens (TV, ultra-wide) */
+  --container-max: 1280px;
+}
+@media (min-width: 1280px) {
+  :root { --container-max: 1600px; }
+}
+@media (min-width: 1536px) {
+  :root { --container-max: 1920px; }
+}
+@media (min-width: 1920px) {
+  :root { --container-max: min(2240px, 92vw); }
 }
 
 @theme inline {
@@ -62,4 +73,20 @@ h6 {
 .scrollbar-hide {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+}
+
+/* Site-wide wide container: responsive width for all screen sizes including TV */
+.container-wide {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) {
+  .container-wide { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+@media (min-width: 1024px) {
+  .container-wide { padding-left: 2rem; padding-right: 2rem; }
 }

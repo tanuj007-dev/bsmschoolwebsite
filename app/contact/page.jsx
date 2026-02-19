@@ -25,7 +25,7 @@ const Breadcrumb = () => {
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-white pt-10 pb-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="container-wide px-4 sm:px-6">
         <Breadcrumb />
 
         {/* ---------------- Top Section ---------------- */}

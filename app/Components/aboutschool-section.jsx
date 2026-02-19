@@ -14,7 +14,7 @@ const AboutSchoolSection = () => {
   };
   return (
     <section className="w-full bg-white py-14 px-4 md:py-24 md:px-12 lg:px-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+      <div className="container-wide">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
           {/* Left: Text Content */}

@@ -133,7 +133,7 @@ export default function FacilityDetailPage() {
 
   return (
     <section className="bg-[#FFF6EA] min-h-screen">
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="container-wide px-6 py-20">
 
         {/* Title Section */}
         <div className="mb-12">
