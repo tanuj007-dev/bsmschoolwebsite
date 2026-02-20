@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { m } from "framer-motion";
 import { ArrowLeft, Upload, RotateCw, RotateCcw } from "lucide-react";
-import { useGallery } from "../../../hooks/useGallery";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../../data/seedGallery";
 import Toast from "../../components/Toast";
 
@@ -55,7 +54,6 @@ function rotateDataUrl(dataUrl, direction) {
 
 export default function UploadGalleryPage() {
   const router = useRouter();
-  const { images, addImage } = useGallery();
   const fileInputRef = useRef(null);
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -133,46 +131,17 @@ export default function UploadGalleryPage() {
         return;
       }
       if (apiRes.status === 503) {
-        const err = await apiRes.json();
-        showToast(err.error || "Gallery storage not configured. Add a Vercel Blob store.");
+        const err = await apiRes.json().catch(() => ({}));
+        showToast(err.error || "Gallery storage not configured. Add BLOB_READ_WRITE_TOKEN on Vercel.");
         setUploading(false);
         return;
       }
-    } catch (_) {}
-
-    const existingSrcs = new Set((images || []).map((img) => img.src).filter(Boolean));
-    let added = 0;
-    let duplicates = 0;
-    for (let i = 0; i < previews.length; i++) {
-      const dataUrl = previews[i];
-      if (existingSrcs.has(dataUrl)) {
-        duplicates++;
-        continue;
-      }
-      addImage({
-        src: dataUrl,
-        category,
-        title: previews.length === 1 ? title : (files[i]?.name?.replace(/\.[^.]+$/, "") || `Image ${i + 1}`),
-        desc: previews.length === 1 ? desc : "",
-      });
-      existingSrcs.add(dataUrl);
-      added++;
+      const err = await apiRes.json().catch(() => ({}));
+      showToast(err.error || "Upload failed");
+    } catch {
+      showToast("Upload failed");
     }
     setUploading(false);
-    setFiles([]);
-    setPreviews([]);
-    setTitle("");
-    setDesc("");
-    if (duplicates > 0) {
-      showToast(
-        added > 0
-          ? `${duplicates} duplicate(s) skipped. ${added} added (local only).`
-          : "All already in gallery (local)."
-      );
-      return;
-    }
-    showToast("Saved locally. Add Vercel Blob for site-wide gallery.");
-    router.push("/admin/gallery");
   };
 
   const removePreview = (index) => {
@@ -199,7 +168,7 @@ export default function UploadGalleryPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Images (Base64 stored in localStorage)</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Images (uploaded to Vercel Blob and shown on gallery page)</label>
           <input
             ref={fileInputRef}
             type="file"

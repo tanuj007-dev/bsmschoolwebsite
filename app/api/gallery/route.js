@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { list } from "@vercel/blob";
-import { seedGallery } from "../../data/seedGallery";
+import { list, put } from "@vercel/blob";
+import { cookies } from "next/headers";
 
 // Ensure this route is never statically cached (fresh gallery data).
 export const dynamic = "force-dynamic";
@@ -12,41 +12,150 @@ const NO_STORE_HEADERS = {
   Pragma: "no-cache",
 };
 
-function seedWithIds() {
-  return seedGallery.map((g, i) => ({
-    ...g,
-    id: g.id || `seed-${i}`,
-    createdAt: g.createdAt || new Date().toISOString(),
-  }));
+async function getCurrentList() {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) return [];
+  const { blobs } = await list({ prefix: "gallery/" });
+  const indexBlob = blobs.find((b) => b.pathname === INDEX_PATH);
+  if (!indexBlob?.url) return [];
+  const res = await fetch(indexBlob.url, { cache: "no-store" });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return Array.isArray(data) ? data : [];
+}
+
+async function writeList(list) {
+  await put(INDEX_PATH, JSON.stringify(list), {
+    access: "public",
+    contentType: "application/json",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+  });
+}
+
+function requireAuth() {
+  return cookies().then((c) => {
+    const session = c.get("bsm_admin_session");
+    if (!session?.value) return { error: "Unauthorized", status: 401 };
+    return null;
+  });
 }
 
 /**
  * GET /api/gallery
- * Returns gallery images for the public site. Data is stored in Vercel Blob.
- * If no Blob store is configured, returns seed data so the site still works.
+ * Returns gallery images from Vercel Blob only. No static/seed fallback.
  */
 export async function GET() {
   try {
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      return NextResponse.json(seedWithIds(), { headers: NO_STORE_HEADERS });
-    }
-
-    const { blobs } = await list({ prefix: "gallery/" });
-    const indexBlob = blobs.find((b) => b.pathname === INDEX_PATH);
-    if (!indexBlob?.url) {
-      return NextResponse.json(seedWithIds(), { headers: NO_STORE_HEADERS });
-    }
-
-    const res = await fetch(indexBlob.url, { cache: "no-store" });
-    if (!res.ok) {
-      return NextResponse.json(seedWithIds(), { headers: NO_STORE_HEADERS });
-    }
-    const data = await res.json();
-    return NextResponse.json(Array.isArray(data) ? data : seedWithIds(), {
-      headers: NO_STORE_HEADERS,
-    });
+    const data = await getCurrentList();
+    return NextResponse.json(data, { headers: NO_STORE_HEADERS });
   } catch (err) {
     console.error("[GET /api/gallery]", err);
-    return NextResponse.json(seedWithIds(), { headers: NO_STORE_HEADERS });
+    return NextResponse.json([], { headers: NO_STORE_HEADERS });
+  }
+}
+
+/**
+ * POST /api/gallery
+ * Add a single gallery entry by URL (admin). Body: { src, category, title, desc }
+ */
+export async function POST(request) {
+  const auth = await requireAuth();
+  if (auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      { error: "Gallery storage not configured. Set BLOB_READ_WRITE_TOKEN." },
+      { status: 503 }
+    );
+  }
+  try {
+    const body = await request.json();
+    const src = typeof body?.src === "string" ? body.src.trim() : "";
+    if (!src || (!src.startsWith("http://") && !src.startsWith("https://"))) {
+      return NextResponse.json({ error: "Valid image URL required" }, { status: 400 });
+    }
+    const { v4: uuidv4 } = await import("uuid");
+    const entry = {
+      id: uuidv4(),
+      src,
+      category: body.category || "Other",
+      title: body.title || "Untitled",
+      desc: body.desc || "",
+      createdAt: new Date().toISOString(),
+    };
+    const current = await getCurrentList();
+    const updated = [...current, entry];
+    await writeList(updated);
+    return NextResponse.json({ success: true, id: entry.id }, { headers: NO_STORE_HEADERS });
+  } catch (err) {
+    console.error("[POST /api/gallery]", err);
+    return NextResponse.json({ error: "Failed to add image" }, { status: 500 });
+  }
+}
+
+/**
+ * PATCH /api/gallery
+ * Update one gallery entry (title, desc, category). Body: { id, title?, desc?, category? }
+ */
+export async function PATCH(request) {
+  const auth = await requireAuth();
+  if (auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      { error: "Gallery storage not configured. Set BLOB_READ_WRITE_TOKEN." },
+      { status: 503 }
+    );
+  }
+  try {
+    const body = await request.json();
+    const id = body?.id;
+    if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+    const current = await getCurrentList();
+    const index = current.findIndex((e) => e.id === id);
+    if (index === -1) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const updated = current.map((e, i) =>
+      i === index
+        ? {
+            ...e,
+            ...(body.title !== undefined && { title: String(body.title) }),
+            ...(body.desc !== undefined && { desc: String(body.desc) }),
+            ...(body.category !== undefined && { category: String(body.category) }),
+          }
+        : e
+    );
+    await writeList(updated);
+    return NextResponse.json({ success: true }, { headers: NO_STORE_HEADERS });
+  } catch (err) {
+    console.error("[PATCH /api/gallery]", err);
+    return NextResponse.json({ error: "Update failed" }, { status: 500 });
+  }
+}
+
+/**
+ * DELETE /api/gallery?id=xxx
+ * Remove one gallery entry from the index.
+ */
+export async function DELETE(request) {
+  const auth = await requireAuth();
+  if (auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      { error: "Gallery storage not configured. Set BLOB_READ_WRITE_TOKEN." },
+      { status: 503 }
+    );
+  }
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+    const current = await getCurrentList();
+    const updated = current.filter((e) => e.id !== id);
+    if (updated.length === current.length) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+    await writeList(updated);
+    return NextResponse.json({ success: true }, { headers: NO_STORE_HEADERS });
+  } catch (err) {
+    console.error("[DELETE /api/gallery]", err);
+    return NextResponse.json({ error: "Delete failed" }, { status: 500 });
   }
 }

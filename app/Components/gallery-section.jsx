@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 import { m, AnimatePresence } from "framer-motion";
-import { useGalleryStore } from "../store/galleryStore";
 
 const galleryCategories = ["Events", "Sports"];
 
@@ -89,9 +88,6 @@ const GalleryCard = memo(function GalleryCard({ photo, index, src, useBlobUnopti
 });
 
 const GallerySection = memo(function GallerySection() {
-  const storeImages = useGalleryStore((state) => state.images);
-  const getImages = useGalleryStore((state) => state.getImages);
-  const hydrate = useGalleryStore((state) => state.hydrate);
   const [apiPhotos, setApiPhotos] = useState(null);
   const [activeCategory, setActiveCategory] = useState("Events");
 
@@ -106,11 +102,7 @@ const GallerySection = memo(function GallerySection() {
     return () => { cancelled = true; };
   }, []);
 
-  useEffect(() => {
-    hydrate();
-  }, [hydrate]);
-
-  const galleryPhotos = apiPhotos !== null ? apiPhotos : (storeImages?.length ? storeImages : (getImages?.() ?? []));
+  const galleryPhotos = apiPhotos ?? [];
   const filteredPhotos = useMemo(
     () => galleryPhotos.filter((photo) => photo.category === activeCategory),
     [galleryPhotos, activeCategory]
@@ -152,26 +144,39 @@ const GallerySection = memo(function GallerySection() {
           </div>
         </div>
 
-        {/* Gallery Grid - all cards equal size (4:3); object-contain = no crop */}
-        <m.div
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
-        >
-          <AnimatePresence mode="sync">
-            {filteredPhotos.map((photo, index) => {
-              const src = normalizePhotoSrc(photo.src);
-              const useBlobUnoptimized = src && isBlobUrl(photo.src);
-              return (
-                <GalleryCard
-                  key={photo.id}
-                  photo={photo}
-                  index={index}
-                  src={src}
-                  useBlobUnoptimized={useBlobUnoptimized}
-                />
-              );
-            })}
-          </AnimatePresence>
-        </m.div>
+        {/* Gallery Grid - only shows images from API (Blob). Loading and empty states. */}
+        {apiPhotos === null ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="aspect-4/3 rounded-xl md:rounded-2xl bg-gray-200 animate-pulse" />
+            ))}
+          </div>
+        ) : filteredPhotos.length === 0 ? (
+          <div className="rounded-xl md:rounded-2xl bg-gray-100 border border-gray-200 py-16 text-center text-gray-500">
+            <p className="font-medium">No images in this category yet.</p>
+            <p className="text-sm mt-1">Images uploaded from the admin panel will appear here.</p>
+          </div>
+        ) : (
+          <m.div
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
+          >
+            <AnimatePresence mode="sync">
+              {filteredPhotos.map((photo, index) => {
+                const src = normalizePhotoSrc(photo.src);
+                const useBlobUnoptimized = src && isBlobUrl(photo.src);
+                return (
+                  <GalleryCard
+                    key={photo.id}
+                    photo={photo}
+                    index={index}
+                    src={src}
+                    useBlobUnoptimized={useBlobUnoptimized}
+                  />
+                );
+              })}
+            </AnimatePresence>
+          </m.div>
+        )}
       </div>
     </section>
   );

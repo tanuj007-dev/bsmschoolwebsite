@@ -1,47 +1,84 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { m, AnimatePresence } from "framer-motion";
 import { Plus, Pencil, Trash2, Image as ImageIcon, Link as LinkIcon } from "lucide-react";
-import { useGallery } from "../../hooks/useGallery";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../data/seedGallery";
 
+function fetchGallery() {
+  return fetch("/api/gallery", { cache: "no-store" })
+    .then((res) => (res.ok ? res.json() : null))
+    .then((data) => (Array.isArray(data) ? data : null));
+}
+
 export default function AdminGalleryPage() {
-  const { images, updateImage, deleteImage } = useGallery();
   const [apiImages, setApiImages] = useState(null);
   const [filter, setFilter] = useState("All");
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ title: "", desc: "", category: "Other" });
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetch("/api/gallery", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => Array.isArray(data) && setApiImages(data))
-      .catch(() => {});
+  const refetch = useCallback(() => {
+    fetchGallery().then((data) => setApiImages(Array.isArray(data) ? data : []));
   }, []);
 
-  const list = apiImages !== null ? apiImages : images;
+  useEffect(() => {
+    fetchGallery().then((data) => setApiImages(Array.isArray(data) ? data : []));
+  }, []);
+
+  const list = apiImages ?? [];
   const filtered = filter === "All" ? list : list.filter((img) => img.category === filter);
 
   const startEdit = (img) => {
     setEditingId(img.id);
     setEditForm({ title: img.title || "", desc: img.desc || "", category: img.category || "Other" });
+    setError("");
   };
 
-  const saveEdit = () => {
-    if (editingId) {
-      updateImage(editingId, editForm);
-      if (apiImages !== null) setApiImages((prev) => prev?.map((img) => (img.id === editingId ? { ...img, ...editForm } : img)) ?? prev);
-      setEditingId(null);
+  const saveEdit = async () => {
+    if (!editingId) return;
+    setSaving(true);
+    setError("");
+    try {
+      const res = await fetch("/api/gallery", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: editingId, ...editForm }),
+        credentials: "include",
+      });
+      if (res.ok) {
+        await refetch();
+        setEditingId(null);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "Update failed");
+      }
+    } catch {
+      setError("Update failed");
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleDelete = (id, title) => {
+  const handleDelete = async (id, title) => {
     if (!window.confirm(`Delete "${title}"?`)) return;
-    deleteImage(id);
-    if (apiImages !== null) setApiImages((prev) => prev?.filter((img) => img.id !== id) ?? prev);
+    setError("");
+    try {
+      const res = await fetch(`/api/gallery?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) await refetch();
+      else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "Delete failed");
+      }
+    } catch {
+      setError("Delete failed");
+    }
   };
 
   return (
@@ -81,17 +118,22 @@ export default function AdminGalleryPage() {
         ))}
       </div>
 
-      {list.length === 0 ? (
+      {apiImages === null ? (
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-12 text-center text-slate-500 dark:text-slate-400">
+          <div className="inline-block w-10 h-10 border-2 border-[#7A0C0C] border-t-transparent rounded-full animate-spin mb-4" />
+          <p>Loading gallery…</p>
+        </div>
+      ) : list.length === 0 ? (
         <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-12 text-center text-slate-500 dark:text-slate-400">
           <ImageIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
-          <p>No images yet. Add an image by URL or upload files.</p>
+          <p>No images yet. Upload images or add by URL — they are stored in Vercel Blob and appear on the gallery page.</p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
-            <Link href="/admin/gallery/add" className="inline-block text-[#7A0C0C] font-medium hover:underline">
-              Add by URL
+            <Link href="/admin/gallery/upload" className="inline-block text-[#7A0C0C] font-medium hover:underline">
+              Upload Images
             </Link>
             <span className="text-slate-400">|</span>
-            <Link href="/admin/gallery/upload" className="inline-block text-[#7A0C0C] font-medium hover:underline">
-              Upload Image
+            <Link href="/admin/gallery/add" className="inline-block text-[#7A0C0C] font-medium hover:underline">
+              Add by URL
             </Link>
           </div>
         </div>
@@ -164,6 +206,7 @@ export default function AdminGalleryPage() {
               className="bg-white dark:bg-slate-800 rounded-xl shadow-xl max-w-md w-full p-6"
             >
               <h3 className="text-lg font-semibold text-slate-800 dark:text-white mb-4">Edit Image</h3>
+              {error && <p className="text-sm text-red-600 dark:text-red-400 mb-2">{error}</p>}
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Title</label>
@@ -200,9 +243,10 @@ export default function AdminGalleryPage() {
                 <button
                   type="button"
                   onClick={saveEdit}
-                  className="px-4 py-2 rounded-lg bg-[#7A0C0C] text-white font-medium"
+                  disabled={saving}
+                  className="px-4 py-2 rounded-lg bg-[#7A0C0C] text-white font-medium disabled:opacity-50"
                 >
-                  Save
+                  {saving ? "Saving…" : "Save"}
                 </button>
                 <button
                   type="button"

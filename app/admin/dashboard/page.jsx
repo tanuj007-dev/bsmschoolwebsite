@@ -1,17 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { m } from "framer-motion";
-import { FileText, Image as ImageIcon, TrendingUp, Calendar, ArrowRight } from "lucide-react";
+import { FileText, Image as ImageIcon, ArrowRight } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useBlogs } from "../../hooks/useBlogs";
-import { useGallery } from "../../hooks/useGallery";
 
 export default function AdminDashboardPage() {
   const { user, hydrated } = useAuth();
   const { blogs } = useBlogs();
-  const { images } = useGallery();
+  const [galleryCount, setGalleryCount] = useState(0);
+
+  useEffect(() => {
+    fetch("/api/gallery", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => setGalleryCount(Array.isArray(data) ? data.length : 0))
+      .catch(() => {});
+  }, []);
 
   if (!hydrated) {
     return <div className="animate-pulse h-64 bg-slate-200 dark:bg-slate-700 rounded-xl" />;
@@ -19,7 +25,7 @@ export default function AdminDashboardPage() {
 
   const stats = [
     { label: "Total Blogs", value: blogs.length, icon: FileText, href: "/admin/blogs", color: "bg-blue-500" },
-    { label: "Gallery Images", value: images.length, icon: ImageIcon, href: "/admin/gallery", color: "bg-emerald-500" },
+    { label: "Gallery Images", value: galleryCount, icon: ImageIcon, href: "/admin/gallery", color: "bg-emerald-500" },
   ];
 
   return (

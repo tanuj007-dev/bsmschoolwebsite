@@ -5,17 +5,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { m } from "framer-motion";
 import { ArrowLeft, Link as LinkIcon } from "lucide-react";
-import { useGallery } from "../../../hooks/useGallery";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../../data/seedGallery";
 import Toast from "../../components/Toast";
 
 /**
- * Add a gallery image by static URL/path (e.g. /gallery/filename.webp).
- * Image must already exist in public/gallery or be a valid URL.
+ * Add a gallery image by URL. Image is stored in the Blob index (no file upload).
+ * URL must be a full https (or http) URL.
  */
 export default function AddGalleryImagePage() {
   const router = useRouter();
-  const { images, addImage } = useGallery();
   const [src, setSrc] = useState("");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -28,33 +26,52 @@ export default function AddGalleryImagePage() {
     setToast({ visible: true, message });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    const path = src.trim();
-    if (!path) {
-      setError("Please enter an image path (e.g. /gallery/photo.webp)");
+    const url = src.trim();
+    if (!url) {
+      setError("Please enter a full image URL (e.g. https://example.com/photo.jpg)");
       return;
     }
-    const normalized = path.startsWith("/") ? path : `/${path}`;
-
-    const isDuplicate = images.some((img) => img.src && (img.src === normalized || img.src === path));
-    if (isDuplicate) {
-      showToast("This image is already in the gallery. Duplicate not added.");
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      setError("URL must start with http:// or https://");
       return;
     }
 
     setSaving(true);
     try {
-      addImage({
-        src: normalized,
-        category,
-        title: title.trim() || "Untitled",
-        desc: desc.trim() || "",
+      const res = await fetch("/api/gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          src: url,
+          category,
+          title: title.trim() || "Untitled",
+          desc: desc.trim() || "",
+        }),
+        credentials: "include",
       });
-      router.push("/admin/gallery");
-    } catch (err) {
-      setError(err?.message || "Failed to add image");
+      if (res.ok) {
+        showToast("Image added to gallery. It will appear on the gallery page.");
+        router.push("/admin/gallery");
+        return;
+      }
+      if (res.status === 401) {
+        showToast("Please log in again.");
+        setSaving(false);
+        return;
+      }
+      if (res.status === 503) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "Gallery storage not configured. Set BLOB_READ_WRITE_TOKEN on Vercel.");
+        setSaving(false);
+        return;
+      }
+      const data = await res.json().catch(() => ({}));
+      setError(data.error || "Failed to add image");
+    } catch {
+      setError("Failed to add image");
     } finally {
       setSaving(false);
     }
@@ -79,9 +96,7 @@ export default function AddGalleryImagePage() {
       </m.h1>
 
       <p className="text-slate-600 dark:text-slate-400 text-sm">
-        Add an image that already exists in your project. Use a path like{" "}
-        <code className="bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded">/gallery/filename.webp</code> for files in{" "}
-        <code className="bg-slate-200 dark:bg-slate-700 px-1.5 py-0.5 rounded">public/gallery</code>.
+        Add an image by its full URL. The image will be listed in the gallery and shown on the public gallery page. Use a public image URL (e.g. from a CDN or your own host).
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -93,13 +108,13 @@ export default function AddGalleryImagePage() {
 
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-            Image path or URL <span className="text-red-500">*</span>
+            Image URL <span className="text-red-500">*</span>
           </label>
           <input
-            type="text"
+            type="url"
             value={src}
             onChange={(e) => setSrc(e.target.value)}
-            placeholder="/gallery/IMG-20260103-WA0012.jpg.webp"
+            placeholder="https://example.com/image.jpg"
             className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white placeholder:text-slate-400"
             required
           />
@@ -146,7 +161,7 @@ export default function AddGalleryImagePage() {
             disabled={saving || !src.trim()}
             className="px-6 py-2 rounded-lg bg-[#7A0C0C] text-white font-medium hover:bg-[#5a0909] disabled:opacity-50"
           >
-            {saving ? "Adding..." : "Add Image"}
+            {saving ? "Adding…" : "Add Image"}
           </button>
           <Link
             href="/admin/gallery"
