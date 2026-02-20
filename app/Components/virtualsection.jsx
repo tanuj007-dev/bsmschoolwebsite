@@ -118,15 +118,34 @@ const MobileReelCard = memo(function MobileReelCard({ reel, index }) {
 });
 
 /**
- * ✅ LazyYouTubeEmbed: replaces the iframe with a click-to-load thumbnail.
- *    YouTube iframes add ~500KB+ per embed on load. This pattern (YouTube Lite)
- *    defers that until the user actually clicks play.
+ * ✅ LazyYouTubeEmbed: loads iframe when in view and autoplays (muted).
+ *    Autoplay requires mute for browser policy; loop + playlist for seamless repeat.
  */
 const LazyYouTubeEmbed = memo(function LazyYouTubeEmbed({ video, index }) {
   const [activated, setActivated] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setActivated(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "100px", threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const embedUrl = `https://www.youtube.com/embed/${video.videoId}?autoplay=1&mute=1&loop=1&playlist=${video.videoId}`;
 
   return (
     <m.div
+      ref={containerRef}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
@@ -136,21 +155,15 @@ const LazyYouTubeEmbed = memo(function LazyYouTubeEmbed({ video, index }) {
       <div className="relative aspect-video bg-gray-900">
         {activated ? (
           <iframe
-            src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1&mute=1&loop=1&playlist=${video.videoId}`}
+            src={embedUrl}
             className="absolute inset-0 w-full h-full"
             allow="autoplay; encrypted-media"
             allowFullScreen
             title={video.title}
           />
         ) : (
-          /* Thumbnail — clicks trigger real embed */
-          <button
-            type="button"
-            onClick={() => setActivated(true)}
-            className="absolute inset-0 w-full h-full group"
-            aria-label={`Play ${video.title}`}
-          >
-            {/* YouTube thumbnail — Next/Image with AVIF/WebP */}
+          /* Thumbnail until in view */
+          <div className="absolute inset-0">
             <Image
               src={`https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`}
               alt={video.title}
@@ -159,19 +172,14 @@ const LazyYouTubeEmbed = memo(function LazyYouTubeEmbed({ video, index }) {
               className="object-cover"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
-              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-200">
-                <svg
-                  className="w-7 h-7 text-white ml-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                >
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+              <div className="w-14 h-14 bg-red-600/90 rounded-full flex items-center justify-center shadow-xl">
+                <svg className="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                 </svg>
               </div>
             </div>
-          </button>
+          </div>
         )}
       </div>
 

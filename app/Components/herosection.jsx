@@ -79,7 +79,7 @@ const HeaderHero = () => {
     <section className="relative w-full min-w-0 overflow-x-hidden bg-white">
 
       {/* ── HERO IMAGES ────────────────────────────────────────────────── */}
-      <div className="relative w-full min-h-[280px] md:min-h-0 md:h-[460px] lg:h-[560px]">
+      <div className="relative w-full min-h-[280px] md:min-h-0 md:h-[460px] lg:h-[560px] xl:h-[620px] 2xl:h-[700px] overflow-hidden">
         {/* Mobile: full image, no crop — container fits 4:5 image so nothing is cut */}
         <div className="relative w-full aspect-[4/5] min-h-[min(80vh,125vw)] md:hidden">
           <Image
@@ -94,16 +94,16 @@ const HeaderHero = () => {
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           />
         </div>
-        {/* Desktop: fixed height, cover */}
-        <div className="relative w-full h-[460px] lg:h-[560px] hidden md:block">
+        {/* Desktop: fixed height, contain so full image is visible (no cutting) */}
+        <div className="relative w-full h-[460px] lg:h-[560px] hidden md:block bg-gray-100">
           <Image
             src="/2.jpg.jpeg"
             alt="B.S.M. Public School Campus Banner"
             fill
             priority
             fetchPriority="high"
-            sizes="(min-width: 769px) 100vw, 0vw"
-            className="object-cover object-left sm:object-center"
+            sizes="(min-width: 769px) 1920px, 0vw"
+            className="object-cover object-center"
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AJQAB/9k="
           />
