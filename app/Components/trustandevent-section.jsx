@@ -147,7 +147,7 @@ const TrustAndEventsSection = () => {
         >
           <div className="relative md:w-[50%] h-[180px] md:h-full">
             <Image
-              src="/secondkey.webp"
+              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771566869/OPEN_wmgciw.webp"
               alt="School Activities and Events"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
