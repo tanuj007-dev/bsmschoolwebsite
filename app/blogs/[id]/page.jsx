@@ -140,7 +140,7 @@ export default function BlogPost({ params }) {
                         </div>
                         <h3 className="text-center text-[#7A0C0C] font-bold text-lg mb-2">About the Author</h3>
                         <p className="text-center text-[#7A0C0C] text-sm">
-                            Written by the {post.author} team at B.S.M. Public School, dedicated to providing educational insights.
+                            Written by the {post.author} team at B.S.M Public School, dedicated to providing educational insights.
                         </p>
                     </div>
 

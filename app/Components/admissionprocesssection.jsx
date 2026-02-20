@@ -100,7 +100,7 @@ const AdmissionProcessSection = () => {
             }`}
         >
           <h2 className="text-[#7A0C0C] font-serif font-semibold text-4xl md:text-5xl">
-            Admission Process at B.S.M. Public School
+            Admission Process at B.S.M Public School
           </h2>
         </div>
 

@@ -12,7 +12,7 @@ import {
 import { RiWhatsappFill } from "react-icons/ri";
 
 /* ---------------- Config ---------------- */
-const admissionLine = "Admissions Open Till May 31";
+const admissionLine = "Admissions Open";
 
 /* ---------------- Features ---------------- */
 const FEATURES = [
@@ -129,7 +129,7 @@ export default function WhyChooseSection() {
               {admissionLine}
               <span className="hidden md:inline mx-2 text-[#D4AF37]">|</span>
               <span className="block md:inline text-white/85 text-xs md:text-base">
-                Pre-Nursery to Grade 12
+              Pre school to IX and XI
               </span>
             </h3>
           </div>

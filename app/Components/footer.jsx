@@ -109,7 +109,7 @@ export default function FooterSection() {
           <div className="lg:col-span-4 space-y-6">
             <h3 className="text-2xl font-semibold text-[#D4AF37]">Our Philosophy</h3>
             <p className="text-white/70 text-sm md:text-base leading-relaxed">
-              At B.S.M. Public School, we believe in nurturing not just students,
+              At B.S.M Public School, we believe in nurturing not just students,
               but future leaders. Our holistic approach blends academic
               excellence with strong values and character building.
             </p>

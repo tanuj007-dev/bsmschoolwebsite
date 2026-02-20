@@ -17,14 +17,14 @@ const DaycareSection = () => {
         {/* Header */}
         <div className="mb-12">
           <h2 className="text-3xl md:text-[40px] font-light text-[#7A0C0C] leading-tight mb-4">
-            Daycare Facility at B.S.M. Public School
+            Daycare Facility at B.S.M Public School
           </h2>
 
           <div className="w-24 h-[2px] bg-[#D4AF37] mb-6" />
 
           <div className="max-w-[900px] space-y-4">
             <p className="text-black text-base md:text-lg font-light leading-relaxed tracking-wide">
-              B.S.M. Public School provides a safe, caring, and structured daycare
+              B.S.M Public School provides a safe, caring, and structured daycare
               facility for young children beyond school hours. The daycare
               environment is designed to offer comfort, supervision, and
               meaningful engagement.

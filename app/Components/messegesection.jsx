@@ -154,7 +154,7 @@ export default function MessageSection() {
       isReversed: true,
       message: [
         '"Education is the most powerful weapon which you can use to change the world." – Dr. A.P.J Abdul Kalam',
-        "At B.S.M. Public School, we believe education shapes both intellect and character. Guided by the vision of NEP 2020, we nurture curious minds, strong values, and confident learners in a safe and inclusive environment.",
+        "At B.S.M Public School, we believe education shapes both intellect and character. Guided by the vision of NEP 2020, we nurture curious minds, strong values, and confident learners in a safe and inclusive environment.",
         "Our focus is holistic development—empowering students with knowledge, integrity, and compassion to succeed in life and contribute meaningfully to society.",
         "As Head of School, I am committed to ensuring every child realises their potential and grows into a responsible, capable, and compassionate citizen."
       ],

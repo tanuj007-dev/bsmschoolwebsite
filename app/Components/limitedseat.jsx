@@ -25,10 +25,10 @@ const LimitedSeatsCTA = () => {
 
   return (
     <section ref={sectionRef} className="w-full bg-white">
-      <div className="container-wide px-3 sm:px-6 lg:px-8 py-8 md:py-14">
+      <div className="container-wide px-3 sm:px-6 lg:px-8 py-10 md:py-28">
         <div
           className={`relative overflow-hidden rounded-xl md:rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)]
-            transition-all duration-700 ease-out min-h-[350px] md:min-h-0
+            transition-all duration-700 ease-out min-h-[420px] md:min-h-[380px]
             ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
         >
           <div className="absolute inset-0">
@@ -43,7 +43,7 @@ const LimitedSeatsCTA = () => {
           </div>
 
           {/* Overlay: uniform on mobile for readability, gradient on desktop */}
-          <div className="absolute inset-0 bg-black/50 md:bg-gradient-to-r md:from-black/30 md:to-black/10" />
+          <div className="absolute inset-0 bg-black/50 md:bg-gradient-to-r md:from-black/60 md:to-black/5" />
 
           <div className="relative grid md:grid-cols-2 items-center">
             <div className="px-5 py-8 sm:px-6 sm:py-10 md:px-12 md:py-14 text-white z-10">
@@ -78,7 +78,7 @@ const LimitedSeatsCTA = () => {
               </div>
             </div>
 
-            <div className="min-h-[140px] sm:min-h-[180px] md:min-h-[320px]" aria-hidden="true" />
+            <div className="min-h-[160px] sm:min-h-[200px] md:min-h-[380px]" aria-hidden="true" />
           </div>
         </div>
       </div>

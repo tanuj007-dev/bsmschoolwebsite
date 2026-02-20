@@ -12,15 +12,15 @@ const slides = [
     video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771492809/senior_school_1st_6seconds_eigwzv.mp4",
     title: "Senior Wing",
     text:
-      "At B.S.M. Public School, the Senior Wing focuses on academic excellence, leadership development, and career readiness. We provide a disciplined yet inspiring environment that empowers students with critical thinking, confidence, and strong ethical values. Our curriculum is designed to prepare students for board examinations and beyond, with dedicated faculty mentoring each child. Beyond academics, we nurture leadership through student councils, debates, and community initiatives so that every senior leaves ready to lead. We offer a wide range of subjects, regular assessments, and career guidance to help students discover their strengths and plan for higher education. The Senior Wing campus includes well-equipped labs, a spacious library, and dedicated spaces for sports and cultural activities, ensuring holistic development alongside academic rigour.",
+      "At B.S.M Public School, the Senior Wing focuses on academic excellence, leadership development, and career readiness. We provide a disciplined yet inspiring environment that empowers students with critical thinking, confidence, and strong ethical values. Our curriculum is designed to prepare students for board examinations and beyond, with dedicated faculty mentoring each child. Beyond academics, we nurture leadership through student councils, debates, and community initiatives so that every senior leaves ready to lead. We offer a wide range of subjects, regular assessments, and career guidance to help students discover their strengths and plan for higher education. The Senior Wing campus includes well-equipped labs, a spacious library, and dedicated spaces for sports and cultural activities, ensuring holistic development alongside academic rigour.",
     designation: "Advanced Academics • Leadership • Career Focus",
   },
   {
     id: 2,
-    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771492777/juniorsection2_cxrz7m.mp4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771571387/Warehouse_video_of_UPKIT-3_h7h6ho.mp4",
     title: "Junior Wing",
     text:
-      "At B.S.M. Public School, the Foundational Stage is a joyful and nurturing beginning to a child's learning journey. We follow a play-based, activity-oriented approach that supports children's physical, cognitive, social, emotional, and language development. Our classrooms are bright, safe spaces where curiosity is encouraged and every small achievement is celebrated. Through stories, art, music, and hands-on activities, we lay a strong foundation for lifelong learning and confident, caring individuals. Trained educators use age-appropriate methods and a variety of learning materials to keep young minds engaged. We also emphasise values, sharing, and teamwork from the early years, so that every child feels valued and ready to step into the primary grades with confidence and a love for learning.",
+      "At B.S.M Public School, the Foundational Stage is a joyful and nurturing beginning to a child's learning journey. We follow a play-based, activity-oriented approach that supports children's physical, cognitive, social, emotional, and language development. Our classrooms are bright, safe spaces where curiosity is encouraged and every small achievement is celebrated. Through stories, art, music, and hands-on activities, we lay a strong foundation for lifelong learning and confident, caring individuals. Trained educators use age-appropriate methods and a variety of learning materials to keep young minds engaged. We also emphasise values, sharing, and teamwork from the early years, so that every child feels valued and ready to step into the primary grades with confidence and a love for learning.",
     designation: "Foundation • Activity Learning • Value Education",
   },
 ];
@@ -103,14 +103,14 @@ export default function AppreciationSlider() {
             ENROLL NOW →
           </span>
         </a>
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row min-h-[480px]">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row min-h-[520px] md:min-h-[560px]">
           {/* MEDIA - lazy loaded video; center crop (top and bottom cut) */}
-          <div className="relative md:w-[35%] h-[300px] md:h-auto overflow-hidden bg-gray-100 shrink-0">
+          <div className="relative md:w-[35%] h-[380px] md:h-auto md:min-h-[560px] overflow-hidden bg-gray-100 shrink-0">
             <LazyVideo
               src={slide.video}
               isActive
               onEnded={nextSlide}
-              className="object-cover object-center !h-[120%] !w-full !top-[-10%] !left-0"
+              className="object-cover object-center"
             />
             <div
               className="absolute inset-0  pointer-events-none"

@@ -107,7 +107,7 @@ export default function PremiumFacilitiesSection() {
 
   return (
     <section className="w-full py-14 sm:py-20 md:py-24 bg-white overflow-hidden">
-      <div className="container-wide px-4 sm:px-6">
+      <div className="container-wide px-4 sm:px-6 md:px-14">
         <div className="text-center mb-10 md:mb-14">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-semibold tracking-tight text-[#7A0C0C]">
             Premium Facilities
@@ -134,14 +134,14 @@ export default function PremiumFacilitiesSection() {
             <ChevronRight size={22} />
           </button>
 
-          <div className="relative overflow-hidden select-none">
+          <div className="relative overflow-hidden">
             {/* Left/right fade: desktop only (hidden on mobile) */}
             <div
-              className="pointer-events-none absolute left-0 top-0 bottom-0 w-6 z-10 bg-linear-to-r from-[#fcfcfc] to-transparent hidden md:block"
+              className="pointer-events-none absolute left-0 top-0 bottom-0 w-2 z-10 bg-linear-to-r from-[#fcfcfc] to-transparent hidden md:block"
               aria-hidden
             />
             <div
-              className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 z-10 bg-linear-to-l from-[#fcfcfc] to-transparent hidden md:block"
+              className="pointer-events-none absolute right-0 top-0 bottom-0 w-2 z-10 bg-linear-to-l from-[#fcfcfc] to-transparent hidden md:block"
               aria-hidden
             />
             <m.div

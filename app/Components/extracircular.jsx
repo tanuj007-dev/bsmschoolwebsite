@@ -120,7 +120,7 @@ const ExtraCurricular = () => {
 
           <div className="space-y-4 text-black leading-relaxed">
             <p>
-              At <strong>B.S.M. Public School</strong>, education goes beyond textbooks.
+              At <strong>B.S.M Public School</strong>, education goes beyond textbooks.
               Extra-curricular activities play a vital role in nurturing confidence,
               creativity, discipline, and leadership qualities in students.
             </p>

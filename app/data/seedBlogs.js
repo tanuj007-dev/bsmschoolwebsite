@@ -23,7 +23,7 @@ export const seedBlogs = [
     readTime: "5 min read",
     excerpt:
       "Discover how our holistic approach shapes the leaders of tomorrow through balanced education covering academics, sports, and arts.",
-    content: `<p>Education is not just about academic excellence; it is about holistic development that shapes a child's personality, confidence, and perspective. At B.S.M. Public School, we believe in nurturing students beyond textbooks.</p><h3>Why Holistic Development Matters?</h3><p>Our curriculum is designed to balance these aspects effectively, ensuring that every child discovers their unique potential.</p>`,
+    content: `<p>Education is not just about academic excellence; it is about holistic development that shapes a child's personality, confidence, and perspective. At B.S.M Public School, we believe in nurturing students beyond textbooks.</p><h3>Why Holistic Development Matters?</h3><p>Our curriculum is designed to balance these aspects effectively, ensuring that every child discovers their unique potential.</p>`,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -37,7 +37,7 @@ export const seedBlogs = [
     readTime: "4 min read",
     excerpt:
       "Starting early is key. Learn why our preschool program is rated the best in the region for nurturing young minds.",
-    content: `<p>The early years of a child's life are the most critical for brain development. At B.S.M. Public School, our preschool program is designed to provide a safe, nurturing, and stimulating environment.</p><h3>Play-Based Learning</h3><p>We believe that children learn best through play.</p>`,
+    content: `<p>The early years of a child's life are the most critical for brain development. At B.S.M Public School, our preschool program is designed to provide a safe, nurturing, and stimulating environment.</p><h3>Play-Based Learning</h3><p>We believe that children learn best through play.</p>`,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -50,8 +50,8 @@ export const seedBlogs = [
     author: "Admission Office",
     readTime: "6 min read",
     excerpt:
-      "A comprehensive step-by-step guide to securing your child's future at B.S.M. Public School for the upcoming session.",
-    content: `<p>Admissions for the academic session 2026-27 are now open at B.S.M. Public School.</p><h3>Admission Process Timeline</h3><ol><li>Registration</li><li>Interaction</li><li>Documentation</li><li>Confirmation</li></ol>`,
+      "A comprehensive step-by-step guide to securing your child's future at B.S.M Public School for the upcoming session.",
+    content: `<p>Admissions for the academic session 2026-27 are now open at B.S.M Public School.</p><h3>Admission Process Timeline</h3><ol><li>Registration</li><li>Interaction</li><li>Documentation</li><li>Confirmation</li></ol>`,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },

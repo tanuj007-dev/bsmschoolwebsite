@@ -118,7 +118,7 @@ const TrustAndEventsSection = () => {
           <div className="relative md:w-[50%] h-[180px] md:h-full">
             <Image
               src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771568535/OPEN_1_pdzcny.webp"
-              alt="Parents Trust at B.S.M. Public School"
+              alt="Parents Trust at B.S.M Public School"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
@@ -127,7 +127,7 @@ const TrustAndEventsSection = () => {
           </div>
 
           <div className="relative flex-1 p-6 md:p-8">
-            <h3 className="text-black text-xs font-bold uppercase tracking-wider mb-4">
+            <h3 className="text-black text-base md:text-lg font-bold uppercase tracking-wider mb-4">
               Key Features
             </h3>
             <AnimatedVerticalList items={FEATURES} type="features" />
@@ -157,7 +157,7 @@ const TrustAndEventsSection = () => {
           </div>
 
           <div className="relative flex-1 p-6 md:p-8">
-            <h3 className="text-black text-sm font-bold uppercase tracking-wider mb-4">
+            <h3 className="text-black text-base md:text-lg font-bold uppercase tracking-wider mb-4">
               Latest Updates
             </h3>
             <AnimatedVerticalList items={EVENTS} type="events" />

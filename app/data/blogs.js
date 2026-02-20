@@ -9,7 +9,7 @@ export const blogPosts = [
     readTime: "5 min read",
     excerpt: "Discover how our holistic approach shapes the leaders of tomorrow through balanced education covering academics, sports, and arts.",
     content: `
-      <p>Education is not just about academic excellence; it is about holistic development that shapes a child’s personality, confidence, and perspective. At B.S.M. Public School, we believe in nurturing students beyond textbooks, ensuring they are prepared for the challenges of the modern world.</p>
+      <p>Education is not just about academic excellence; it is about holistic development that shapes a child’s personality, confidence, and perspective. At B.S.M Public School, we believe in nurturing students beyond textbooks, ensuring they are prepared for the challenges of the modern world.</p>
       
       <h3>Why Holistic Development Matters?</h3>
       <p>In today’s competitive world, intellectual ability alone is not enough. Emotional intelligence, physical fitness, and creative thinking play a crucial role in a student’s success. Our curriculum is designed to balance these aspects effectively, ensuring that every child discovers their unique potential.</p>
@@ -37,7 +37,7 @@ export const blogPosts = [
     readTime: "4 min read",
     excerpt: "Starting early is key. Learn why our preschool program is rated the best in the region for nurturing young minds.",
     content: `
-      <p>The early years of a child’s life are the most critical for brain development. At B.S.M. Public School, our preschool program is designed to provide a safe, nurturing, and stimulating environment where curiosity creates the foundation for lifelong learning.</p>
+      <p>The early years of a child’s life are the most critical for brain development. At B.S.M Public School, our preschool program is designed to provide a safe, nurturing, and stimulating environment where curiosity creates the foundation for lifelong learning.</p>
 
       <h3>Play-Based Learning Methodology</h3>
       <p>We believe that children learn best through play. Our classrooms are equipped with educational toys, sensory activities, and interactive learning stations that make education fun. This method helps children develop cognitive skills naturally without the pressure of rote learning.</p>
@@ -64,9 +64,9 @@ export const blogPosts = [
     category: "Admissions",
     author: "Admission Office",
     readTime: "6 min read",
-    excerpt: "A comprehensive step-by-step guide to securing your child's future at B.S.M. Public School for the upcoming session.",
+    excerpt: "A comprehensive step-by-step guide to securing your child's future at B.S.M Public School for the upcoming session.",
     content: `
-      <p>Admissions for the academic session 2026-27 are now open at B.S.M. Public School. We invite parents who are looking for an institution that values academic rigorousness combined with values and ethics. Here is everything you need to know to secure a seat for your child.</p>
+      <p>Admissions for the academic session 2026-27 are now open at B.S.M Public School. We invite parents who are looking for an institution that values academic rigorousness combined with values and ethics. Here is everything you need to know to secure a seat for your child.</p>
 
       <h3>Admission Process Timeline</h3>
       <p>The admission process is designed to be transparent and hassle-free. We recommend starting early to avoid the last-minute rush.</p>
@@ -103,7 +103,7 @@ export const blogPosts = [
       </ul>
 
       <h3>Beyond the Books</h3>
-      <p>At B.S.M., we enhance the CBSE curriculum with modern teaching methodologies. We integrate technology into the classroom, ensuring that students are not just passive listeners but active participants in their learning journey.</p>
+      <p>At B.S.M Public School, we enhance the CBSE curriculum with modern teaching methodologies. We integrate technology into the classroom, ensuring that students are not just passive listeners but active participants in their learning journey.</p>
 
       <p>Our approach ensures that students are well-prepared for higher education, equipped with both the knowledge and the skills required to excel in their chosen fields.</p>
     `
@@ -152,7 +152,7 @@ export const blogPosts = [
       <h3>Developing Social Skills</h3>
       <p>In a school setting, children learn to interact with peers and adults outside their family. They learn the importance of teamwork, sharing, and empathy. These social skills are just as important as learning ABCs and 123s.</p>
 
-      <p>At B.S.M., we focus on cognitive, social, and emotional development to ensure your child is ready for the future. We provide a structured yet flexible environment where every child feels valued and understood.</p>
+      <p>At B.S.M Public School, we focus on cognitive, social, and emotional development to ensure your child is ready for the future. We provide a structured yet flexible environment where every child feels valued and understood.</p>
     `
   },
 ];
