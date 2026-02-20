@@ -1,9 +1,9 @@
 /**
- * Seed gallery data (used to initialize localStorage when empty).
- * IDs are assigned in the store when seeding.
+ * Seed gallery data (used when Blob is not configured or index is empty).
+ * Uses full HTTPS URLs so images work on Vercel and any deployment (no reliance on public/gallery).
  * Bump SEED_VERSION to force re-seed for all users when gallery content changes.
  */
-export const GALLERY_SEED_VERSION = 9;
+export const GALLERY_SEED_VERSION = 10;
 
 const categories = ["Events", "Sports", "Campus", "Academic", "Cultural", "Other"];
 const titles = [
@@ -19,20 +19,12 @@ const descs = [
   "Dedication and hard work.", "Joy and togetherness.", "Inspiring young minds.", "Building lasting memories.",
 ];
 
-const galleryFiles = [
-  "IMG-20260103-WA0012.jpg.webp",
-  "IMG-20260103-WA0013.jpg.webp",
-  "IMG-20260103-WA0014.jpg.webp",
-  "IMG-20260103-WA0015.jpg.webp",
-  "IMG-20260103-WA0016.jpg.webp",
-  "IMG-20260103-WA0017.jpg.webp",
-  "IMG-20260103-WA0018.jpg.webp",
-  "IMG-20260103-WA0028.jpg.webp",
-  "IMG-20260103-WA0037.jpg.webp",
-];
+// Stable placeholder images that work on Vercel (no dependency on public/gallery).
+const SEED_IMAGE_IDS = [1015, 1018, 1022, 1024, 1025, 1039, 1043, 1044, 1049];
+const SEED_IMAGE_BASE = "https://picsum.photos/id";
 
-export const seedGallery = galleryFiles.map((filename, i) => ({
-  src: `/gallery/${filename}`,
+export const seedGallery = SEED_IMAGE_IDS.map((id, i) => ({
+  src: `${SEED_IMAGE_BASE}/${id}/800/600`,
   category: categories[i % categories.length],
   title: titles[i % titles.length],
   desc: descs[i % descs.length],
