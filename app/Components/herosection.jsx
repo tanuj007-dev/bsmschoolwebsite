@@ -109,18 +109,18 @@ const HeaderHero = () => {
           />
         </div>
 
-        {/* ── ENROLL NOW (moving border button) — hidden on mobile; shown in appreciation-section instead */}
-        <div className="absolute bottom-10 sm:bottom-16 md:bottom-20 left-6 sm:left-12 md:left-20 z-20 hidden md:flex items-center justify-start">
+      </div>
+
+      {/* ── ENROLL NOW — outside overflow container so it always shows on desktop (hidden on mobile; shown in appreciation-section) */}
+      <div className="absolute left-6 sm:left-12 md:left-[15%] top-15 md:top-28 lg:top-50 z-40 hidden md:flex items-center justify-start w-full pointer-events-none">
+        <div className="pointer-events-auto">
           <button
             type="button"
             onClick={openModal}
             aria-label="Open enrollment modal"
-            className={`relative rounded-full p-[2px] overflow-visible  `}
-            
+            className="relative rounded-full p-[2px] overflow-visible"
           >
-            <span
-              className={`flex items-center gap-2 rounded-full bg-[#7A0C0C] px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base font-bold tracking-wider text-white `}
-            >
+            <span className="flex items-center gap-2 rounded-full bg-[#7A0C0C] px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base font-bold tracking-wider text-white shadow-lg hover:bg-[#961212] transition-colors">
               ENROLL NOW →
             </span>
           </button>
