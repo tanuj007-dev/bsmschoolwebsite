@@ -117,7 +117,7 @@ const TrustAndEventsSection = () => {
           {/* ✅ Next.js Image instead of <img> — auto-optimised WebP/AVIF */}
           <div className="relative md:w-[50%] h-[180px] md:h-full">
             <Image
-              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771501152/IMG_3069.JPG_luodj9.webp"
+              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771568535/OPEN_1_pdzcny.webp"
               alt="Parents Trust at B.S.M. Public School"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
