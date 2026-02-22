@@ -32,7 +32,7 @@ export const facilityCards = [
   },
   {
     slug: "clean-washrooms-hygiene",
-    title: "Clean Washrooms & Hygiene",
+    title: "Clean & Hygiene Washrooms",
     description:
       "Well-maintained, hygienic washroom facilities across the campus ensuring cleanliness, safety and comfort for all students.",
     video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771499857/boyswashroom_laddr9.mp4",

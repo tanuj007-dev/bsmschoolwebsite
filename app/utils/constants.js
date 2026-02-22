@@ -11,7 +11,7 @@ export const STORAGE_KEYS = {
   THEME: "bsm_admin_theme",
 };
 
-// Cookie used by middleware for route protection (client sets it on login)
+// Cookie used by proxy for route protection (client sets it on login)
 export const AUTH_COOKIE = "bsm_admin_session";
 
 // Session duration in milliseconds (e.g. 24 hours)

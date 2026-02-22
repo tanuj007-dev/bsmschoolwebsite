@@ -79,9 +79,9 @@ const HeaderHero = () => {
     <section className="relative w-full min-w-0 overflow-x-hidden bg-white">
 
       {/* ── HERO IMAGES ────────────────────────────────────────────────── */}
-      <div className="relative w-full min-h-[280px] md:min-h-0 md:h-[460px] lg:h-[560px] xl:h-[620px] 2xl:h-[700px] overflow-hidden">
-        {/* Mobile: full image, no crop — container fits 4:5 image so nothing is cut */}
-        <div className="relative w-full aspect-[4/5] min-h-[min(80vh,125vw)] md:hidden">
+      <div className="relative w-full overflow-hidden">
+        {/* Mobile: full image, no crop — 4:5 aspect ratio ensures no cutting */}
+        <div className="relative w-full aspect-[4/5] md:hidden">
           <Image
             src="/ADMISSIONS%20NOW%20OPEN%20-%202026%20(Instagram%20Post%20(45)).png"
             alt="BSM Public School Admissions Open 2026"
@@ -94,38 +94,25 @@ const HeaderHero = () => {
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           />
         </div>
-        {/* Desktop: fixed height, contain so full image is visible (no cutting) */}
-        <div className="relative w-full h-[460px] lg:h-[560px] hidden md:block bg-gray-100">
+
+        {/* Desktop: Exact aspect ratio (2470/943) to match the image source perfectly */}
+        <div className="relative w-full hidden md:block aspect-2470/943 bg-gray-50">
           <Image
             src="/2.jpg.jpeg"
             alt="B.S.M. Public School Campus Banner"
             fill
             priority
             fetchPriority="high"
-            sizes="(min-width: 769px) 1920px, 0vw"
-            className="object-cover object-center"
+            sizes="100vw"
+            className="object-contain object-center"
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AJQAB/9k="
           />
         </div>
-
       </div>
 
       {/* ── ENROLL NOW — outside overflow container so it always shows on desktop (hidden on mobile; shown in appreciation-section) */}
-      <div className="absolute left-6 sm:left-12 md:left-[15%] top-15 md:top-28 lg:top-50 z-40 hidden md:flex items-center justify-start w-full pointer-events-none">
-        <div className="pointer-events-auto">
-          <button
-            type="button"
-            onClick={openModal}
-            aria-label="Open enrollment modal"
-            className="relative rounded-full p-[2px] overflow-visible"
-          >
-            <span className="flex items-center gap-2 rounded-full bg-[#7A0C0C] px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base font-bold tracking-wider text-white shadow-lg hover:bg-[#961212] transition-colors">
-              ENROLL NOW →
-            </span>
-          </button>
-        </div>
-      </div>
+
 
       {/* ── MODAL (lazy, only renders when open=true) ──────────────────── */}
       <EnrollModal open={open} onClose={closeModal} />

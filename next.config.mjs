@@ -7,6 +7,10 @@ const nextConfig = {
 
   // ─── Experimental: faster builds + turbopack styles ──────────────────────
   experimental: {
+    staleTimes: {
+      dynamic: 0,
+      static: 0,
+    },
     // optimizeCss: true,         // disabled — critters crashes on static pages in Next.js 15
     optimizePackageImports: [     // tree-shake large icon/motion packages
       "lucide-react",
@@ -34,8 +38,8 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // API routes: never cache dynamic data (gallery, login, etc.)
-        source: "/api/:path*",
+        // Global: never cache anything (removes caching "problems" during dev/updates)
+        source: "/:path*",
         headers: [
           {
             key: "Cache-Control",

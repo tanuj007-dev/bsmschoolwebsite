@@ -48,7 +48,7 @@ Restart the dev server after changing env.
 
 | Feature | Description |
 |--------|-------------|
-| **Login** | `/admin/login` – Username/password; session stored in localStorage + cookie for middleware. |
+| **Login** | `/admin/login` – Username/password; session stored in localStorage + cookie for proxy. |
 | **Dashboard** | `/admin/dashboard` – Overview and quick links to blogs & gallery. |
 | **Manage Blogs** | `/admin/blogs` – List, add, edit, delete. Rich text (TipTap), cover image, slug, excerpt, publish date. |
 | **Add Blog** | `/admin/blogs/add` – New post with live preview. |
@@ -61,7 +61,7 @@ Restart the dev server after changing env.
 
 ## Route Protection
 
-- **Middleware** protects all `/admin/*` routes except `/admin/login`.
+- **Proxy** protects all `/admin/*` routes except `/admin/login`.
 - If the session cookie is missing, users are redirected to `/admin/login`.
 - Session duration: **24 hours** (configurable in `app/utils/constants.js`).
 
@@ -121,7 +121,7 @@ app/
   data/
     seedBlogs.js
     seedGallery.js
-middleware.js               # Protects /admin/*
+proxy.js               # Protects /admin/*
 ```
 
 ---

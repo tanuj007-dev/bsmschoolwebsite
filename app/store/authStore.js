@@ -6,7 +6,7 @@ import { STORAGE_KEYS, AUTH_COOKIE, SESSION_DURATION, DEMO_CREDENTIALS } from ".
 
 /**
  * Auth state: login, logout, session check.
- * Session is stored in localStorage; cookie is set for middleware.
+ * Session is stored in localStorage; cookie is set for proxy.
  */
 export const useAuthStore = create((set, get) => ({
   user: null,
