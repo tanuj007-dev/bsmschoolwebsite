@@ -92,6 +92,43 @@ export async function GET() {
 }
 
 /**
+ * PUT /api/gallery
+ * Save a fully reordered array of gallery images (admin reorder feature).
+ * Body: { images: [{id, src, category, title, desc, createdAt}, ...] }
+ */
+export async function PUT(request) {
+  const auth = await requireAuth();
+  if (auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      { error: "Gallery storage not configured. Set BLOB_READ_WRITE_TOKEN." },
+      { status: 503 }
+    );
+  }
+  try {
+    const body = await request.json();
+    const images = body?.images;
+    if (!Array.isArray(images)) {
+      return NextResponse.json({ error: "images array required" }, { status: 400 });
+    }
+    // Sanitise — keep only known fields so we don't corrupt the store
+    const sanitised = images.map((img) => ({
+      id: String(img.id || ""),
+      src: String(img.src || ""),
+      category: String(img.category || "Other"),
+      title: String(img.title || ""),
+      desc: String(img.desc || ""),
+      createdAt: img.createdAt || new Date().toISOString(),
+    }));
+    await writeList(sanitised);
+    return NextResponse.json({ success: true, total: sanitised.length }, { headers: NO_STORE_HEADERS });
+  } catch (err) {
+    console.error("[PUT /api/gallery]", err);
+    return NextResponse.json({ error: "Reorder failed" }, { status: 500 });
+  }
+}
+
+/**
  * POST /api/gallery
  * Add a single gallery entry by URL (admin). Body: { src, category, title, desc }
  */
