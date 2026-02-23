@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import PageHero from "../Components/page-hero";
 import LazySection from "../Components/LazySection";
+import SharedCDNLinks from "../Components/SharedCDNLinks";
 
 const WhatsAppSticky = dynamic(
   () => import("../Components/stickywhatup").then((m) => m.default),
@@ -25,6 +26,7 @@ const AwardsAchievementsSlider = dynamic(
 export default function Amenities() {
   return (
     <>
+      <SharedCDNLinks />
       <PageHero
         title="Amenities"
         breadcrumbItems={[{ label: "Amenities" }]}

@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import PageHero from "../../Components/page-hero";
 import { facilityCards } from "../../Components/school-features";
+import SharedCDNLinks from "../../Components/SharedCDNLinks";
 
 const WhatsAppSticky = dynamic(
   () => import("../../Components/stickywhatup").then((m) => m.default),
@@ -44,6 +45,7 @@ export default function AmenitySlugPage() {
 
   return (
     <>
+      <SharedCDNLinks />
       <PageHero
         title={facility.title}
         breadcrumbItems={[

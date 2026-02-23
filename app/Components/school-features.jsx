@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { m } from "framer-motion";
 import LazyVideo from "./LazyVideo";
+import SharedCDNLinks from "./SharedCDNLinks";
 
 const containerVariants = {
   hidden: {},
@@ -42,28 +43,28 @@ export const facilityCards = [
     title: "Sports & Physical Education",
     description:
       "Comprehensive indoor and outdoor sports facilities encouraging teamwork, discipline and overall physical development.",
-    video: "/playground.mp4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824068/playground_senior_njtqe2.mp4",
   },
-  // {
-  //   slug: "smart-classrooms",
-  //   title: "Smart Classrooms",
-  //   description:
-  //     "Digitally equipped classrooms with smart boards and interactive learning tools to enhance engagement and academic excellence.",
-  //   video: "/senior%20school%201st%206seconds.mp4",
-  // },
+  {
+    slug: "smart-classrooms",
+    title: "Smart Classrooms",
+    description:
+      "Digitally equipped classrooms with smart boards and interactive learning tools to enhance engagement and academic excellence.",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824229/smart_class_junior_vjrr2n.mp4",
+  },
   {
     slug: "well-stocked-library",
     title: "Well-Stocked Library",
     description:
       "A rich collection of academic books, reference materials and digital resources fostering reading habits and independent learning.",
-    video: "/library.mp4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824420/bsm_senior_library_bzdtb2.mp4",
   },
   {
     slug: "advanced-physics-laboratory",
     title: "Advanced Physics Laboratory",
     description:
       "Fully equipped physics lab with modern apparatus to help students explore scientific principles through practical experiments.",
-    video: `/${encodeURIComponent("Exploring the wonders of science at the Physics Lab of B.S.M Public School—where curiosity turns.mp4")}`,
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824530/PHYSICS_LAB_SENIOR_1_vcglrq.mp4",
   },
   {
     slug: "modern-chemistry-laboratory",
@@ -77,11 +78,11 @@ export const facilityCards = [
     title: "Biology & Life Science Lab",
     description:
       "Interactive biology lab with models and specimens helping students understand life sciences in a practical way.",
-    video: "/bio_lab.mp4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824611/BIOLOGY_LAB_SENIOR_a0xt4k.mp4",
   },
   {
     slug: "computer-laboratory",
-    title: "Computer Laboratory",
+    title: "Computer Lab",
     description:
       "Advanced computer lab equipped with high-speed internet and modern systems to foster digital literacy and coding skills.",
     video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771499978/computer_lab_1_lsub6k.mov",
@@ -98,11 +99,11 @@ export const facilityCards = [
     title: "Children's Play Area",
     description:
       "Safe and joyful play area designed especially for young learners to promote fun, creativity and social interaction.",
-    video: `/${encodeURIComponent("🧒🎠 Tiny feet, big dreams!At BSM Junior School, Karala, our little stars shine the brightest wh.mp4")}`,
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824687/Play_area_1_wfukfh.mp4",
   },
   {
     slug: "music-performing-arts-room",
-    title: "Music & Performing Arts Room",
+    title: "Music Room",
     description:
       "Dedicated music and performing arts room encouraging creativity, rhythm and artistic talent among students.",
     video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771500150/music_room_aejiyx.mov",
@@ -119,7 +120,7 @@ export const facilityCards = [
     title: "Auditorium",
     description:
       "A grand, fully-equipped auditorium providing the perfect stage for annual functions, cultural events, seminars and student performances.",
-    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771500590/auditorium_i8l503.mov",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824906/auditorium_senior_fcwcg2.mp4",
   },
 ];
 
@@ -128,6 +129,7 @@ const ProgramsSection = () => {
 
   return (
     <section className="w-full bg-[#fdfdfd] py-12 md:py-20 px-4 md:px-8">
+      <SharedCDNLinks />
       <div className="container-wide">
         <m.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-4"

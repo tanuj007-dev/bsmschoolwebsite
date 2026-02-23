@@ -7,12 +7,12 @@ const AboutSchoolSection = dynamic(
   () => import("../Components/aboutschool-section").then((m) => m.default),
   { ssr: true }
 );
-const LeadershipInsights = dynamic(
-  () => import("../Components/messegesection").then((m) => m.default),
-  { ssr: true }
-);
 const PhilosophySection = dynamic(
   () => import("../Components/hiloso").then((m) => m.default),
+  { ssr: true }
+);
+const CoordinatorsSection = dynamic(
+  () => import("../Components/CoordinatorsSection").then((m) => m.default),
   { ssr: true }
 );
 
@@ -30,9 +30,9 @@ export default function AboutUs() {
           <AboutSchoolSection />
         </Suspense>
       </LazySection>
-      <LazySection minHeight="300px">
+      <LazySection minHeight="400px">
         <Suspense fallback={null}>
-          <LeadershipInsights />
+          <CoordinatorsSection />
         </Suspense>
       </LazySection>
       <LazySection minHeight="300px">

@@ -74,13 +74,10 @@ const AboutSchoolSection = () => {
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
-
-            {/* Decorative circles — smaller on mobile so they don't overflow */}
-            <div className="absolute -bottom-4 -left-4 md:-bottom-10 md:-left-10 w-20 h-20 md:w-40 md:h-40 bg-[#7A0C0C] rounded-full opacity-10 z-0" />
-            <div className="absolute -top-4 -right-4 md:-top-10 md:-right-10 w-24 h-24 md:w-60 md:h-60 border-2 border-[#D4AF37]/30 rounded-full z-0" />
+ 
 
             {/* 25+ badge — smaller on mobile, fits in screen */}
-            <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 md:-bottom-8 md:-right-8 bg-white p-2.5 sm:p-3 md:p-6 rounded-lg shadow-lg border-t-4 border-[#D4AF37] w-[100px] sm:w-[130px] md:w-[200px] z-20">
+            <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 md:-bottom-8 md:-right-8 bg-white p-2.5 sm:p-3 md:p-6 rounded-lg shadow-lg border-t-4 border-[#7A0C0C  ] w-[100px] sm:w-[130px] md:w-[200px] z-20">
               <div className="flex items-center gap-1.5 md:gap-3 mb-0.5 md:mb-2">
                 <BookOpen size={20} className="text-[#7A0C0C] shrink-0 w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
                 <span className="font-bold text-lg sm:text-xl md:text-3xl text-[#1a0505] leading-none" style={{ fontFamily: "Georgia, serif" }}>

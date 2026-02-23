@@ -7,17 +7,18 @@ import { FaInstagram } from "react-icons/fa6";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const youtubeVideos = [
-  {
-    id: 1,
-    title: "Annual Day — Cultural Dance",
-    subtitle: "Traditional dance • Stage performance • Annual celebration",
-    videoId: "fudHB7hHBXg",
-  },
+ 
   {
     id: 2,
     title: "Annual Day — Student Performance",
     subtitle: "Skit & talent • Annual function • B.S.M Karala",
     videoId: "MYcPS8llxJk",
+  },
+  {
+    id: 1,
+    title: "Annual Day — Cultural Dance",
+    subtitle: "Traditional dance • Stage performance • Annual celebration",
+    videoId: "fudHB7hHBXg",
   },
 ];
 
