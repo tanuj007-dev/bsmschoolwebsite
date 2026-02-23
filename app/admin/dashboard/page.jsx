@@ -16,12 +16,13 @@ export default function AdminDashboardPage() {
     fetch("/api/gallery", { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => setGalleryCount(Array.isArray(data) ? data.length : 0))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   if (!hydrated) {
     return <div className="animate-pulse h-64 bg-slate-200 dark:bg-slate-700 rounded-xl" />;
   }
+
 
   const stats = [
     { label: "Total Blogs", value: blogs.length, icon: FileText, href: "/admin/blogs", color: "bg-blue-500" },
