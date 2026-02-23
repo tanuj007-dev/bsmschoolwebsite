@@ -6,28 +6,46 @@ import { m } from "framer-motion";
 import { FaInstagram } from "react-icons/fa6";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const youtubeVideos = [
- 
-  {
-    id: 2,
-    title: "Annual Day — Student Performance",
-    subtitle: "Skit & talent • Annual function • B.S.M Karala",
-    videoId: "MYcPS8llxJk",
-  },
+const featuredReels = [
   {
     id: 1,
-    title: "Annual Day — Cultural Dance",
-    subtitle: "Traditional dance • Stage performance • Annual celebration",
-    videoId: "fudHB7hHBXg",
+    path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771878009/Warehouse_video_of_UPKIT-6_1_gxuirv.mp4",
+    label: "Junior Wing",
+    title: "Junior Building Walkthrough",
+    subtitle: "Nursery – Class V  •  B.S.M Public School, Karala",
+    description:
+      "A warm, vibrant space designed for young learners. Our Junior Wing combines colourful, child-friendly classrooms with dedicated activity zones to nurture curiosity and confidence from the very first day of school.",
+    features: [
+      "Spacious, well-lit smart classrooms",
+      "Dedicated play area & sandbox zone",
+      "Mini library & reading corner",
+      "Safe, hygienic washroom facilities",
+    ],
+  },
+  {
+    id: 2,
+    path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771878736/Warehouse_video_of_UPKIT-7_1_crgqyj.mp4",
+    label: "Senior Wing",
+    title: "Senior Building Walkthrough",
+    subtitle: "Class VI – XII  •  B.S.M Public School, Karala",
+    description:
+      "Purpose-built for academic excellence, our Senior Wing houses state-of-the-art laboratories, a fully equipped computer centre, and spacious classrooms that prepare students for board exams and beyond.",
+    features: [
+      "Physics, Chemistry & Biology labs",
+      "Modern computer & IT centre",
+      "Smart-board enabled classrooms",
+      "Dedicated assembly & multipurpose hall",
+    ],
   },
 ];
 
 const localReels = [
-  { id: 1, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497588/babuman1_hxg5mm.mp4", title: "Cultural Performance", subtitle: "Annual Day • B.S.M Karala" },
-  { id: 2, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497619/bsmall_hmerqs.mp4", title: "School Events", subtitle: "Highlights • Student Life" },
-  { id: 3, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497639/celebrity_dootj1.mp4", title: "Celebrations", subtitle: "Special Events • B.S.M" },
-  { id: 4, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497663/khalifirst_ftmfgn.mp4", title: "Achievements", subtitle: "Excellence • Discipline • Growth" },
-  { id: 5, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771497668/khalisecond_rlbepl.mp4", title: "Life at B.S.M", subtitle: "Learning • Together" },
+  { id: 1, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771873067/Babbu_Maan_Ji_addressing_the_audience_at_the_Annual_Function_of_B.S.M._Public_School_Karala._An_dwsehi.mp4", title: "Cultural Performance", subtitle: "Annual Day • B.S.M Karala" },
+  { id: 2, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771873268/Video-121_m8kdjg.mp4", title: "School Events", subtitle: "Highlights • Student Life" },
+  { id: 3, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771873391/Video-613_xzifrj.mp4", title: "Celebrations", subtitle: "Special Events • B.S.M" },
+  { id: 4, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771873685/Video-992_erdhxo.mp4", title: "Achievements", subtitle: "Excellence • Discipline • Growth" },
+  { id: 5, path: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771873816/Video-78_sp7rok.mp4", title: "Life at B.S.M", subtitle: "Learning • Together" },
+
 ];
 
 /**
@@ -59,7 +77,7 @@ const LazyReel = memo(function LazyReel({ path, index, fillContainer }) {
     if (!video || !isVisible) return;
     const playObserver = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => {});
+        if (entry.isIntersecting) video.play().catch(() => { });
         else video.pause();
       },
       { threshold: 0.25 }
@@ -106,7 +124,7 @@ const MobileReelCard = memo(function MobileReelCard({ reel, index }) {
       <div className="relative aspect-9/16">
         <LazyReel path={reel.path} index={index} fillContainer />
         {/* Dark overlay at bottom — title (accent), subtitle (white), yellow line */}
-        <div className="absolute bottom-0 left-0 right-0 bg-black/85 px-5 pt-4 pb-5">
+        <div className="absolute bottom-0 left-0 right-0  px-5 pt-4 pb-5">
           <h3 className="text-lg font-semibold text-[#7DD3C0]" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>
             {reel.title}
           </h3>
@@ -230,12 +248,105 @@ export default function VirtualCampusSection() {
           </p>
         </div>
 
-        {/* YouTube Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-16 md:mb-24">
-          {youtubeVideos.map((video, index) => (
-            <LazyYouTubeEmbed key={video.id} video={video} index={index} />
+        {/* Featured Reels — stacked on mobile, 2-col on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10 md:mb-14">
+          {featuredReels.map((reel, index) => (
+            <div
+              key={reel.id}
+              className="flex flex-col sm:flex-row rounded-3xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] border border-gray-100 bg-white"
+            >
+              {/* ── Video panel ── */}
+              <div className="relative w-full sm:w-[42%] shrink-0 aspect-3/4 sm:aspect-auto sm:min-h-[400px] md:min-h-[520px]">
+                <LazyReel path={reel.path} index={index} fillContainer />
+              </div>
+
+              {/* ── Content panel ── */}
+              <div className="flex-1 flex flex-col justify-center px-5 py-6 sm:px-6 sm:py-7 md:px-9 md:py-9">
+
+                {/* Wing badge */}
+                <span className="inline-block self-start px-3 py-1 text-xs font-semibold rounded-full
+                                 bg-[#7A0C0C] text-white tracking-wider uppercase mb-4">
+                  {reel.label}
+                </span>
+
+                {/* Title */}
+                <h3 className="text-xl md:text-2xl font-bold text-[#1a1a1a] leading-snug mb-1">
+                  {reel.title}
+                </h3>
+
+                {/* Subtitle */}
+                <p className="text-[#7A0C0C] text-xs font-medium mb-4 tracking-wide">
+                  {reel.subtitle}
+                </p>
+
+                {/* Divider */}
+                <div className="h-px bg-gray-100 mb-4" />
+
+                {/* Description */}
+                <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                  {reel.description}
+                </p>
+
+                {/* Feature bullets */}
+                <ul className="space-y-2.5">
+                  {reel.features.map((feat, i) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <span className="mt-0.5 w-4 h-4 shrink-0 rounded-full bg-[#FFF5F5]
+                                       border border-[#f5d0d0] flex items-center justify-center">
+                        <svg className="w-2.5 h-2.5 text-[#7A0C0C]" fill="none" stroke="currentColor"
+                          strokeWidth="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </span>
+                      <span className="text-gray-700 text-sm">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Gold accent bar */}
+                <div className="h-0.5 w-full bg-linear-to-r from-[#D4AF37] to-transparent rounded-full mt-7 opacity-40" />
+              </div>
+            </div>
           ))}
         </div>
+
+        {/* ── Blinking Admissions CTA ───────────────────────────────────── */}
+        <style>{`
+          @keyframes blink-full {
+            0%, 100% {
+              background: #e00000;
+              box-shadow: 0 0 0 0 rgba(220,0,0,0.8), 0 0 18px 4px rgba(220,0,0,0.5);
+            }
+            50% {
+              background: #1a0000;
+              box-shadow: 0 0 0 0 rgba(220,0,0,0);
+            }
+          }
+          @keyframes pulse-ring {
+            0%   { outline: 0px solid rgba(220,0,0,0.7); outline-offset: 0px;  }
+            70%  { outline: 4px solid rgba(220,0,0,0);   outline-offset: 10px; }
+            100% { outline: 4px solid rgba(220,0,0,0);   outline-offset: 10px; }
+          }
+          .blink-btn {
+            animation: blink-full 0.8s ease-in-out infinite;
+          }
+        `}</style>
+
+        {/* <div className="flex justify-center mb-12 md:mb-20">
+          <a
+            href="https://wa.me/917303061386"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="blink-btn inline-flex items-center gap-2 px-8 py-3 rounded-lg
+                       text-white font-bold text-base tracking-wide
+                       border-2 border-red-900 cursor-pointer
+                       transition-transform hover:scale-105 active:scale-95"
+            aria-label="Admissions Open — Enroll Now"
+          >
+            <span className="w-2 h-2 rounded-full bg-white inline-block shrink-0 opacity-90" />
+            Admissions Open — Enroll Now
+          </a>
+        </div> */}
 
         {/* Reels heading */}
         <div className="flex items-center justify-between mb-6 md:mb-8">
@@ -285,7 +396,7 @@ export default function VirtualCampusSection() {
               className="flex items-center gap-2 rounded-full bg-[#7A0C0C] text-white px-5 py-3 text-sm font-semibold shadow-lg transition-all duration-200 hover:bg-[#961212] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0C0C] focus-visible:ring-offset-2"
             >
               <ChevronLeft size={20} />
-              
+
             </button>
             <button
               type="button"
@@ -293,14 +404,14 @@ export default function VirtualCampusSection() {
               aria-label="Next"
               className="flex items-center gap-2 rounded-full bg-[#7A0C0C] text-white px-5 py-3 text-sm font-semibold shadow-lg transition-all duration-200 hover:bg-[#961212] active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7A0C0C] focus-visible:ring-offset-2"
             >
-               
+
               <ChevronRight size={20} />
             </button>
           </div>
         </div>
 
         {/* Desktop: Reels grid */}
-        <div className="hidden md:grid grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-4">
           {localReels.map((reel, index) => (
             <LazyReel key={reel.id} path={reel.path} index={index} />
           ))}

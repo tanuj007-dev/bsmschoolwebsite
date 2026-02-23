@@ -17,7 +17,7 @@ const slides = [
   },
   {
     id: 2,
-    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771571387/Warehouse_video_of_UPKIT-3_h7h6ho.mp4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771871275/Warehouse_video_of_UPKIT-5_ssl52r.mp4",
     title: "Junior Wing",
     text:
       "At B.S.M Public School, the Foundational Stage is a joyful and nurturing beginning to a child's learning journey. We follow a play-based, activity-oriented approach that supports children's physical, cognitive, social, emotional, and language development. Our classrooms are bright, safe spaces where curiosity is encouraged and every small achievement is celebrated. Through stories, art, music, and hands-on activities, we lay a strong foundation for lifelong learning and confident, caring individuals. Trained educators use age-appropriate methods and a variety of learning materials to keep young minds engaged. We also emphasise values, sharing, and teamwork from the early years, so that every child feels valued and ready to step into the primary grades with confidence and a love for learning.",
@@ -47,7 +47,7 @@ function LazyVideo({ src, isActive, onEnded, className }) {
     if (!video || !shouldLoad) return;
     if (isActive) {
       video.load();
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     } else {
       video.pause();
     }
@@ -88,65 +88,61 @@ export default function AppreciationSlider() {
   };
 
   return (
-    <section className="w-full py-14 bg-white overflow-hidden font-sans">
-      <div className="container-wide px-3 md:px-4">
-       
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row min-h-[520px] md:min-h-[560px]">
-          {/* MEDIA - lazy loaded video; center crop (top and bottom cut) */}
-          <div className="relative md:w-[35%] h-[380px] md:h-auto md:min-h-[560px] overflow-hidden bg-gray-100 shrink-0">
+    <section className="w-full px-4 sm:px-6 md:px-12 lg:px-24 py-10 md:py-14 bg-white overflow-hidden font-sans">
+      <div className="container-wide max-w-4xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+
+          {/* MEDIA — video, full width on mobile / 40% on desktop */}
+          <div className="relative w-full md:w-[40%] h-[260px] sm:h-[320px] md:h-auto md:min-h-[580px] overflow-hidden bg-gray-100 shrink-0">
             <LazyVideo
               src={slide.video}
               isActive
               onEnded={nextSlide}
               className="object-cover object-center"
             />
-            <div
-              className="absolute inset-0  pointer-events-none"
-              aria-hidden
-            />
             <div className="absolute bottom-4 left-4 bg-white/95 px-4 py-2 rounded-full text-xs font-semibold tracking-wide text-[#7A0C0C] shadow">
               {slide.title}
             </div>
           </div>
 
-          {/* CONTENT - larger right side; tighter horizontal padding on mobile so text fits with no extra space */}
-          <div className="relative md:w-[65%] px-4 py-6 md:p-12 flex flex-col justify-between min-w-0">
+          {/* CONTENT */}
+          <div className="relative md:w-[60%] px-5 py-6 md:p-12 flex flex-col justify-between min-w-0">
             <Quote
-              size={100}
-              className="absolute top-8 left-8 text-gray-100 hidden md:block"
+              size={80}
+              className="absolute top-6 left-6 text-gray-100 hidden md:block"
               strokeWidth={0}
               fill="currentColor"
               aria-hidden
             />
 
             <div className="relative z-10 transition-opacity duration-200">
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-6 font-medium">
-                "{slide.text}"
+              <p className="text-sm md:text-lg text-gray-700 leading-relaxed mb-5 font-medium line-clamp-12 md:line-clamp-none">
+                &ldquo;{slide.text}&rdquo;
               </p>
-              <h4 className="text-[#1a2b5d] font-bold uppercase tracking-widest text-sm">
+              <h4 className="text-[#1a2b5d] font-bold uppercase tracking-widest text-xs md:text-sm">
                 {slide.title}
               </h4>
-              <p className="text-gray-500 text-xs mt-2 tracking-wide">
+              <p className="text-gray-500 text-xs mt-1.5 tracking-wide">
                 {slide.designation}
               </p>
             </div>
 
-            <div className="flex justify-end mt-6 gap-3">
+            <div className="flex justify-end mt-5 gap-3">
               <button
                 type="button"
                 onClick={prevSlide}
                 aria-label="Previous slide"
-                className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center hover:border-[#7A0C0C] hover:text-[#7A0C0C] transition-colors duration-200"
+                className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-gray-200 flex items-center justify-center hover:border-[#7A0C0C] hover:text-[#7A0C0C] transition-colors duration-200"
               >
-                <ChevronLeft size={20} />
+                <ChevronLeft size={18} />
               </button>
               <button
                 type="button"
                 onClick={nextSlide}
                 aria-label="Next slide"
-                className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center hover:border-[#7A0C0C] hover:text-[#7A0C0C] transition-colors duration-200"
+                className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-gray-200 flex items-center justify-center hover:border-[#7A0C0C] hover:text-[#7A0C0C] transition-colors duration-200"
               >
-                <ChevronRight size={20} />
+                <ChevronRight size={18} />
               </button>
             </div>
           </div>
@@ -154,4 +150,5 @@ export default function AppreciationSlider() {
       </div>
     </section>
   );
+
 }

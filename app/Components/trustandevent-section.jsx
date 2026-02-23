@@ -32,8 +32,8 @@ const EVENTS = [
   "Special workshops for student skill development",
 ];
 
-/* ============== Animated List ============== */
-const AnimatedVerticalList = memo(function AnimatedVerticalList({ items, type }) {
+/* ============== Animated List (pauses when section not in view) ============== */
+const AnimatedVerticalList = memo(function AnimatedVerticalList({ items, type, inView }) {
   const controls = useAnimationControls();
   const listRef = useRef(null);
   const [height, setHeight] = useState(0);
@@ -53,17 +53,18 @@ const AnimatedVerticalList = memo(function AnimatedVerticalList({ items, type })
   }, [height, controls]);
 
   useEffect(() => {
-    startAnimation();
-  }, [startAnimation]);
+    if (inView) startAnimation();
+    else controls.stop();
+  }, [inView, startAnimation, controls]);
 
   const handleMouseEnter = useCallback(() => controls.stop(), [controls]);
-  const handleMouseLeave = useCallback(() => startAnimation(), [startAnimation]);
+  const handleMouseLeave = useCallback(() => inView && startAnimation(), [inView, startAnimation]);
 
   const tripledItems = [...items, ...items, ...items];
 
   return (
     <div
-      className="relative h-[220px] overflow-hidden"
+      className="relative h-[200px] overflow-hidden"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -102,9 +103,23 @@ const AnimatedVerticalList = memo(function AnimatedVerticalList({ items, type })
 
 /* ============== MAIN SECTION ============== */
 const TrustAndEventsSection = () => {
+  const sectionRef = useRef(null);
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "80px", threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="bg-[#fcfcfc] py-20 px-4 md:px-8 overflow-hidden">
-      <div className="container-wide grid grid-cols-1 lg:grid-cols-2 gap-12">
+    <section ref={sectionRef} className="bg-[#fcfcfc] py-10 md:py-20 px-4 md:px-8 overflow-hidden">
+      <div className="container-wide grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12">
 
         {/* TRUST CARD */}
         <m.div
@@ -112,12 +127,11 @@ const TrustAndEventsSection = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
-          className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] border overflow-hidden flex flex-col md:flex-row h-[420px] md:h-[360px]"
+          className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] border overflow-hidden flex flex-col md:flex-row md:h-[360px]"
         >
-          {/* ✅ Next.js Image instead of <img> — auto-optimised WebP/AVIF */}
-          <div className="relative md:w-[50%] h-[180px] md:h-full">
+          <div className="relative md:w-[50%] h-[270px] md:h-[200px] md:h-full shrink-0">
             <Image
-              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771568535/OPEN_1_pdzcny.webp"
+              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771877401/latest_updates_events_1771876806532_fdaizw.jpg"
               alt="Parents Trust at B.S.M Public School"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -126,11 +140,11 @@ const TrustAndEventsSection = () => {
             />
           </div>
 
-          <div className="relative flex-1 p-6 md:p-8">
+          <div className="relative flex-1 p-5 md:p-8">
             <h3 className="text-black text-base md:text-lg font-bold uppercase tracking-wider mb-4">
               Key Features
             </h3>
-            <AnimatedVerticalList items={FEATURES} type="features" />
+            <AnimatedVerticalList items={FEATURES} type="features" inView={inView} />
             <p className="text-[10px] text-gray-400 font-medium pt-4 mt-4 border-t">
               Updated for {ACADEMIC_YEAR}
             </p>
@@ -143,11 +157,11 @@ const TrustAndEventsSection = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
-          className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] border overflow-hidden flex flex-col md:flex-row h-[420px] md:h-[360px]"
+          className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12)] border overflow-hidden flex flex-col md:flex-row md:h-[360px]"
         >
-          <div className="relative md:w-[50%] h-[180px] md:h-full">
+          <div className="relative md:w-[50%] h-[270px] md:h-[200px] md:h-full shrink-0">
             <Image
-              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771566869/OPEN_wmgciw.webp"
+              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771877251/key_features_school_1771876664137_j6nqtq.jpg"
               alt="School Activities and Events"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -156,11 +170,11 @@ const TrustAndEventsSection = () => {
             />
           </div>
 
-          <div className="relative flex-1 p-6 md:p-8">
+          <div className="relative flex-1 p-5 md:p-8">
             <h3 className="text-black text-base md:text-lg font-bold uppercase tracking-wider mb-4">
               Latest Updates
             </h3>
-            <AnimatedVerticalList items={EVENTS} type="events" />
+            <AnimatedVerticalList items={EVENTS} type="events" inView={inView} />
             <p className="text-[10px] text-gray-400 font-medium pt-4 mt-4 border-t">
               Updated for {ACADEMIC_YEAR}
             </p>

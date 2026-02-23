@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import Link from "next/link";
 import { m } from "framer-motion";
 import LazyVideo from "./LazyVideo";
@@ -113,7 +113,7 @@ export const facilityCards = [
     title: "Dance & Performing Arts Room",
     description:
       "A vibrant and spacious dance room equipped with full-length mirrors, wooden flooring, and an advanced sound system to nurture creativity, rhythm, and confidence in students through various dance and performing arts activities.",
-    video: "/danceroom2.mp4",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771858865/danceroom5_m8grak.mp4",
   },
   {
     slug: "auditorium",
@@ -124,55 +124,53 @@ export const facilityCards = [
   },
 ];
 
-const ProgramsSection = () => {
-  const cards = facilityCards;
-
+const FacilityCard = memo(function FacilityCard({ card }) {
   return (
-    <section className="w-full bg-[#fdfdfd] py-12 md:py-20 px-4 md:px-8">
-      <SharedCDNLinks />
-      <div className="container-wide">
-        <m.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-4"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
-          {cards.map((card, index) => (
-            <Link key={index} href={`/amenities/${card.slug}`}>
-              <m.div
-                variants={cardVariants}
-                whileHover={{ y: -8 }}
-                className="group flex flex-col bg-white rounded-xl overflow-hidden h-full shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100"
-              >
-                {/* Video - lazy load when in view */}
-                <div className="relative w-full aspect-9/16 overflow-hidden bg-gray-100">
-                  <LazyVideo
-                    src={card.video}
-                    className="h-full w-full transition-transform duration-700 group-hover:scale-105"
-                    preload="metadata"
-                  />
-                </div>
+    <Link href={`/amenities/${card.slug}`}>
+      <m.div
+        variants={cardVariants}
+        whileHover={{ y: -8 }}
+        className="group flex flex-col bg-white rounded-xl overflow-hidden h-full shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100"
+      >
+        <div className="relative w-full aspect-9/16 overflow-hidden bg-gray-100">
+          <LazyVideo
+            src={card.video}
+            className="h-full w-full transition-transform duration-700 group-hover:scale-105"
+            preload="none"
+          />
+        </div>
 
-                {/* Content - same as before */}
-                <div className="flex flex-col grow p-6 md:p-7 relative bg-white transition-colors duration-500 group-hover:bg-[#7A0C0C]">
-                  <div className="w-12 h-1 bg-[#D4AF37] mb-5 rounded-full" />
-
-                  <h3 className="text-[#7A0C0C] group-hover:text-[#D4AF37] text-lg md:text-xl font-bold mb-3 transition-colors duration-500 font-serif">
-                    {card.title}
-                  </h3>
-
-                  <p className="text-gray-600 group-hover:text-white/90 text-sm md:text-base leading-relaxed transition-colors duration-500">
-                    {card.description}
-                  </p>
-                </div>
-              </m.div>
-            </Link>
-          ))}
-        </m.div>
-      </div>
-    </section>
+        <div className="flex flex-col grow p-6 md:p-7 relative bg-white transition-colors duration-500 group-hover:bg-[#7A0C0C]">
+          <div className="w-12 h-1 bg-[#D4AF37] mb-5 rounded-full" />
+          <h3 className="text-[#7A0C0C] group-hover:text-[#D4AF37] text-lg md:text-xl font-bold mb-3 transition-colors duration-500 font-serif">
+            {card.title}
+          </h3>
+          <p className="text-gray-600 group-hover:text-white/90 text-sm md:text-base leading-relaxed transition-colors duration-500">
+            {card.description}
+          </p>
+        </div>
+      </m.div>
+    </Link>
   );
-};
+});
+
+const ProgramsSection = () => (
+  <section className="w-full bg-[#fdfdfd] py-12 md:py-20 px-4 md:px-8">
+    <SharedCDNLinks />
+    <div className="container-wide">
+      <m.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-4"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        {facilityCards.map((card, index) => (
+          <FacilityCard key={card.slug} card={card} />
+        ))}
+      </m.div>
+    </div>
+  </section>
+);
 
 export default ProgramsSection;

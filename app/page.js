@@ -1,8 +1,11 @@
-import React, { Suspense } from "react";
+"use client";
+
+import React from "react";
 import dynamic from "next/dynamic";
 import HeaderHero from "./Components/herosection";
+import ViewportSection from "./Components/ViewportSection";
 
-// ─── Skeleton loader ───────────────────────────────────────────────────────
+// ─── Skeleton: shown until section chunk loads (viewport-triggered) ───────────
 function SectionSkeleton({ height = "h-64" }) {
   return (
     <div
@@ -12,60 +15,11 @@ function SectionSkeleton({ height = "h-64" }) {
   );
 }
 
-// ─── Code splitting: each section is a separate chunk (smaller initial JS).
-//     ssr: false is only allowed in Client Components (Next.js 16), so we use
-//     default ssr: true here and rely on skeletons for perceived performance.
-
-const AppreciationSlider = dynamic(
-  () => import("./Components/appreciation-section"),
-  { loading: () => <SectionSkeleton height="h-[480px]" /> }
-);
-
-const PremiumFacilitiesSection = dynamic(
-  () => import("./Components/premium-facilities"),
-  { loading: () => <SectionSkeleton height="h-96" /> }
-);
-
-const AwardsAchievementsSlider = dynamic(
-  () => import("./Components/awardsachievementsslider"),
-  { loading: () => <SectionSkeleton height="h-72" /> }
-);
-
-const TVSReviewsSection = dynamic(
-  () => import("./Components/review"),
-  { loading: () => <SectionSkeleton height="h-80" /> }
-);
-
-const WhyChooseSection = dynamic(
-  () => import("./Components/whychoosesection"),
-  { loading: () => <SectionSkeleton height="h-64" /> }
-);
-
-const TrustAndEventsSection = dynamic(
-  () => import("./Components/trustandevent-section"),
-  { loading: () => <SectionSkeleton height="h-96" /> }
-);
-
-const VirtualCampusSection = dynamic(
-  () => import("./Components/virtualsection"),
-  { loading: () => <SectionSkeleton height="h-[600px]" /> }
-);
-
-const AdmissionProcessSection = dynamic(
-  () => import("./Components/admissionprocesssection"),
-  { loading: () => <SectionSkeleton height="h-64" /> }
-);
-
-const LimitedSeatsCTA = dynamic(
-  () => import("./Components/limitedseat"),
-  { loading: () => <SectionSkeleton height="h-64" /> }
-);
-
+// ─── Sticky UI: load with page (small chunks) ────────────────────────────────
 const StickyEnrollButton = dynamic(
   () => import("./Components/enrollbutton"),
   { loading: () => null }
 );
-
 const WhatsAppSticky = dynamic(
   () => import("./Components/stickywhatup"),
   { loading: () => null }
@@ -74,49 +28,60 @@ const WhatsAppSticky = dynamic(
 export default function Home() {
   return (
     <>
-      {/* LCP — eagerly server-rendered for fastest visible paint */}
       <HeaderHero />
 
-      {/* Code-split sections with skeleton fallbacks for perceived performance */}
-      <Suspense fallback={<SectionSkeleton height="h-[480px]" />}>
-        <AppreciationSlider />
-      </Suspense>
-
-      <Suspense fallback={<SectionSkeleton height="h-96" />}>
-        <PremiumFacilitiesSection />
-      </Suspense>
-
-      <Suspense fallback={<SectionSkeleton height="h-72" />}>
-        <AwardsAchievementsSlider />
-      </Suspense>
-
-      <Suspense fallback={<SectionSkeleton height="h-80" />}>
-        <TVSReviewsSection />
-      </Suspense>
-
-      <Suspense fallback={<SectionSkeleton height="h-64" />}>
-        <WhyChooseSection />
-      </Suspense>
+      {/* Sections load only when scrolled into view (lighter initial load) */}
+      <ViewportSection
+        loader={() => import("./Components/appreciation-section")}
+        fallback={<SectionSkeleton height="h-[380px]" />}
+        minHeight="380px"
+      />
+      <ViewportSection
+        loader={() => import("./Components/premium-facilities")}
+        fallback={<SectionSkeleton height="h-96" />}
+        minHeight="24rem"
+      />
+      <ViewportSection
+        loader={() => import("./Components/awardsachievementsslider")}
+        fallback={<SectionSkeleton height="h-72" />}
+        minHeight="18rem"
+      />
+      <ViewportSection
+        loader={() => import("./Components/review")}
+        fallback={<SectionSkeleton height="h-80" />}
+        minHeight="20rem"
+      />
+      <ViewportSection
+        loader={() => import("./Components/whychoosesection")}
+        fallback={<SectionSkeleton height="h-64" />}
+        minHeight="16rem"
+      />
 
       <StickyEnrollButton />
 
-      <Suspense fallback={<SectionSkeleton height="h-96" />}>
-        <TrustAndEventsSection />
-      </Suspense>
-
-      <Suspense fallback={<SectionSkeleton height="h-[600px]" />}>
-        <VirtualCampusSection />
-      </Suspense>
-
-      <Suspense fallback={<SectionSkeleton height="h-64" />}>
-        <AdmissionProcessSection />
-      </Suspense>
+      <ViewportSection
+        loader={() => import("./Components/trustandevent-section")}
+        fallback={<SectionSkeleton height="h-96" />}
+        minHeight="24rem"
+      />
+      <ViewportSection
+        loader={() => import("./Components/virtualsection")}
+        fallback={<SectionSkeleton height="h-[400px]" />}
+        minHeight="400px"
+      />
+      <ViewportSection
+        loader={() => import("./Components/admissionprocesssection")}
+        fallback={<SectionSkeleton height="h-64" />}
+        minHeight="16rem"
+      />
 
       <WhatsAppSticky />
 
-      <Suspense fallback={<SectionSkeleton height="h-64" />}>
-        <LimitedSeatsCTA />
-      </Suspense>
+      <ViewportSection
+        loader={() => import("./Components/limitedseat")}
+        fallback={<SectionSkeleton height="h-64" />}
+        minHeight="16rem"
+      />
     </>
   );
 }

@@ -14,22 +14,45 @@ const facilities = facilityCards.map((card, i) => ({
   video: card.video,
 }));
 
-/** Lazy-load video only when card is in/near viewport. Keeps carousel light. */
-function LazyFacilityCard({ item, index }) {
+/** Lazy-load and play video only when card is in view; pause when off-screen to keep carousel light. */
+function LazyFacilityCard({ item }) {
   const [shouldLoad, setShouldLoad] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef(null);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     if (!cardRef.current) return;
-    const observer = new IntersectionObserver(
+    const el = cardRef.current;
+    const loadObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) setShouldLoad(true);
       },
-      { rootMargin: "200px 0px", threshold: 0 }
+      { rootMargin: "120px 0px", threshold: 0 }
     );
-    observer.observe(cardRef.current);
-    return () => observer.disconnect();
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting && entry.intersectionRatio >= 0.2);
+      },
+      { rootMargin: "0px", threshold: [0, 0.2, 0.5] }
+    );
+    loadObserver.observe(el);
+    visibilityObserver.observe(el);
+    return () => {
+      loadObserver.disconnect();
+      visibilityObserver.disconnect();
+    };
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !shouldLoad) return;
+    if (isVisible) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [isVisible, shouldLoad]);
 
   return (
     <Link
@@ -37,16 +60,17 @@ function LazyFacilityCard({ item, index }) {
       className="group shrink-0 w-[260px] sm:w-[280px] md:w-[300px]"
       ref={cardRef}
     >
-      <div className="relative aspect-9/16 rounded-xl md:rounded-2xl overflow-hidden shadow-md will-change-transform">
+      <div className="relative aspect-9/16 rounded-xl md:rounded-2xl overflow-hidden shadow-md">
         {shouldLoad ? (
           <video
+            ref={videoRef}
             src={item.video}
-            className="w-full h-full object-cover transition-transform duration-500 ease-out"
-            autoPlay
+            className="w-full h-full object-cover"
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
+            aria-label={item.title}
           />
         ) : (
           <div className="w-full h-full min-h-[280px] bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
@@ -146,14 +170,14 @@ export default function PremiumFacilitiesSection() {
             />
             <m.div
               ref={trackRef}
-              style={{ x, willChange: "transform" }}
+              style={{ x, willChange: "transform", backfaceVisibility: "hidden" }}
               className="flex gap-6 sm:gap-8 w-max"
               onHoverStart={pause}
               onHoverEnd={resume}
               transition={{ type: "tween", ease: [0.32, 0.72, 0, 1] }}
             >
               {duplicated.map((item, index) => (
-                <LazyFacilityCard key={`${item.slug}-${index}`} item={item} index={index} />
+                <LazyFacilityCard key={`${item.slug}-${index}`} item={item} />
               ))}
             </m.div>
           </div>

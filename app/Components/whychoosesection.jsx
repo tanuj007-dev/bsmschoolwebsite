@@ -19,7 +19,7 @@ const FEATURES = [
   { icon: FileText, text: "A future-ready CBSE curriculum" },
   { icon: Waypoints, text: "Stream-specific guidance for Class 11 & 12" },
   { icon: FileCheck, text: "Support for competitive exams (NEET, JEE, CUET)" },
-  { icon: MonitorPlay, text: "Science, Robotics & Labs" },
+  { icon: MonitorPlay, text: "Science, Ai & Labs" },
   { icon: Trophy, text: "Leadership & extracurricular excellence" },
 ];
 

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import Image from "next/image";
-import { useAnimationFrame } from "framer-motion";
 import {
   Star,
   MessageCircle,
@@ -64,7 +63,7 @@ function LazyAvatar({ src, alt }) {
 }
 
 /** Compact card with fixed size and lazy-loaded image */
-const ReviewCard = ({ item, onReadMore }) => {
+const ReviewCard = memo(function ReviewCard({ item, onReadMore }) {
   return (
     <div
       className="w-[320px] h-[280px] shrink-0 flex flex-col bg-white rounded-2xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow duration-300"
@@ -96,15 +95,19 @@ const ReviewCard = ({ item, onReadMore }) => {
       </button>
     </div>
   );
-};
+});
+
+const SLIDER_SPEED = 0.06;
 
 export default function TVSReviewsSection() {
   const [selectedReview, setSelectedReview] = useState(null);
   const containerRef = useRef(null);
+  const sectionRef = useRef(null);
   const x = useRef(0);
   const isManual = useRef(false);
+  const inView = useRef(true);
+  const rafId = useRef(null);
 
-  const speed = 0.06;
   const cardStep = CARD_WIDTH + CARD_GAP;
   const duplicated = [...reviews, ...reviews];
 
@@ -121,16 +124,39 @@ export default function TVSReviewsSection() {
     }, 500);
   };
 
-  useAnimationFrame((_, delta) => {
-    if (!containerRef.current || isManual.current) return;
-    x.current -= delta * speed;
-    const width = containerRef.current.scrollWidth / 2;
-    if (Math.abs(x.current) >= width) x.current = 0;
-    containerRef.current.style.transform = `translateX(${x.current}px)`;
-  });
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView.current = entry.isIntersecting;
+      },
+      { rootMargin: "100px", threshold: 0 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    let lastTime = 0;
+    function tick(time) {
+      rafId.current = requestAnimationFrame(tick);
+      if (!containerRef.current || isManual.current || !inView.current) return;
+      const delta = time - lastTime;
+      lastTime = time;
+      x.current -= delta * SLIDER_SPEED;
+      const width = containerRef.current.scrollWidth / 2;
+      if (Math.abs(x.current) >= width) x.current = 0;
+      containerRef.current.style.transform = `translateX(${x.current}px)`;
+    }
+    rafId.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
+  }, []);
 
   return (
-    <section className="w-full bg-[#fcfcfc] py-20 overflow-hidden border-t border-gray-100">
+    <section ref={sectionRef} className="w-full bg-[#fcfcfc] py-20 overflow-hidden border-t border-gray-100">
       <div className="container-wide px-4">
         <div className="mb-12 flex flex-wrap justify-between items-center gap-4">
           <div>

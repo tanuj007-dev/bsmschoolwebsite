@@ -93,16 +93,20 @@ const HeaderHero = () => {
             placeholder="blur"
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           />
-          {/* Enroll Now — mobile, left bottom */}
-          <div className="absolute top-28 right-22">
-            <button
-              type="button"
-              onClick={openModal}
-              className="px-5 py-1.5 bg-[#7A0C0C] hover:bg-[#5a0909] text-white font-semibold text-sm rounded-lg transition-colors shadow-md"
-              aria-label="Enroll Now"
-            >
-              Enroll Now
-            </button>
+          {/* Enroll Now — mobile */}
+          <div className="absolute top-28 right-20">
+            <div className="enroll-wrap">
+              <span className="enroll-shell">
+                <button
+                  type="button"
+                  onClick={openModal}
+                  className="enroll-inner"
+                  aria-label="Enroll Now"
+                >
+                  Enroll Now
+                </button>
+              </span>
+            </div>
           </div>
         </div>
 
@@ -119,16 +123,20 @@ const HeaderHero = () => {
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AJQAB/9k="
           />
-          {/* Enroll Now — desktop only, left bottom */}
+          {/* Enroll Now — desktop */}
           <div className="absolute bottom-6 left-10 lg:bottom-42 lg:left-63">
-            <button
-              type="button"
-              onClick={openModal}
-              className="px-15 py-3.5 bg-[#7A0C0C] hover:bg-[#5a0909] text-white font-semibold text-sm rounded-lg transition-colors shadow-md"
-              aria-label="Enroll Now"
-            >
-              Enroll Now
-            </button>
+            <div className="enroll-wrap enroll-wrap--lg">
+              <span className="enroll-shell enroll-shell--lg">
+                <button
+                  type="button"
+                  onClick={openModal}
+                  className="enroll-inner enroll-inner--lg"
+                  aria-label="Enroll Now"
+                >
+                  Enroll Now
+                </button>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -136,8 +144,50 @@ const HeaderHero = () => {
 
       {/* ── MODAL (lazy, only renders when open=true) ──────────────────── */}
       <EnrollModal open={open} onClose={closeModal} />
+
+      {/* ── Glowing red pulse button ──────────────────────────────────────── */}
+      <style>{`
+        @keyframes enroll-glow {
+          0%   { background-color: #740C0C; box-shadow: 0 0 3px  #740C0C; }
+          50%  { background-color: #cc1111; box-shadow: 0 0 40px #cc1111; }
+          100% { background-color: #740C0C; box-shadow: 0 0 3px  #740C0C; }
+        }
+
+        /* Wrap + shell are simple pass-throughs */
+        .enroll-wrap  { display: inline-block; }
+        .enroll-shell { display: inline-block; }
+
+        /* ── The glowing button ── */
+        .enroll-inner {
+          display: inline-block;
+          background-color: #740C0C;
+          border-radius: 10px;
+          border: none;
+          color: #ffffff;
+          cursor: pointer;
+          font-family: Arial, sans-serif;
+          font-size: 0.9rem;
+          font-weight: 600;
+          padding: 8px 22px;
+          text-align: center;
+          white-space: nowrap;
+          letter-spacing: 0.03em;
+          -webkit-animation: enroll-glow 1500ms infinite;
+             -moz-animation: enroll-glow 1500ms infinite;
+               -o-animation: enroll-glow 1500ms infinite;
+                  animation: enroll-glow 1500ms infinite;
+        }
+
+        /* ── Desktop (larger) variant ── */
+        .enroll-inner--lg {
+          font-size: 1.15rem;
+          padding: 13px 56px;
+          border-radius: 12px;
+        }
+      `}</style>
     </section>
   );
 };
 
 export default HeaderHero;
+

@@ -9,7 +9,7 @@ import React, { useState, useEffect, useRef } from "react";
 export default function LazyVideo({
   src,
   className = "",
-  preload = "metadata",
+  preload = "none",
   muted = true,
   loop = true,
   playsInline = true,
@@ -28,7 +28,7 @@ export default function LazyVideo({
       ([entry]) => {
         if (entry.isIntersecting) setShouldLoad(true);
       },
-      { rootMargin: "200px 0px", threshold: 0.01 }
+      { rootMargin: "120px 0px", threshold: 0.01 }
     );
     observer.observe(el);
     return () => observer.disconnect();

@@ -12,7 +12,7 @@ const coordinators = [
     deskTitle: "From The Chairman's Desk",
     name: "Chairman",
     role: "Chairman",
-    image: "",
+    image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771874136/pngtree-user-profile-button-for-web-and-mobile-design-vector-png-image_41767880_rfknb3.jpg",
     paragraphs: [
       "Welcome to B.S.M Public School, Karala, where education goes beyond academics to shape character, confidence, and purpose. We believe in preparing students with the knowledge, values, and skills needed to thrive responsibly in a rapidly changing world.Our vision focuses on the holistic development of every child through a balanced emphasis on academics, co-curricular learning, and life skills. With dedicated educators and a learner-centric approach, we nurture curiosity, creativity, discipline, and integrity. In partnership with parents, we remain committed to empowering our students to become confident, capable, and socially responsible individuals."
     ],
@@ -22,7 +22,7 @@ const coordinators = [
     deskTitle: "From The President's Desk",
     name: "President",
     role: "President",
-    image: "/president.webp",
+    image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771874136/pngtree-user-profile-button-for-web-and-mobile-design-vector-png-image_41767880_rfknb3.jpg",
     paragraphs: [
       "Our vision is to make this school the finest institution in the area—where children learn with purpose, grow with values, and succeed with confidence. We aim to nurture responsible, capable learners who bring pride to their families, their community, and their region. With committed educators and a progressive learning environment, we are building a school that shapes futures and creates leaders of tomorrow.",
     ],
@@ -32,7 +32,7 @@ const coordinators = [
     deskTitle: "Message from the General Secretary",
     name: "General Secretary",
     role: "General Secretary",
-    image: "/generalsecretary.webp",
+    image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771874136/pngtree-user-profile-button-for-web-and-mobile-design-vector-png-image_41767880_rfknb3.jpg",
     paragraphs: [
       "At B.S.M Public School, our vision is to create an institution where education inspires purpose, excellence, and responsible leadership.",
       "We are committed to fostering a learning culture that empowers students with knowledge, values, and future-ready skills to thrive in a dynamic world. Through continuous innovation and collaborative partnerships with parents and educators, we strive to nurture confident individuals who think critically and contribute meaningfully to society.",
@@ -43,7 +43,7 @@ const coordinators = [
     deskTitle: "From The Manager's Desk",
     name: "Manager",
     role: "Manager",
-    image: "/manager.webp",
+    image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771874136/pngtree-user-profile-button-for-web-and-mobile-design-vector-png-image_41767880_rfknb3.jpg",
     paragraphs: [
       "Our school's operations are driven by a commitment to excellence in every aspect—from infrastructure and safety to support services that enable teaching and learning to flourish.",
       "We ensure that the campus remains a secure, well-maintained, and conducive space where students and staff can focus on what matters most: growth and achievement.",
@@ -54,7 +54,7 @@ const coordinators = [
     deskTitle: "From The Head of School",
     name: "Head of School",
     role: "Head of School",
-    image: "/headofschool.webp",
+    image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771874136/pngtree-user-profile-button-for-web-and-mobile-design-vector-png-image_41767880_rfknb3.jpg",
     paragraphs: [
       "At B.S.M Public School, we believe education shapes both intellect and character. Guided by the vision of NEP 2020, we nurture curious minds, strong values, and confident learners in a safe and inclusive environment.",
       "Our focus is holistic development—empowering students with knowledge, integrity, and compassion to succeed in life. As Head of School, I am committed to ensuring every child realises their potential and grows into a responsible, capable, and compassionate citizen.",
@@ -65,7 +65,7 @@ const coordinators = [
     deskTitle: "From The Senior Coordinator's Desk",
     name: "Ms Ruchi Mathur",
     role: "Senior Coordinator",
-    image: "/seniorcoordinator.webp",
+    image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771874136/pngtree-user-profile-button-for-web-and-mobile-design-vector-png-image_41767880_rfknb3.jpg",
     paragraphs: [
       "At BSM School, we believe that education is far more than a curriculum; it is a powerful intersection where timeless human values meet the digital frontier, moving beyond textbooks into a vibrant world of innovation, creativity, and global collaboration.",
       "This journey is fueled by our partnership: dedicated educators, resilient students, and supportive parents. Together, we are nurturing a culture of lifelong excellence and integrity, ensuring our children emerge as visionary architects of their own bright futures.",
@@ -76,7 +76,7 @@ const coordinators = [
     deskTitle: "From The Middle Coordinator's Desk",
     name: "Middle Coordinator",
     role: "Middle Coordinator",
-    image: "/middlecoordinator.webp",
+    image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771874136/pngtree-user-profile-button-for-web-and-mobile-design-vector-png-image_41767880_rfknb3.jpg",
     paragraphs: [
       "The middle years are a crucial phase where students build strong academic foundations and develop critical thinking and social skills. Our team is dedicated to guiding each child through this journey with care and rigour.",
       "We create a balanced environment that encourages curiosity, discipline, and collaboration, preparing students for the challenges and opportunities of senior school and beyond.",
@@ -87,7 +87,7 @@ const coordinators = [
     deskTitle: "From The Junior Coordinator's Desk",
     name: "Junior Coordinator",
     role: "Junior Coordinator",
-    image: "/juniorcoordinator.webp",
+    image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771874136/pngtree-user-profile-button-for-web-and-mobile-design-vector-png-image_41767880_rfknb3.jpg",
     paragraphs: [
       "At B.S.M Public School, our primary goal is to ensure the highest quality of education through modern pedagogy and a student-centric approach. In an ever-changing world, we equip our students with the skills, values, and knowledge to navigate complex challenges. Our academic programs, supported by technology and expert faculty, encourage students to think critically and solve problems creatively. I encourage open communication between parents, teachers, and students as we collaborate to create a stimulating environment where every child can thrive."
     ],
