@@ -46,14 +46,17 @@ export async function POST(request) {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const name = file.name || "image";
-      const ext = name.includes(".") ? name.slice(name.lastIndexOf(".")) : ".jpg";
-      const pathname = `gallery/${timestamp}-${i}-${sanitize(name)}${ext}`;
+      // Split name and extension correctly so we don't double-append the ext
+      const lastDot = name.lastIndexOf(".");
+      const baseName = lastDot > 0 ? name.slice(0, lastDot) : name;
+      const ext = lastDot > 0 ? name.slice(lastDot).toLowerCase() : ".jpg";
+      const pathname = `gallery/${timestamp}-${i}-${sanitize(baseName)}${ext}`;
       const blob = await put(pathname, file, { access: "public", addRandomSuffix: true });
       newEntries.push({
         id: uuidv4(),
         src: blob.url,
-        category: files.length === 1 ? category : "Other",
-        title: files.length === 1 ? (title || sanitize(name)) : (file.name?.replace(/\.[^.]+$/, "") || `Image ${i + 1}`),
+        category,          // ← always use the selected category (was bugged to "Other" for multi-upload)
+        title: files.length === 1 ? (title || sanitize(baseName)) : (file.name?.replace(/\.[^.]+$/, "") || `Image ${i + 1}`),
         desc: files.length === 1 ? desc : "",
         createdAt: new Date().toISOString(),
       });
@@ -69,7 +72,7 @@ export async function POST(request) {
           const data = await res.json();
           currentList = Array.isArray(data) ? data : [];
         }
-      } catch (_) {}
+      } catch (_) { }
     }
 
     const updatedList = [...currentList, ...newEntries];
@@ -92,7 +95,7 @@ export async function POST(request) {
   } catch (err) {
     console.error("[POST /api/gallery/upload]", err);
     return NextResponse.json(
-      { error: "Upload failed" },
+      { error: `Upload failed: ${err?.message || String(err)}` },
       {
         status: 500,
         headers: {

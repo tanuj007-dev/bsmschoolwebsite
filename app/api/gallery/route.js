@@ -14,13 +14,50 @@ const NO_STORE_HEADERS = {
 
 async function getCurrentList() {
   if (!process.env.BLOB_READ_WRITE_TOKEN) return [];
-  const { blobs } = await list({ prefix: "gallery/" });
-  const indexBlob = blobs.find((b) => b.pathname === INDEX_PATH);
-  if (!indexBlob?.url) return [];
-  const res = await fetch(indexBlob.url, { cache: "no-store" });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return Array.isArray(data) ? data : [];
+  try {
+    const { blobs } = await list({ prefix: "gallery/" });
+
+    // ── Step 1: load the index.json (manually managed list) ──
+    const indexBlob = blobs.find((b) => b.pathname === INDEX_PATH);
+    let indexedList = [];
+    if (indexBlob?.url) {
+      try {
+        const res = await fetch(indexBlob.url, { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          indexedList = Array.isArray(data) ? data : [];
+        }
+      } catch (_) { }
+    }
+
+    // ── Step 2: also surface any blob image files NOT in the index
+    //    (e.g. images uploaded directly via the Vercel dashboard) ──
+    const IMAGE_EXTS = new Set([".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".svg"]);
+    const indexedUrls = new Set(indexedList.map((e) => e.src));
+    const unindexed = blobs
+      .filter((b) => {
+        if (b.pathname === INDEX_PATH) return false;
+        const ext = b.pathname.slice(b.pathname.lastIndexOf(".")).toLowerCase();
+        return IMAGE_EXTS.has(ext) && !indexedUrls.has(b.url);
+      })
+      .map((b) => {
+        const filename = b.pathname.slice(b.pathname.lastIndexOf("/") + 1);
+        const nameWithoutExt = filename.slice(0, filename.lastIndexOf(".")) || filename;
+        return {
+          id: b.pathname,
+          src: b.url,
+          category: "Events", // default for pre-existing blobs
+          title: nameWithoutExt.replace(/[-_]+/g, " ").trim(),
+          desc: "",
+          createdAt: b.uploadedAt || new Date().toISOString(),
+        };
+      });
+
+    return [...indexedList, ...unindexed];
+  } catch (err) {
+    console.error("[getCurrentList]", err);
+    return [];
+  }
 }
 
 async function writeList(list) {
@@ -115,11 +152,11 @@ export async function PATCH(request) {
     const updated = current.map((e, i) =>
       i === index
         ? {
-            ...e,
-            ...(body.title !== undefined && { title: String(body.title) }),
-            ...(body.desc !== undefined && { desc: String(body.desc) }),
-            ...(body.category !== undefined && { category: String(body.category) }),
-          }
+          ...e,
+          ...(body.title !== undefined && { title: String(body.title) }),
+          ...(body.desc !== undefined && { desc: String(body.desc) }),
+          ...(body.category !== undefined && { category: String(body.category) }),
+        }
         : e
     );
     await writeList(updated);
