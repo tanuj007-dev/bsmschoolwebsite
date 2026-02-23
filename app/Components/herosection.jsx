@@ -108,10 +108,19 @@ const HeaderHero = () => {
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AJQAB/9k="
           />
+          {/* Enroll Now — desktop only, left bottom */}
+          <div className="absolute bottom-6 left-10 lg:bottom-45 lg:left-63">
+            <button
+              type="button"
+              onClick={openModal}
+              className="px-15 py-3.5 bg-[#7A0C0C] hover:bg-[#5a0909] text-white font-semibold text-sm rounded-lg transition-colors shadow-md"
+              aria-label="Enroll Now"
+            >
+              Enroll Now
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* ── ENROLL NOW — outside overflow container so it always shows on desktop (hidden on mobile; shown in appreciation-section) */}
 
 
       {/* ── MODAL (lazy, only renders when open=true) ──────────────────── */}
