@@ -93,6 +93,17 @@ const HeaderHero = () => {
             placeholder="blur"
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           />
+          {/* Enroll Now — mobile, left bottom */}
+          <div className="absolute top-28 right-22">
+            <button
+              type="button"
+              onClick={openModal}
+              className="px-5 py-1.5 bg-[#7A0C0C] hover:bg-[#5a0909] text-white font-semibold text-sm rounded-lg transition-colors shadow-md"
+              aria-label="Enroll Now"
+            >
+              Enroll Now
+            </button>
+          </div>
         </div>
 
         {/* Desktop: Exact aspect ratio (2470/943) to match the image source perfectly */}
@@ -109,7 +120,7 @@ const HeaderHero = () => {
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AJQAB/9k="
           />
           {/* Enroll Now — desktop only, left bottom */}
-          <div className="absolute bottom-6 left-10 lg:bottom-45 lg:left-63">
+          <div className="absolute bottom-6 left-10 lg:bottom-42 lg:left-63">
             <button
               type="button"
               onClick={openModal}
