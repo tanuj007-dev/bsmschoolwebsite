@@ -151,39 +151,28 @@ export default function UploadGalleryPage() {
     if (!pendingItems.length) return;
     setGlobalMsg("");
 
-    // Mark all pending as uploading
-    setItems((prev) =>
-      prev.map((it) =>
-        it.status === "idle" || it.status === "error"
-          ? { ...it, status: "uploading", error: "" }
-          : it
-      )
-    );
-
-    // Upload in parallel — one request per file (avoids body-size limits)
-    const results = await Promise.allSettled(
-      pendingItems.map((item) =>
-        uploadOne({
+    // ── IMPORTANT: upload SEQUENTIALLY, not in parallel ──────────────────────
+    // Parallel uploads cause a race condition: all 14 requests read the same
+    // index.json before any write completes → last write wins → only 1 image saved.
+    // Sequential = each read-modify-write on index.json fully completes before next.
+    let done = 0, failed = 0;
+    for (const item of pendingItems) {
+      // Mark this one item as uploading (others stay idle/queued)
+      updateItem(item.id, { status: "uploading", error: "" });
+      try {
+        await uploadOne({
           preview: item.preview,
           fileName: item.fileName,
           category,
           title: item.title || item.fileName.replace(/\.[^.]+$/, ""),
-        }).then(() => ({ id: item.id, ok: true }))
-          .catch((err) => ({ id: item.id, ok: false, error: err.message }))
-      )
-    );
-
-    let done = 0, failed = 0;
-    results.forEach((r) => {
-      const val = r.value;
-      if (val.ok) {
-        updateItem(val.id, { status: "done" });
+        });
+        updateItem(item.id, { status: "done" });
         done++;
-      } else {
-        updateItem(val.id, { status: "error", error: val.error });
+      } catch (err) {
+        updateItem(item.id, { status: "error", error: err.message });
         failed++;
       }
-    });
+    }
 
     setGlobalMsg(
       failed === 0
