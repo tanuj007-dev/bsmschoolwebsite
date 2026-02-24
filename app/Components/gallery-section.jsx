@@ -149,7 +149,7 @@ const GallerySection = memo(function GallerySection() {
 
         {/* Gallery Grid - only shows images from API (Blob). Loading and empty states. */}
         {apiPhotos === null ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className="aspect-4/3 rounded-xl md:rounded-2xl bg-gray-200 animate-pulse" />
             ))}
