@@ -22,7 +22,9 @@ async function getCurrentList() {
     let indexedList = [];
     if (indexBlob?.url) {
       try {
-        const res = await fetch(indexBlob.url, { cache: "no-store" });
+        // Cache-bust to bypass Vercel CDN caching of blob URLs
+        const cacheBustUrl = `${indexBlob.url}${indexBlob.url.includes("?") ? "&" : "?"}t=${Date.now()}`;
+        const res = await fetch(cacheBustUrl, { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
           indexedList = Array.isArray(data) ? data : [];

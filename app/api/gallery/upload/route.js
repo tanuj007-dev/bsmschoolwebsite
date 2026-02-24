@@ -67,7 +67,10 @@ export async function POST(request) {
     let currentList = [];
     if (indexBlob?.url) {
       try {
-        const res = await fetch(indexBlob.url, { cache: "no-store" });
+        // Cache-bust: Vercel CDN caches blob URLs, so append a unique query param
+        // to ensure we always read the latest version (critical for sequential uploads)
+        const cacheBustUrl = `${indexBlob.url}${indexBlob.url.includes("?") ? "&" : "?"}t=${Date.now()}`;
+        const res = await fetch(cacheBustUrl, { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
           currentList = Array.isArray(data) ? data : [];
