@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { list, put } from "@vercel/blob";
+import { list, put, del } from "@vercel/blob";
 import { cookies } from "next/headers";
 
 // Ensure this route is never statically cached (fresh gallery data).
@@ -206,7 +206,7 @@ export async function PATCH(request) {
 
 /**
  * DELETE /api/gallery?id=xxx
- * Remove one gallery entry from the index.
+ * Remove one gallery entry from the index AND delete the blob file from storage.
  */
 export async function DELETE(request) {
   const auth = await requireAuth();
@@ -221,15 +221,31 @@ export async function DELETE(request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+
     const current = await getCurrentList();
-    const updated = current.filter((e) => e.id !== id);
-    if (updated.length === current.length) {
+    const target = current.find((e) => e.id === id);
+
+    if (!target) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
+
+    // ── Step 1: delete the actual blob file so it can't re-appear on rescan ──
+    if (target.src && target.src.includes("blob.vercel-storage.com")) {
+      try {
+        await del(target.src);
+      } catch (delErr) {
+        // Log but continue — index cleanup is more important
+        console.warn("[DELETE /api/gallery] blob del failed:", delErr?.message);
+      }
+    }
+
+    // ── Step 2: remove from index and persist ────────────────────────────────
+    const updated = current.filter((e) => e.id !== id);
     await writeList(updated);
+
     return NextResponse.json({ success: true }, { headers: NO_STORE_HEADERS });
   } catch (err) {
     console.error("[DELETE /api/gallery]", err);
-    return NextResponse.json({ error: "Delete failed" }, { status: 500 });
+    return NextResponse.json({ error: `Delete failed: ${err?.message}` }, { status: 500 });
   }
 }
