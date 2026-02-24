@@ -4,7 +4,10 @@ import React, { useState, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 import { m, AnimatePresence } from "framer-motion";
 
-const galleryCategories = ["Events", "Sports"];
+import { DEFAULT_GALLERY_CATEGORIES } from "../data/seedGallery";
+
+// All public-facing category tabs — driven by the same list as admin
+const galleryCategories = DEFAULT_GALLERY_CATEGORIES.filter((c) => c !== "Other");
 
 // Normalize src so relative/bare filenames work: /gallery/xxx or full URL only.
 function normalizePhotoSrc(src) {
@@ -98,7 +101,7 @@ const GallerySection = memo(function GallerySection() {
       .then((data) => {
         if (!cancelled && Array.isArray(data)) setApiPhotos(data);
       })
-      .catch(() => {});
+      .catch(() => { });
     return () => { cancelled = true; };
   }, []);
 

@@ -46,7 +46,7 @@ async function getCurrentList() {
         return {
           id: b.pathname,
           src: b.url,
-          category: "Events", // default for pre-existing blobs
+          category: "Other", // unindexed — admin can edit to correct category; not shown in public tabs
           title: nameWithoutExt.replace(/[-_]+/g, " ").trim(),
           desc: "",
           createdAt: b.uploadedAt || new Date().toISOString(),
