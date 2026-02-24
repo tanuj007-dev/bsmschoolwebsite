@@ -18,6 +18,7 @@ export default function AdminDashboardPage() {
       .then((data) => setGalleryCount(Array.isArray(data) ? data.length : 0))
       .catch(() => { });
   }, []);
+  
 
   if (!hydrated) {
     return <div className="animate-pulse h-64 bg-slate-200 dark:bg-slate-700 rounded-xl" />;
