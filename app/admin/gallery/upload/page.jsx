@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { m } from "framer-motion";
-import { ArrowLeft, Upload, RotateCw, RotateCcw } from "lucide-react";
+import { m, AnimatePresence } from "framer-motion";
+import {
+  ArrowLeft, Upload, RotateCw, RotateCcw,
+  X, CheckCircle2, AlertCircle, Loader2, ImagePlus,
+} from "lucide-react";
 import { DEFAULT_GALLERY_CATEGORIES } from "../../../data/seedGallery";
-import Toast from "../../components/Toast";
 
-/**
- * Convert File to base64 data URL for storing in localStorage.
- */
+// ── helpers ────────────────────────────────────────────────────────────────
+
 function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -20,31 +21,24 @@ function fileToDataUrl(file) {
   });
 }
 
-/**
- * Rotate an image data URL by 90 degrees. Returns a new data URL.
- * @param {string} dataUrl - image data URL
- * @param {'left'|'right'} direction - 'right' = 90° clockwise, 'left' = 90° counter-clockwise
- */
 function rotateDataUrl(dataUrl, direction) {
   return new Promise((resolve, reject) => {
-    const img = new Image();
+    const img = new window.Image();
     img.onload = () => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
-      const deg = direction === "right" ? 90 : -90;
-      if (deg === 90 || deg === -270) {
+      if (direction === "right") {
         canvas.width = img.height;
         canvas.height = img.width;
         ctx.translate(canvas.width, 0);
-        ctx.rotate((90 * Math.PI) / 180);
-        ctx.drawImage(img, 0, 0);
+        ctx.rotate(Math.PI / 2);
       } else {
         canvas.width = img.height;
         canvas.height = img.width;
         ctx.translate(0, canvas.height);
-        ctx.rotate((-90 * Math.PI) / 180);
-        ctx.drawImage(img, 0, 0);
+        ctx.rotate(-Math.PI / 2);
       }
+      ctx.drawImage(img, 0, 0);
       resolve(canvas.toDataURL("image/jpeg", 0.92));
     };
     img.onerror = () => reject(new Error("Failed to load image"));
@@ -52,247 +46,386 @@ function rotateDataUrl(dataUrl, direction) {
   });
 }
 
+// Upload a single file entry via its own request
+async function uploadOne({ preview, fileName, category, title }) {
+  const res = await fetch(preview);
+  const blob = await res.blob();
+  const fd = new FormData();
+  fd.append("file", blob, fileName);
+  fd.set("category", category);
+  fd.set("title", title);
+  fd.set("desc", "");
+  const apiRes = await fetch("/api/gallery/upload", {
+    method: "POST",
+    body: fd,
+    credentials: "include",
+    cache: "no-store",
+  });
+  if (!apiRes.ok) {
+    const err = await apiRes.json().catch(() => ({}));
+    throw new Error(err.error || `HTTP ${apiRes.status}`);
+  }
+  return apiRes.json();
+}
+
+// ── status badge ──────────────────────────────────────────────────────────
+
+const STATUS_UI = {
+  idle: { icon: null, color: "", label: "" },
+  uploading: { icon: Loader2, color: "text-blue-500", label: "Uploading…" },
+  done: { icon: CheckCircle2, color: "text-green-500", label: "Uploaded" },
+  error: { icon: AlertCircle, color: "text-red-500", label: "Failed" },
+};
+
+// ── component ─────────────────────────────────────────────────────────────
+
 export default function UploadGalleryPage() {
   const router = useRouter();
   const fileInputRef = useRef(null);
-  const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
-  const [category, setCategory] = useState("Events");
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [toast, setToast] = useState({ visible: false, message: "" });
-  const [rotatingIndex, setRotatingIndex] = useState(null);
+  const dropRef = useRef(null);
 
-  const showToast = useCallback((message) => {
-    setToast({ visible: true, message });
+  // Each item: { id, fileName, preview (dataUrl), title, status, error }
+  const [items, setItems] = useState([]);
+  const [category, setCategory] = useState("Events");
+  const [rotating, setRotating] = useState(null);   // item id being rotated
+  const [dragOver, setDragOver] = useState(false);
+  const [globalMsg, setGlobalMsg] = useState("");    // final summary
+
+  const updateItem = useCallback((id, patch) =>
+    setItems((prev) => prev.map((it) => it.id === id ? { ...it, ...patch } : it)),
+    []);
+
+  // ── file selection ───────────────────────────────────────────────────────
+
+  const addFiles = useCallback(async (fileList) => {
+    const selected = Array.from(fileList || []).slice(0, 20); // hard cap
+    if (!selected.length) return;
+    const newItems = await Promise.all(
+      selected.map(async (f, i) => ({
+        id: `${Date.now()}-${i}`,
+        fileName: f.name,
+        preview: await fileToDataUrl(f),
+        title: f.name.replace(/\.[^.]+$/, ""),
+        status: "idle",
+        error: "",
+      }))
+    );
+    setItems((prev) => [...prev, ...newItems]);
   }, []);
 
-  const rotatePreview = useCallback(async (index, direction) => {
-    setRotatingIndex(index);
+  const handleFileInput = (e) => {
+    addFiles(e.target.files);
+    e.target.value = "";
+  };
+
+  // ── drag / drop zone ─────────────────────────────────────────────────────
+
+  const onDragOver = (e) => { e.preventDefault(); setDragOver(true); };
+  const onDragLeave = () => setDragOver(false);
+  const onDrop = (e) => {
+    e.preventDefault(); setDragOver(false);
+    addFiles(e.dataTransfer.files);
+  };
+
+  // ── per-item actions ─────────────────────────────────────────────────────
+
+  const removeItem = (id) => setItems((prev) => prev.filter((it) => it.id !== id));
+
+  const rotateItem = useCallback(async (id, direction) => {
+    setRotating(id);
     try {
-      const newUrl = await rotateDataUrl(previews[index], direction);
-      setPreviews((p) => p.map((url, i) => (i === index ? newUrl : url)));
-    } catch {
-      showToast("Failed to rotate image.");
-    } finally {
-      setRotatingIndex(null);
+      const item = items.find((it) => it.id === id);
+      if (!item) return;
+      const rotated = await rotateDataUrl(item.preview, direction);
+      updateItem(id, { preview: rotated });
+    } catch { /* ignore */ }
+    finally { setRotating(null); }
+  }, [items, updateItem]);
+
+  // ── upload ───────────────────────────────────────────────────────────────
+
+  const anyUploading = items.some((it) => it.status === "uploading");
+  const pendingItems = items.filter((it) => it.status === "idle" || it.status === "error");
+
+  const handleUpload = async () => {
+    if (!pendingItems.length) return;
+    setGlobalMsg("");
+
+    // Mark all pending as uploading
+    setItems((prev) =>
+      prev.map((it) =>
+        it.status === "idle" || it.status === "error"
+          ? { ...it, status: "uploading", error: "" }
+          : it
+      )
+    );
+
+    // Upload in parallel — one request per file (avoids body-size limits)
+    const results = await Promise.allSettled(
+      pendingItems.map((item) =>
+        uploadOne({
+          preview: item.preview,
+          fileName: item.fileName,
+          category,
+          title: item.title || item.fileName.replace(/\.[^.]+$/, ""),
+        }).then(() => ({ id: item.id, ok: true }))
+          .catch((err) => ({ id: item.id, ok: false, error: err.message }))
+      )
+    );
+
+    let done = 0, failed = 0;
+    results.forEach((r) => {
+      const val = r.value;
+      if (val.ok) {
+        updateItem(val.id, { status: "done" });
+        done++;
+      } else {
+        updateItem(val.id, { status: "error", error: val.error });
+        failed++;
+      }
+    });
+
+    setGlobalMsg(
+      failed === 0
+        ? `✅ ${done} image${done !== 1 ? "s" : ""} uploaded successfully!`
+        : `⚠️ ${done} uploaded, ${failed} failed — retry failed ones below.`
+    );
+
+    // If all succeeded, redirect after a short delay
+    if (failed === 0) {
+      setTimeout(() => router.push("/admin/gallery"), 1500);
     }
-  }, [previews, showToast]);
-
-  const handleFileChange = async (e) => {
-    const selected = Array.from(e.target.files || []);
-    if (!selected.length) return;
-    const dataUrls = await Promise.all(selected.map((f) => fileToDataUrl(f)));
-    setFiles(selected);
-    setPreviews(dataUrls);
-    if (selected.length === 1) setTitle(selected[0].name.replace(/\.[^.]+$/, ""));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!previews.length) return;
-    setUploading(true);
+  // ── render ────────────────────────────────────────────────────────────────
 
-    try {
-      const formData = new FormData();
-      for (let i = 0; i < previews.length; i++) {
-        const dataUrl = previews[i];
-        const res = await fetch(dataUrl);
-        const blob = await res.blob();
-        const name = files[i]?.name || `image-${i + 1}.jpg`;
-        formData.append("file", blob, name);
-      }
-      formData.set("category", category);
-      formData.set("title", title);
-      formData.set("desc", desc);
-
-      const apiRes = await fetch("/api/gallery/upload", {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-        cache: "no-store",
-      });
-
-      if (apiRes.ok) {
-        const data = await apiRes.json();
-        setFiles([]);
-        setPreviews([]);
-        setTitle("");
-        setDesc("");
-        showToast(`Uploaded ${data.added} image(s). They will appear for all visitors.`);
-        router.push("/admin/gallery");
-        return;
-      }
-
-      if (apiRes.status === 401) {
-        showToast("Please log in again.");
-        setUploading(false);
-        return;
-      }
-      if (apiRes.status === 503) {
-        const err = await apiRes.json().catch(() => ({}));
-        showToast(err.error || "Gallery storage not configured. Add BLOB_READ_WRITE_TOKEN on Vercel.");
-        setUploading(false);
-        return;
-      }
-      const err = await apiRes.json().catch(() => ({}));
-      showToast(err.error || "Upload failed");
-    } catch {
-      showToast("Upload failed");
-    }
-    setUploading(false);
-  };
-
-  const removePreview = (index) => {
-    setPreviews((p) => p.filter((_, i) => i !== index));
-    setFiles((f) => f.filter((_, i) => i !== index));
-  };
+  const hasItems = items.length > 0;
+  const allDone = hasItems && items.every((it) => it.status === "done");
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <Link
-        href="/admin/gallery"
-        className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-[#7A0C0C]"
-      >
+    <div className="max-w-3xl mx-auto space-y-6">
+
+      {/* Back link */}
+      <Link href="/admin/gallery"
+        className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-[#7A0C0C]">
         <ArrowLeft className="w-4 h-4" /> Back to Gallery
       </Link>
 
       <m.h1
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-bold text-slate-800 dark:text-white"
-      >
+        initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+        className="text-3xl font-bold text-slate-800 dark:text-white">
         Upload Images
       </m.h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Images (uploaded to Vercel Blob and shown on gallery page)</label>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFileChange}
-            className="hidden"
-          />
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="w-full py-12 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl flex flex-col items-center justify-center gap-2 text-slate-500 dark:text-slate-400 hover:border-[#7A0C0C] hover:text-[#7A0C0C] transition-colors"
-          >
-            <Upload className="w-10 h-10" />
-            <span>Click to select images</span>
-          </button>
-        </div>
+      {/* Category */}
+      <div>
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+          Category <span className="text-slate-400">(applies to all images in this batch)</span>
+        </label>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full sm:w-56 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600
+                     bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        >
+          {DEFAULT_GALLERY_CATEGORIES.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+      </div>
 
-        {previews.length > 0 && (
+      {/* Drop zone */}
+      <div
+        ref={dropRef}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+        onClick={() => fileInputRef.current?.click()}
+        className={`w-full py-12 border-2 border-dashed rounded-xl flex flex-col items-center justify-center
+                    gap-3 cursor-pointer transition-all duration-200
+                    ${dragOver
+            ? "border-[#7A0C0C] bg-red-50 scale-[1.01]"
+            : "border-slate-300 dark:border-slate-600 hover:border-[#7A0C0C] hover:bg-slate-50 dark:hover:bg-slate-800"
+          }`}
+      >
+        <ImagePlus className={`w-10 h-10 transition-colors ${dragOver ? "text-[#7A0C0C]" : "text-slate-400"}`} />
+        <div className="text-center">
+          <p className={`font-medium transition-colors ${dragOver ? "text-[#7A0C0C]" : "text-slate-500 dark:text-slate-400"}`}>
+            {dragOver ? "Drop images here" : "Click or drag & drop images"}
+          </p>
+          <p className="text-xs text-slate-400 mt-1">Select up to 20 images at once · JPG, PNG, WebP, GIF</p>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={handleFileInput}
+          className="hidden"
+        />
+      </div>
+
+      {/* Global result message */}
+      <AnimatePresence>
+        {globalMsg && (
           <m.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+            initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+            className={`px-4 py-3 rounded-xl text-sm font-medium
+              ${globalMsg.startsWith("✅")
+                ? "bg-green-50 text-green-700 border border-green-200"
+                : "bg-amber-50 text-amber-700 border border-amber-200"}`}
           >
-            {previews.map((src, i) => (
-              <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-700 group">
-                <img src={src} alt="" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  <button
-                    type="button"
-                    title="Rotate left"
-                    onClick={() => rotatePreview(i, "left")}
-                    disabled={rotatingIndex === i}
-                    className="p-2 rounded-full bg-white/90 text-slate-800 hover:bg-white disabled:opacity-50"
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    title="Rotate right"
-                    onClick={() => rotatePreview(i, "right")}
-                    disabled={rotatingIndex === i}
-                    className="p-2 rounded-full bg-white/90 text-slate-800 hover:bg-white disabled:opacity-50"
-                  >
-                    <RotateCw className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    title="Remove"
-                    onClick={() => removePreview(i)}
-                    className="p-2 rounded-full bg-red-500 text-white hover:bg-red-600"
-                  >
-                    ×
-                  </button>
-                </div>
-                {rotatingIndex === i && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                    <span className="text-white text-sm font-medium">Rotating...</span>
-                  </div>
-                )}
-              </div>
-            ))}
+            {globalMsg}
           </m.div>
         )}
+      </AnimatePresence>
 
-        <div>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Category</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+      {/* Image list */}
+      <AnimatePresence>
+        {hasItems && (
+          <m.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="space-y-3"
           >
-            {DEFAULT_GALLERY_CATEGORIES.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-        </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                {items.length} image{items.length !== 1 ? "s" : ""} selected
+              </p>
+              {!allDone && (
+                <button
+                  type="button"
+                  onClick={() => setItems([])}
+                  className="text-xs text-slate-400 hover:text-red-500 transition-colors"
+                >
+                  Clear all
+                </button>
+              )}
+            </div>
 
-        {previews.length <= 1 && (
-          <>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Title</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Description</label>
-              <input
-                type="text"
-                value={desc}
-                onChange={(e) => setDesc(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
-              />
-            </div>
-          </>
+            {items.map((item) => {
+              const { icon: StatusIcon, color, label } = STATUS_UI[item.status];
+              return (
+                <m.div
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className={`flex items-center gap-4 p-3 rounded-xl border bg-white dark:bg-slate-800 transition-all
+                    ${item.status === "done" ? "border-green-200 bg-green-50 dark:bg-green-900/10" : ""}
+                    ${item.status === "error" ? "border-red-200 bg-red-50 dark:bg-red-900/10" : ""}
+                    ${item.status === "idle" || item.status === "uploading" ? "border-slate-200 dark:border-slate-700" : ""}
+                  `}
+                >
+                  {/* Thumbnail */}
+                  <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-slate-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={item.preview} alt={item.title} className="w-full h-full object-cover" />
+                    {/* Uploading shimmer */}
+                    {item.status === "uploading" && (
+                      <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
+                        <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Title input */}
+                  <div className="flex-1 min-w-0">
+                    <input
+                      type="text"
+                      value={item.title}
+                      disabled={item.status !== "idle" && item.status !== "error"}
+                      onChange={(e) => updateItem(item.id, { title: e.target.value })}
+                      placeholder="Image title"
+                      className="w-full text-sm font-medium bg-transparent border-b border-slate-200
+                                 dark:border-slate-600 focus:outline-none focus:border-[#7A0C0C]
+                                 text-slate-800 dark:text-white py-0.5 disabled:opacity-60"
+                    />
+                    <p className="text-xs text-slate-400 mt-0.5 truncate">{item.fileName}</p>
+                    {item.error && (
+                      <p className="text-xs text-red-500 mt-0.5">{item.error}</p>
+                    )}
+                  </div>
+
+                  {/* Rotate buttons (idle only) */}
+                  {(item.status === "idle" || item.status === "error") && (
+                    <div className="flex gap-1 shrink-0">
+                      <button type="button" title="Rotate left"
+                        disabled={rotating === item.id}
+                        onClick={() => rotateItem(item.id, "left")}
+                        className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200
+                                   dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300
+                                   disabled:opacity-40 transition-colors">
+                        <RotateCcw className="w-3.5 h-3.5" />
+                      </button>
+                      <button type="button" title="Rotate right"
+                        disabled={rotating === item.id}
+                        onClick={() => rotateItem(item.id, "right")}
+                        className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200
+                                   dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300
+                                   disabled:opacity-40 transition-colors">
+                        <RotateCw className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Status icon or remove button */}
+                  <div className="shrink-0">
+                    {item.status === "uploading" ? null :
+                      item.status === "done" ? <CheckCircle2 className="w-5 h-5 text-green-500" /> :
+                        item.status === "error" ? <AlertCircle className="w-5 h-5 text-red-500" /> : (
+                          <button type="button" onClick={() => removeItem(item.id)}
+                            className="p-1 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50
+                                   dark:hover:bg-red-900/20 transition-colors">
+                            <X className="w-4 h-4" />
+                          </button>
+                        )}
+                  </div>
+                </m.div>
+              );
+            })}
+          </m.div>
         )}
+      </AnimatePresence>
 
-        <div className="flex gap-3">
+      {/* Action buttons */}
+      {hasItems && !allDone && (
+        <div className="flex flex-wrap gap-3 pt-2">
           <button
-            type="submit"
-            disabled={uploading || !previews.length}
-            className="px-6 py-2 rounded-lg bg-[#7A0C0C] text-white font-medium hover:bg-[#5a0909] disabled:opacity-50"
+            type="button"
+            onClick={handleUpload}
+            disabled={anyUploading || pendingItems.length === 0}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#7A0C0C] text-white
+                       font-semibold hover:bg-[#5a0909] disabled:opacity-50 transition-colors"
           >
-            {uploading ? "Uploading..." : "Upload"}
+            {anyUploading
+              ? <><Loader2 className="w-4 h-4 animate-spin" /> Uploading…</>
+              : <><Upload className="w-4 h-4" /> Upload {pendingItems.length} Image{pendingItems.length !== 1 ? "s" : ""}</>
+            }
           </button>
-          <Link
-            href="/admin/gallery"
-            className="px-6 py-2 rounded-lg border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300"
-          >
+          <Link href="/admin/gallery"
+            className="px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600
+                       text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-50
+                       dark:hover:bg-slate-800 transition-colors">
             Cancel
           </Link>
         </div>
-      </form>
+      )}
 
-      <Toast
-        visible={toast.visible}
-        message={toast.message}
-        onClose={() => setToast((p) => ({ ...p, visible: false }))}
-        variant="warning"
-      />
+      {/* All done — redirect prompt */}
+      {allDone && (
+        <div className="flex gap-3">
+          <Link href="/admin/gallery"
+            className="px-6 py-2.5 rounded-xl bg-[#7A0C0C] text-white font-semibold hover:bg-[#5a0909] transition-colors">
+            View Gallery
+          </Link>
+          <button type="button" onClick={() => { setItems([]); setGlobalMsg(""); }}
+            className="px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600
+                       text-slate-700 dark:text-slate-300 font-medium transition-colors hover:bg-slate-50">
+            Upload More
+          </button>
+        </div>
+      )}
     </div>
   );
 }
