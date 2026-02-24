@@ -5,10 +5,7 @@
 export const DEFAULT_GALLERY_CATEGORIES = [
   "Events",
   "Sports",
-  "Campus",
-  "Academic",
-  "Cultural",
-  "Other",
+ 
 ];
 
 /** Empty — gallery content comes only from Vercel Blob (admin uploads). */
