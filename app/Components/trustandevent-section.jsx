@@ -161,7 +161,7 @@ const TrustAndEventsSection = () => {
         >
           <div className="relative md:w-[50%] h-[270px] md:h-[200px] md:h-full shrink-0">
             <Image
-              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1771877251/key_features_school_1771876664137_j6nqtq.jpg"
+              src="https://res.cloudinary.com/dpelqhchv/image/upload/v1772018711/2_1_kjza0j.png"
               alt="School Activities and Events"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"

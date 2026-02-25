@@ -9,7 +9,7 @@ const awardsSliderData = [
   { id: 1, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495688/100_attendance.JPG_whk1sp.webp", achievement: "100% Attendance", category: "Attendance Achievement" },
   { id: 2, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495722/Academics_1st_position.JPG_okyr9v.webp", achievement: "Academics 1st Position", category: "Academic Achievement" },
   { id: 3, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495722/Academics_2nd_position.JPG_oohxo7.webp", achievement: "Academics 2nd Position", category: "Academic Achievement" },
-  { id: 4, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495720/Academics_3rd_position.JPG_y0myck.webp", achievement: "Academics 3rd Position", category: "Academic Achievement" },
+  { id: 4, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771495720/Academics_3rd_position.JPG_y0myck.webp", achievement: "Academics 𝟑rd Position", category: "Academic Achievement" },
   { id: 5, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771871599/Scholarship.JPG_2_fbuymk.webp", achievement: "Scholarship", category: "Academic Achievement" },
   { id: 6, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771871697/Sports.JPG_1_b9gkzq.jpg", achievement: "Sports Awards", category: "Sports Achievement" },
   { id: 7, image: "https://res.cloudinary.com/dpelqhchv/image/upload/v1771875739/IMG-20260103-WA0087.jpg_rug3cv.jpg", achievement: "Sports Achievement", category: "Sports Achievement" },

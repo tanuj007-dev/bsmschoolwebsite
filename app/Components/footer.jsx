@@ -86,8 +86,8 @@ export default function FooterSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center
-                  transition-all duration-300 hover:border-white/40 hover:bg-white/5 group"
+                className="w-11 h-11 rounded-full border border-[#E6BD00] flex items-center justify-center
+                  transition-all duration-300 hover:border-[#E6BD00]/40 hover:bg-[#E6BD00]/5 group"
               >
                 <social.Icon
                   size={24}

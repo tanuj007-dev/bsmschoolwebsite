@@ -71,7 +71,7 @@ export const facilityCards = [
     title: "Modern Chemistry Laboratory",
     description:
       "Safe and well-maintained chemistry lab enabling hands-on experiments and deeper understanding of chemical concepts.",
-    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771499629/chem_lab_vwqzrc.mov",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1772016277/CHEMISTRY_LAB_SENIOR_WEBSITE_hiph4f.mp4",
   },
   {
     slug: "biology-life-science-lab",
@@ -80,28 +80,7 @@ export const facilityCards = [
       "Interactive biology lab with models and specimens helping students understand life sciences in a practical way.",
     video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824611/BIOLOGY_LAB_SENIOR_a0xt4k.mp4",
   },
-  {
-    slug: "computer-laboratory",
-    title: "Computer Lab",
-    description:
-      "Advanced computer lab equipped with high-speed internet and modern systems to foster digital literacy and coding skills.",
-    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771499978/computer_lab_1_lsub6k.mov",
-  },
-  {
-    slug: "medical-first-aid-room",
-    title: "Medical & First Aid Room",
-    description:
-      "On-campus medical assistance and first aid facilities to ensure immediate care and student well-being.",
-    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771500044/medical_room_sudmw4.mov",
-  },
-  {
-    slug: "childrens-play-area",
-    title: "Children's Play Area",
-    description:
-      "Safe and joyful play area designed especially for young learners to promote fun, creativity and social interaction.",
-    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824687/Play_area_1_wfukfh.mp4",
-  },
-  {
+   {
     slug: "music-performing-arts-room",
     title: "Music Room",
     description:
@@ -109,11 +88,34 @@ export const facilityCards = [
     video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771500150/music_room_aejiyx.mov",
   },
   {
+    slug: "computer-laboratory",
+    title: "Computer Lab",
+    description:
+      "Advanced computer lab equipped with high-speed internet and modern systems to foster digital literacy and coding skills.",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771499978/computer_lab_1_lsub6k.mov",
+  },
+  
+  {
+    slug: "childrens-play-area",
+    title: "Children's Play Area",
+    description:
+      "Safe and joyful play area designed especially for young learners to promote fun, creativity and social interaction.",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771824687/Play_area_1_wfukfh.mp4",
+  },
+  
+  {
     slug: "dance-performing-arts-room",
     title: "Dance & Performing Arts Room",
     description:
       "A vibrant and spacious dance room equipped with full-length mirrors, wooden flooring, and an advanced sound system to nurture creativity, rhythm, and confidence in students through various dance and performing arts activities.",
     video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771858865/danceroom5_m8grak.mp4",
+  },
+   {
+    slug: "medical-first-aid-room",
+    title: "Medical & First Aid Room",
+    description:
+      "On-campus medical assistance and first aid facilities to ensure immediate care and student well-being.",
+    video: "https://res.cloudinary.com/dpelqhchv/video/upload/v1771500044/medical_room_sudmw4.mov",
   },
   {
     slug: "auditorium",
